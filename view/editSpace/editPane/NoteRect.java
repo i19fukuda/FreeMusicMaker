@@ -17,7 +17,7 @@ public class NoteRect {
     private int notePich;
     private long noteStartTick;
 
-    private double rectHeight = 20;
+    private final double RECT_HEIGHT = 20;
     private double rectWidth  = 12;
 
     private EditSpase root;
@@ -37,8 +37,12 @@ public class NoteRect {
 
         this.rect = new Rectangle();
         this.rect.setFill(Color.BLACK);
+        this.rect.setHeight(this.RECT_HEIGHT);
+        this.rect.setWidth(this.rectWidth);
 
-        this.rect.setOnMouseClicked(event -> clickEventHandler(event));
+        this.rect.setOnMouseClicked(
+            event -> clickEventHandler(event)
+        );
     }
 
     public void clickEventHandler(MouseEvent event){
@@ -68,6 +72,12 @@ public class NoteRect {
 
     public void setNoteLength(long noteLength){
         this.noteLength = noteLength;
+        // widthプロパティーを変更することで矩形の
+        // 幅の初期値を変更する.
+        //とりあえず2倍しとく．
+        double lengthRate = 2;
+        double lengthPadding = 2;
+        this.rectWidth = (noteLength * lengthRate) - lengthPadding;
     }
 
     public long getNoteLength(){
@@ -96,5 +106,4 @@ public class NoteRect {
     public Rectangle getRect(){
         return this.rect;
     }
-
 }
