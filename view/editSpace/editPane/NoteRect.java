@@ -1,5 +1,6 @@
 package view.editSpace.editPane;
 
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -58,6 +59,10 @@ public class NoteRect {
         // ノートをクリックしたときの動作を記述する
         // とりあえず一回クリックしたら赤くなるようにした
         this.rect.setFill(Color.RED);
+        if(event.getButton() == MouseButton.SECONDARY){
+            this.rect.setFill(Color.BLUE);
+            this.root.removeNoteRect(this);
+        }
     }
 
     // todo

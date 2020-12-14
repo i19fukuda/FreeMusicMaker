@@ -91,6 +91,13 @@ public class EditSpase {
         this.editSpase.getChildren().add(rect);
     }
 
+    // this.editSpaseにある長方形から指定の
+    // オブジェクトを削除するメソッド
+    public void removeNoteRect(NoteRect noteRect){
+        this.notes.remove(noteRect);
+        this.editSpase.getChildren().remove(noteRect.getRect());
+    }
+
     public void init(){
         this.notes = new ArrayList<>();
         this.editSpaseRoot = new ScrollPane();
