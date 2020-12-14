@@ -11,6 +11,10 @@ import javafx.scene.shape.Rectangle;
  */
 
 public class NoteRect {
+    //ここのフィールドに置かれるnoteTick等は
+    //まじの値を代入すること．
+    //表示のための座標じゃない．
+
     private Rectangle rect;
     private long noteId;
     private long noteLength;
@@ -34,6 +38,10 @@ public class NoteRect {
         setNoteLength(noteLength);
         setNoteStartTick(noteStartTick);
         setNoteId(System.currentTimeMillis());
+
+        //System.out.println("まじのnotePich=" + this.notePich);
+        //System.out.println("まじのnoteLength=" + this.noteLength);
+        //System.out.println("まじのnoteStartTick=" + this.noteStartTick);
 
         this.rect = new Rectangle();
         this.rect.setFill(Color.BLACK);
@@ -75,7 +83,7 @@ public class NoteRect {
         // widthプロパティーを変更することで矩形の
         // 幅の初期値を変更する.
         //とりあえず2倍しとく．
-        double lengthRate = 2;
+        double lengthRate = this.root.getBAR_WIDTH_RATE();
         double lengthPadding = 2;
         this.rectWidth = (noteLength * lengthRate) - lengthPadding;
     }

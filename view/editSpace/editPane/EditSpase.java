@@ -4,17 +4,28 @@ import java.util.ArrayList;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 public class EditSpase {
     final private int BAR_WIDTH_RATE = 3;
-
-    final private int BAR_WIDTH = 24 * BAR_WIDTH_RATE * 4;
+    // 何倍に拡大して表示するか
+    // PPQ * 4拍 * 倍率
+    final private int BAR_WIDTH = 24 * 4 *BAR_WIDTH_RATE;
     // 4分音符は24tick
     final private int QUAETER_NOTE_WIDTH = BAR_WIDTH/4;
     final private int QUAETER_NOTE_HEIGHT = 25;
+
+    // クオンタイズ
+    // デフォルトで16分音符でいい感じに修正
+    private int quantize = QUAETER_NOTE_WIDTH/4;
+
+    // デフォルトの音の長さ
+    // デフォルトで16分音符が入力される．
+    private int defNoteLen = QUAETER_NOTE_WIDTH / 4;
 
     // スクロールペインの最大の大きさ
     private int maxRootHeight = 3175;
@@ -27,6 +38,57 @@ public class EditSpase {
 
     public EditSpase(){
         init();
+        this.editSpase.setOnMouseClicked(
+            event -> clickEventHandler(event)
+        );
+    }
+
+    public void clickEventHandler(MouseEvent event){
+        if(event.getClickCount() == 2){
+            //System.out.println("2 click!!");
+            setNoteRect(event);
+        }
+    }
+
+    public void setNoteRect(MouseEvent event){
+        double x = event.getX();
+        double y = event.getY();
+
+        /*
+        System.out.println(
+            "x=" + x +
+            " y=" + y +
+            " qu=" + this.quantize
+        );
+        */
+
+        x = x - (x % this.quantize);
+        y = y - (y % QUAETER_NOTE_HEIGHT);
+
+        //System.out.println("x=" + x + " y=" + y);
+
+        int  notePich       = (int)y / QUAETER_NOTE_HEIGHT;
+        long noteLength     = defNoteLen / BAR_WIDTH_RATE;
+        long noteStartTick  = (long) x / BAR_WIDTH_RATE;
+
+        NoteRect noteRect = new NoteRect(
+            this,
+            notePich,
+            noteLength,
+            noteStartTick
+        );
+
+        Rectangle rect = noteRect.getRect();
+        this.notes.add(noteRect);
+
+        setRect(rect, x, y);
+    }
+
+    // this.editSpaseに長方形を追加するだけのメソッド
+    private void setRect(Rectangle rect,double x,double y){
+        AnchorPane.setLeftAnchor(rect, x);
+        AnchorPane.setTopAnchor(rect, y);
+        this.editSpase.getChildren().add(rect);
     }
 
     public void init(){
@@ -58,8 +120,10 @@ public class EditSpase {
             }
             xLine.add(tmpLine);
 
-            if(xPoint % 100 == 0){
-                Label tmpLabel = new Label(Integer.toString(xPoint));
+            if(xPoint % (4*QUAETER_NOTE_WIDTH) == 0){
+                Label tmpLabel = new Label(
+                    Integer.toString(xPoint / BAR_WIDTH_RATE)
+                );
                 AnchorPane.setTopAnchor(tmpLabel, 0.0);
                 AnchorPane.setLeftAnchor(tmpLabel,(double)xPoint);
                 xLabel.add(tmpLabel);
@@ -77,7 +141,9 @@ public class EditSpase {
                 );
             yLine.add(tmpLine);
 
-            Label tmpLabel = new Label(Integer.toString(yPoint / this.QUAETER_NOTE_HEIGHT));
+            Label tmpLabel = new Label(
+                Integer.toString(yPoint / this.QUAETER_NOTE_HEIGHT)
+            );
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
             AnchorPane.setLeftAnchor(tmpLabel,0.0);
             yLabel.add(tmpLabel);
@@ -106,5 +172,9 @@ public class EditSpase {
 
     public ArrayList<NoteRect> getNotes(){
         return this.notes;
+    }
+
+    public int getBAR_WIDTH_RATE(){
+        return this.BAR_WIDTH_RATE;
     }
 }
