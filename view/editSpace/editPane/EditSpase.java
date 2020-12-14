@@ -5,17 +5,20 @@ import java.util.ArrayList;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class EditSpase {
-    final private int BAR_WIDTH = 24 * 2 * 4;
+    final private int BAR_WIDTH_RATE = 3;
+
+    final private int BAR_WIDTH = 24 * BAR_WIDTH_RATE * 4;
     // 4分音符は24tick
     final private int QUAETER_NOTE_WIDTH = BAR_WIDTH/4;
     final private int QUAETER_NOTE_HEIGHT = 25;
 
     // スクロールペインの最大の大きさ
-    private int maxRootHeight = 6000;
-    private int maxRootWidth = 2500;
+    private int maxRootHeight = 3175;
+    private int maxRootWidth = 6000;
     // 実際にユーザが入力するところ
     private ScrollPane editSpaseRoot;
     private AnchorPane editSpase;
@@ -47,14 +50,20 @@ public class EditSpase {
                 xPoint, this.maxRootHeight
                 );
             if(xPoint % this.QUAETER_NOTE_WIDTH == 0){
-                // 4分音符の長さの線を少し太くする．
+                // 4分音符の長さの線を赤くする
+                tmpLine.setStroke(Color.RED);
+                if(xPoint % this.BAR_WIDTH == 0){
+                    tmpLine.setStroke(Color.BLUE);
+                }
             }
             xLine.add(tmpLine);
 
-            Label tmpLabel = new Label(Integer.toString(xPoint));
-            AnchorPane.setTopAnchor(tmpLabel, 0.0);
-            AnchorPane.setLeftAnchor(tmpLabel,(double)xPoint);
-            xLabel.add(tmpLabel);
+            if(xPoint % 100 == 0){
+                Label tmpLabel = new Label(Integer.toString(xPoint));
+                AnchorPane.setTopAnchor(tmpLabel, 0.0);
+                AnchorPane.setLeftAnchor(tmpLabel,(double)xPoint);
+                xLabel.add(tmpLabel);
+            }
         }
 
         for(
@@ -68,9 +77,9 @@ public class EditSpase {
                 );
             yLine.add(tmpLine);
 
-            Label tmpLabel = new Label(Integer.toString(yPoint));
-            AnchorPane.setTopAnchor(tmpLabel, 0.0);
-            AnchorPane.setLeftAnchor(tmpLabel,(double)yPoint);
+            Label tmpLabel = new Label(Integer.toString(yPoint / this.QUAETER_NOTE_HEIGHT));
+            AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
+            AnchorPane.setLeftAnchor(tmpLabel,0.0);
             yLabel.add(tmpLabel);
         }
 
