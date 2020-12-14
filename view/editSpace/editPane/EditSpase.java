@@ -146,11 +146,20 @@ public class EditSpase {
                 0, yPoint,
                 this.maxRootWidth, yPoint
                 );
+            if(yPoint % (this.QUAETER_NOTE_HEIGHT * 12) == 0){
+                tmpLine.setStroke(Color.GREEN);
+            }
             yLine.add(tmpLine);
 
             Label tmpLabel = new Label(
                 Integer.toString(yPoint / this.QUAETER_NOTE_HEIGHT)
             );
+            if((yPoint / this.QUAETER_NOTE_HEIGHT)% 12 == 0){
+                tmpLabel.setText("C" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12);
+            }
+            if((yPoint / this.QUAETER_NOTE_HEIGHT)% 12 == 4){
+                tmpLabel.setText("E" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12);
+            }
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
             AnchorPane.setLeftAnchor(tmpLabel,0.0);
             yLabel.add(tmpLabel);
