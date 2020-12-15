@@ -42,13 +42,13 @@ public class Conductor {
     }
 
     //トラックが指定されてない場合は1に振る
-    public void setNotes(int note,int volume,long tick, long length){
-        setNotes(1, note, volume,tick, length);
+    public void setNotes(int notePich,int volume,long startTick, long length){
+        setNotes(1, notePich, volume,startTick, length);
     }
-    public void setNotes(int trackId, int note,int volume,long tick, long length){
-        if(note > 127){
-            System.out.println("out of range:" + note + "  set 255");
-            note = 127;
+    public void setNotes(int trackId, int notePich,int volume,long startTick, long length){
+        if(notePich > 127){
+            System.out.println("out of range:" + notePich + "  set 255");
+            notePich = 127;
         }
         if(volume > 127){
             System.out.println("out of range:" + volume + "set 255");
@@ -56,16 +56,18 @@ public class Conductor {
         }
         try{
             ShortMessage messageOn = new ShortMessage();
-            messageOn.setMessage(ShortMessage.NOTE_ON, note, volume);
+            messageOn.setMessage(ShortMessage.NOTE_ON, notePich, volume);
 
             ShortMessage messageOff = new ShortMessage();
-            messageOff.setMessage(ShortMessage.NOTE_OFF, note, 0);
+            messageOff.setMessage(ShortMessage.NOTE_OFF, notePich, 0);
 
-            MidiEvent eventOn = new MidiEvent(messageOn,tick);
-            MidiEvent eventOff = new MidiEvent(messageOff, tick + length);
+            MidiEvent eventOn = new MidiEvent(messageOn,startTick);
+            MidiEvent eventOff = new MidiEvent(messageOff, startTick + length);
 
             this.sequence.getTracks()[trackId].add(eventOn);
             this.sequence.getTracks()[trackId].add(eventOff);
+
+            //System.out.println("midiに出力");
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
