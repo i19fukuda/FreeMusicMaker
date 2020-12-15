@@ -11,13 +11,13 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 public class EditSpase {
-    final private int BAR_WIDTH_RATE = 3;
+    final private int BAR_WIDTH_RATE = 6;
     // 何倍に拡大して表示するか
     // PPQ * 4拍 * 倍率
     final private int BAR_WIDTH = 24 * 4 *BAR_WIDTH_RATE;
     // 4分音符は24tick
     final private int QUAETER_NOTE_WIDTH = BAR_WIDTH/4;
-    final private int QUAETER_NOTE_HEIGHT = 25;
+    final private int QUAETER_NOTE_HEIGHT = 18;
 
     // クオンタイズ
     // デフォルトで16分音符でいい感じに修正
@@ -74,6 +74,7 @@ public class EditSpase {
         NoteRect noteRect = new NoteRect(
             this,
             notePich,
+            this.QUAETER_NOTE_HEIGHT,
             noteLength,
             noteStartTick
         );
@@ -159,6 +160,9 @@ public class EditSpase {
             }
             if((yPoint / this.QUAETER_NOTE_HEIGHT)% 12 == 4){
                 tmpLabel.setText("E" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12);
+            }
+            if((yPoint / this.QUAETER_NOTE_HEIGHT)% 12 == 7){
+                tmpLabel.setText("F" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12);
             }
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
             AnchorPane.setLeftAnchor(tmpLabel,0.0);

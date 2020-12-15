@@ -2,6 +2,7 @@ package view.editSpace.editPane;
 
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -22,7 +23,7 @@ public class NoteRect {
     private int notePich;
     private long noteStartTick;
 
-    private final double RECT_HEIGHT = 20;
+    private double rectHeight;
     private double rectWidth  = 12;
 
     private EditSpase root;
@@ -30,11 +31,13 @@ public class NoteRect {
     public NoteRect(
         EditSpase   root,
         int         notePich,
+        double      noteHeight,
         long        noteLength,
         long        noteStartTick
         ){
 
         setRoot(root);
+        this.rectHeight = noteHeight;
         setNotePich(notePich);
         setNoteLength(noteLength);
         setNoteStartTick(noteStartTick);
@@ -46,12 +49,14 @@ public class NoteRect {
 
         this.rect = new Rectangle();
         this.rect.setFill(Color.BLACK);
-        this.rect.setHeight(this.RECT_HEIGHT);
-        this.rect.setWidth(this.rectWidth);
+        this.rect.setStroke(Color.RED);
+        this.rect.setHeight(this.rectHeight);
+        this.rect.setWidth(this.rectWidth -2);
 
         this.rect.setOnMouseClicked(
             event -> clickEventHandler(event)
         );
+        this.rect.setOnScroll(event -> scrollEventHandler(event));
     }
 
     public void clickEventHandler(MouseEvent event){
@@ -62,6 +67,12 @@ public class NoteRect {
         if(event.getButton() == MouseButton.SECONDARY){
             this.rect.setFill(Color.BLUE);
             this.root.removeNoteRect(this);
+        }
+    }
+
+    public void scrollEventHandler(ScrollEvent event){
+        if(event.getDeltaX()>0){
+            this.rect.setWidth(this.rect.getWidth()+6);
         }
     }
 
