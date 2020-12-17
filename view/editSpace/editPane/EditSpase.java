@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -44,7 +45,10 @@ public class EditSpase {
     }
 
     public void clickEventHandler(MouseEvent event){
-        if(event.getClickCount() == 2){
+        if(
+            event.getClickCount() == 2
+            && event.getButton() == MouseButton.PRIMARY
+            && ! event.isControlDown()){
             //System.out.println("2 click!!");
             setNoteRect(event);
         }

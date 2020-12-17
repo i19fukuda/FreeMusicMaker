@@ -2,7 +2,6 @@ package view.editSpace.editPane;
 
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -56,23 +55,62 @@ public class NoteRect {
         this.rect.setOnMouseClicked(
             event -> clickEventHandler(event)
         );
-        this.rect.setOnScroll(event -> scrollEventHandler(event));
-    }
 
-    public void clickEventHandler(MouseEvent event){
-        // todo
-        // ノートをクリックしたときの動作を記述する
-        // とりあえず一回クリックしたら赤くなるようにした
-        this.rect.setFill(Color.RED);
-        if(event.getButton() == MouseButton.SECONDARY){
-            this.rect.setFill(Color.BLUE);
-            this.root.removeNoteRect(this);
+        /*
+
+        // ドラッグされたときのイベント処理
+        // 音符の長さを変更できる
+        this.rect.setOnMouseDragged(
+            event -> draggedEventHandler(event)
+        );
+
+        */
+    }
+    /*
+    public void draggedEventHandler(MouseEvent event){
+        //double rectTopRight = this.rect.getWidth() + event.getX();
+        double lengthRate = this.root.getBAR_WIDTH_RATE();
+        double baseLength = 6.0;
+        if(event.getX() > 300){
+            System.out.println("rectLeftX=" + rect.getX());
+            System.out.println("event= " + event.getSceneX());
+            if(this.rect.getWidth()+6<400){
+                this.rect.setWidth(this.rect.getWidth() + baseLength*lengthRate);
+            }
+        } else if(event.getX() < 12){
+            if(this.rect.getWidth() -6 > 6){
+                this.rect.setWidth(this.rect.getWidth() - baseLength*lengthRate);
+            }
         }
     }
+    */
+    public void clickEventHandler(MouseEvent event){
+        int clickCount = event.getClickCount();
+        double lengthRate = this.root.getBAR_WIDTH_RATE();
+        double baseLength = 6.0;
 
-    public void scrollEventHandler(ScrollEvent event){
-        if(event.getDeltaX()>0){
-            this.rect.setWidth(this.rect.getWidth()+6);
+        double changeRate = baseLength*lengthRate*clickCount;
+
+        if(event.getButton() == MouseButton.PRIMARY && event.isControlDown()){
+            // 左クリック一回に付き16分音符一個分伸ばす
+            if(this.rect.getWidth() < 400){
+                this.setNoteLength(this.getNoteLength()+6);
+                this.rect.setWidth(
+                    this.rect.getWidth() + changeRate
+                );
+            }
+        } else if(event.getButton() == MouseButton.SECONDARY && event.isControlDown()){
+            // 右クリック一回に付き16分音符一個分短くする
+            if(this.rect.getWidth() > changeRate){
+                this.setNoteLength(this.getNoteLength()-6);
+
+                this.rect.setWidth(
+                    this.rect.getWidth() - changeRate
+                );
+            }
+        } else if(event.getButton() == MouseButton.SECONDARY){
+            // ctrlが押されていない右クリックは削除
+            this.root.removeNoteRect(this);
         }
     }
 
@@ -98,7 +136,6 @@ public class NoteRect {
         this.noteLength = noteLength;
         // widthプロパティーを変更することで矩形の
         // 幅の初期値を変更する.
-        //とりあえず2倍しとく．
         double lengthRate = this.root.getBAR_WIDTH_RATE();
         double lengthPadding = 2;
         this.rectWidth = (noteLength * lengthRate) - lengthPadding;
