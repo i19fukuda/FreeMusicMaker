@@ -72,6 +72,23 @@ public class Conductor {
             System.out.println(e.getMessage());
         }
     }
+    public void changeInstrument(int instrument){
+        this.changeInstrument(1,instrument);
+    }
+    public void changeInstrument(int trackId, int instrument){
+        try {
+            ShortMessage programChange = new ShortMessage();
+            programChange.setMessage(ShortMessage.PROGRAM_CHANGE,instrument,0);
+
+            MidiEvent eventChange = new MidiEvent(programChange,0);
+
+            this.sequence.getTracks()[trackId].add(eventChange);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            this.sequencer.close();
+            this.sequencer.stop();
+        }
+    }
 
     //実際に音を鳴らすメソッド
     public void play(long startTick){
