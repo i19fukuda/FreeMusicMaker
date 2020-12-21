@@ -29,7 +29,7 @@ public class EditSpase {
     private int defNoteLen = QUAETER_NOTE_WIDTH / 4;
 
     // スクロールペインの最大の大きさ
-    private int maxRootHeight = 3175;
+    private int maxRootHeight = 2286;
     private int maxRootWidth = 6000;
     // 実際にユーザが入力するところ
     private ScrollPane editSpaseRoot;
