@@ -14,6 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import midi.conductor.Conductor;
+import projectIo.projectLoad.oneTrackLoad.LoadProject;
+import projectIo.projectSave.oneTrackSave.SaveProject;
 import view.editSpace.editPane.EditSpase;
 import view.editSpace.editPane.NoteRect;
 
@@ -23,6 +25,8 @@ public class Main extends Application{
     int inst = 0;
     TextField inTenpoField;
     TextField insField;
+    TextField inSaveFileName;
+    TextField inLoadFileName;
     public static void main(String[] argas){
         Application.launch(argas);
     }
@@ -32,10 +36,12 @@ public class Main extends Application{
         stage.setWidth(1900);
         stage.setHeight(1040);
 
-        VBox root = new VBox();
-        VBox playCh = new VBox();
-        VBox tempoCh = new VBox();
-        VBox instCh = new VBox();
+        VBox root           = new VBox();
+        VBox playCh         = new VBox();
+        VBox tempoCh        = new VBox();
+        VBox instCh         = new VBox();
+        VBox saveProjectCh  = new VBox();
+        VBox loadProjectCh  = new VBox();
 
         // 本来ならプレビューを置くスペース
         // 機能限定版ではとりあえずスペースだけ確保してある．
@@ -46,14 +52,14 @@ public class Main extends Application{
         // 再生ボタン
         // 本来なら上部やトラックごとに配置
         // 機能限定版ではとりあえず置いとく
-        Label playLabel = new Label("押して再生");
+        Label playLabel = new Label("  押して再生  ");
         Button playButton = new Button("PLAY");
         playButton.setOnAction(event -> playEventHandler(event));
         playCh.getChildren().addAll(playLabel, playButton);
 
         // テンポ入力フィールド
         // 機能限定版にてとりあえずおいてある
-        Label tenpoINLabel = new Label("テンポを入力してください");
+        Label tenpoINLabel = new Label("  テンポを入力してください  ");
         this.inTenpoField = new TextField("テンポを入力!");
         this.inTenpoField.setOnAction(event -> inTenpoAction(event));
         tempoCh.getChildren().addAll(tenpoINLabel,this.inTenpoField);
@@ -61,13 +67,28 @@ public class Main extends Application{
         // 楽器入力フィールド
         // 機能限定版ではとりあえず数値による入力
         // 本番環境ではコンボボックス?
-        Label instLabel = new Label("楽器を数値で入力");
+        Label instLabel = new Label("  楽器を数値で入力  ");
         this.insField = new TextField("0");
         this.insField.setOnAction(event -> instAction(event));
         instCh.getChildren().addAll(instLabel, this.insField);
 
+        // プロジェクト保存フィールド
+        // 問答無用にプロジェクトを保存する
+        Label saveLabel = new Label("  エンターで保存  ");
+        this.inSaveFileName = new TextField("Project");
+        this.inSaveFileName.setOnAction(event -> saveEvent(event));
+        saveProjectCh.getChildren().addAll(saveLabel,this.inSaveFileName);
+
+        // プロジェクト読み込みフィールド
+        // 問答無用にプロジェクトを読み込む
+        Label loadLabel = new Label("  エンターで読み込み  ");
+        this.inLoadFileName = new TextField("Project");
+        this.inLoadFileName. setOnAction(event -> loadEvent(event));
+        loadProjectCh.getChildren().addAll(loadLabel,this.inLoadFileName);
+
+
         controllBox.getChildren().addAll(
-            playCh, tempoCh, instCh
+            playCh, tempoCh, instCh, saveProjectCh,loadProjectCh
         );
 
         this.editer = new EditSpase();
@@ -105,6 +126,25 @@ public class Main extends Application{
         this.inst = tmpInst;
     }
 
+    public void saveEvent(Event event){
+        String fileName = this.inSaveFileName.getText() + ".txt";
+
+        ArrayList<NoteRect> notes = new ArrayList<>();
+        notes = this.editer.getNotes();
+
+        SaveProject sp = new SaveProject(notes);
+        sp.saveAll(fileName);
+    }
+
+    public void loadEvent(Event event){
+        String fileName = this.inLoadFileName.getText() + ".txt";
+        LoadProject loader = new LoadProject(fileName);
+        ArrayList<NoteRect> notes = loader.loadNoteRect(
+            this.editer, this.editer.getQUAETER_NOTE_HEIGHT()
+        );
+        this.editer.loadAndSetNoteRects(notes);
+    }
+
     public void playEventHandler(ActionEvent event){
         Conductor midiCon = new Conductor(this.tempo);
         ArrayList<NoteRect> noteRects = this.editer.getNotes();
@@ -118,6 +158,7 @@ public class Main extends Application{
 
             midiCon.setNotes(notePich, volume, startTick, length);
         }
+
 
         //テスト！！！！！！
         midiCon.changeInstrument(1,this.inst);

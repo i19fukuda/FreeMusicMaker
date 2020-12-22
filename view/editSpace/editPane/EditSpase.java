@@ -89,6 +89,22 @@ public class EditSpase {
         setRect(rect, x, y);
     }
 
+    
+    public void loadAndSetNoteRects(ArrayList<NoteRect> notes){
+        double x,y;
+        int notePich;
+        long noteStartTick;
+        for(NoteRect note:notes){
+            notePich = note.getNotePich();
+            noteStartTick = note.getNoteStartTick();
+            x = noteStartTick*BAR_WIDTH_RATE;
+            y = notePich*QUAETER_NOTE_HEIGHT;
+            this.setRect(note.getRect(), x, y);
+            note.setNoteLength(note.getNoteLength());
+            this.notes.add(note);
+        }
+    }
+
     // this.editSpaseに長方形を追加するだけのメソッド
     private void setRect(Rectangle rect,double x,double y){
         AnchorPane.setLeftAnchor(rect, x);
@@ -160,13 +176,19 @@ public class EditSpase {
                 Integer.toString(yPoint / this.QUAETER_NOTE_HEIGHT)
             );
             if((yPoint / this.QUAETER_NOTE_HEIGHT)% 12 == 0){
-                tmpLabel.setText("C" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12);
+                tmpLabel.setText(
+                    "C" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12
+                );
             }
             if((yPoint / this.QUAETER_NOTE_HEIGHT)% 12 == 4){
-                tmpLabel.setText("E" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12);
+                tmpLabel.setText(
+                    "E" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12
+                );
             }
             if((yPoint / this.QUAETER_NOTE_HEIGHT)% 12 == 7){
-                tmpLabel.setText("F" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12);
+                tmpLabel.setText(
+                    "F" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12
+                );
             }
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
             AnchorPane.setLeftAnchor(tmpLabel,0.0);
@@ -200,5 +222,9 @@ public class EditSpase {
 
     public int getBAR_WIDTH_RATE(){
         return this.BAR_WIDTH_RATE;
+    }
+
+    public int getQUAETER_NOTE_HEIGHT(){
+        return this.QUAETER_NOTE_HEIGHT;
     }
 }

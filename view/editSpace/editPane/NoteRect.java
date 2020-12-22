@@ -58,12 +58,11 @@ public class NoteRect {
 
     }
     
-    public void clickEventHandler(MouseEvent event){
-        int clickCount = event.getClickCount();
+    public void clickEventHandler(MouseEvent event){;
         double lengthRate = this.root.getBAR_WIDTH_RATE();
         double baseLength = 6.0;
 
-        double changeRate = baseLength*lengthRate*clickCount;
+        double changeRate = baseLength*lengthRate;
 
         if(event.getButton() == MouseButton.PRIMARY && event.isControlDown()){
             // 左クリック一回に付き16分音符一個分伸ばす
