@@ -56,34 +56,8 @@ public class NoteRect {
             event -> clickEventHandler(event)
         );
 
-        /*
-
-        // ドラッグされたときのイベント処理
-        // 音符の長さを変更できる
-        this.rect.setOnMouseDragged(
-            event -> draggedEventHandler(event)
-        );
-
-        */
     }
-    /*
-    public void draggedEventHandler(MouseEvent event){
-        //double rectTopRight = this.rect.getWidth() + event.getX();
-        double lengthRate = this.root.getBAR_WIDTH_RATE();
-        double baseLength = 6.0;
-        if(event.getX() > 300){
-            System.out.println("rectLeftX=" + rect.getX());
-            System.out.println("event= " + event.getSceneX());
-            if(this.rect.getWidth()+6<400){
-                this.rect.setWidth(this.rect.getWidth() + baseLength*lengthRate);
-            }
-        } else if(event.getX() < 12){
-            if(this.rect.getWidth() -6 > 6){
-                this.rect.setWidth(this.rect.getWidth() - baseLength*lengthRate);
-            }
-        }
-    }
-    */
+    
     public void clickEventHandler(MouseEvent event){
         int clickCount = event.getClickCount();
         double lengthRate = this.root.getBAR_WIDTH_RATE();
