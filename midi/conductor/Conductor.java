@@ -23,7 +23,13 @@ public class Conductor {
             this.sequence = new Sequence(Sequence.PPQ,24);
             MetaMessage mmes = new MetaMessage();
             int l = 60*1000000/this.tempo;
-            mmes.setMessage(0x51,new byte[]{(byte)(l/65536), (byte)(l%65536/256), (byte)(l%256)},3);
+            mmes.setMessage(
+                0x51,
+                new byte[]{(byte)(l/65536),
+                (byte)(l%65536/256),
+                (byte)(l%256)},
+                3
+                );
             //曲のメタ情報が入るトラック
             this.tracks = new ArrayList<>();
             createTrackAndSetMetaMessage(mmes);
@@ -72,6 +78,7 @@ public class Conductor {
             System.out.println(e.getMessage());
         }
     }
+    //楽器を変更する関数
     public void changeInstrument(int instrument){
         this.changeInstrument(1,instrument);
     }
@@ -80,7 +87,7 @@ public class Conductor {
             ShortMessage programChange = new ShortMessage();
             programChange.setMessage(ShortMessage.PROGRAM_CHANGE,instrument,0);
 
-            MidiEvent eventChange = new MidiEvent(programChange,0);
+            MidiEvent eventChange = new MidiEvent(programChange,0L);
 
             this.sequence.getTracks()[trackId].add(eventChange);
         }catch(Exception e){
