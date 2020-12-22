@@ -11,9 +11,6 @@ public class LoadProject {
     EditSpase root;
     String projectName;
     ArrayList<NoteRect> notes;
-    // 音の情報を持つ配列
-    // [[id,pich.length,starttick],]
-    ArrayList<int[][]> noteInfo;
 
     public LoadProject(String projectName){;
         this.projectName = projectName;
