@@ -2,6 +2,7 @@ package view.editSpace.editPane;
 
 import java.util.ArrayList;
 
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
@@ -10,8 +11,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 public class EditSpase {
+    Stage editStage = new Stage();
     final private int BAR_WIDTH_RATE = 6;
     // 何倍に拡大して表示するか
     // PPQ * 4拍 * 倍率
@@ -210,6 +213,9 @@ public class EditSpase {
         }
 
         this.editSpaseRoot.setContent(this.editSpase);
+        Scene scene = new Scene(this.editSpaseRoot);
+        this.editStage.setScene(scene);
+        this.editStage.show();
     }
 
     public ScrollPane getEditSpaseRoot(){
@@ -226,5 +232,9 @@ public class EditSpase {
 
     public int getQUAETER_NOTE_HEIGHT(){
         return this.QUAETER_NOTE_HEIGHT;
+    }
+
+    public Stage getEditStage(){
+        return this.editStage;
     }
 }
