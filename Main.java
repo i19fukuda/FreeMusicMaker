@@ -6,7 +6,6 @@ import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,6 +17,7 @@ import projectIo.projectLoad.oneTrackLoad.LoadProject;
 import projectIo.projectSave.oneTrackSave.SaveProject;
 import view.editSpace.editPane.EditSpase;
 import view.editSpace.editPane.NoteRect;
+import view.home.Home;
 
 public class Main extends Application{
     EditSpase editer;
@@ -32,6 +32,14 @@ public class Main extends Application{
     }
 
     public void start(Stage stage){
+        Home home = new Home();
+        VBox root = new VBox();
+        root.getChildren().add(home.getHomeRoot());
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+        /*
         stage.setTitle("hi");
         stage.setWidth(1900);
         stage.setHeight(1040);
@@ -92,13 +100,13 @@ public class Main extends Application{
         );
 
         this.editer = new EditSpase();
-        ScrollPane editRoot = editer.getEditSpaseRoot();
 
-        root.getChildren().addAll(previewSpase, controllBox, editRoot);
+        root.getChildren().addAll(previewSpase, controllBox);
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        */
     }
 
     public void inTenpoAction(Event event){
