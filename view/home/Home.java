@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javafx.event.Event;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -24,7 +25,8 @@ public class Home {
     Button playButton;
     Button addLineButton;
     // trackLineがずらーってなるところ
-    VBox linesRoot;
+    VBox linesVBox;
+    ScrollPane lineRoot;
 
     public Home(){
         this.root       = new VBox();
@@ -35,7 +37,8 @@ public class Home {
         this.playButton.setOnMouseClicked(event ->playEventHandler(event));
         this.addLineButton = new Button(" addLine ");
         this.addLineButton.setOnMouseClicked(event -> addLineHandler(event));
-        this.linesRoot  = new VBox();
+        this.linesVBox  = new VBox();
+        this.lineRoot   = new ScrollPane();
 
         this.ctrlRoot.getChildren().addAll(
             this.playButton, this.addLineButton, this.inTenpoFL
@@ -44,7 +47,9 @@ public class Home {
 
         this.addLine(0, lineHeight, lineWidth);
 
-        this.root.getChildren().addAll(this.ctrlRoot,this.linesRoot);
+        this.lineRoot.setContent(this.linesVBox);
+
+        this.root.getChildren().addAll(this.ctrlRoot,this.lineRoot);
     }
 
     public void addLineHandler(MouseEvent event){
@@ -55,7 +60,7 @@ public class Home {
     public void addLine(int trackId,double lineHeight,double lineWidth){
         TrackLine line = new TrackLine(trackId, lineHeight, lineWidth);
         this.lines.add(line);
-        this.linesRoot.getChildren().add(line.getLineRoot());
+        this.linesVBox.getChildren().add(line.getLineRoot());
     }
 
     public VBox getHomeRoot(){

@@ -32,6 +32,8 @@ public class Main extends Application{
     }
 
     public void start(Stage stage){
+        stage.setWidth(1900);
+        stage.setHeight(1040);
         Home home = new Home();
         VBox root = new VBox();
         root.getChildren().add(home.getHomeRoot());

@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Rectangle;
 import view.trackBox.TrackBox;
 
 public class TrackLine {
@@ -25,6 +26,7 @@ public class TrackLine {
     public TrackLine(int trackId, double lineHeight, double lineWidth){
 
         this.trackBoxs  = new ArrayList<>();
+        this.trackBoxs.add(new TrackBox(50, 0, 1900));
 
         this.lineRoot   = new AnchorPane();
 
@@ -35,10 +37,11 @@ public class TrackLine {
         // contrllのセット
         this.controllRoot   = new AnchorPane();
 
-        this.instNo = new TextField("0");
+        this.instNo = new TextField("00");
         this.trackName = new TextField(Integer.toString(trackId));
+        Rectangle trackBox = this.trackBoxs.get(0).getRect();
         HBox ctrlBox = new HBox();
-        ctrlBox.getChildren().addAll(this.trackName, this.instNo);
+        ctrlBox.getChildren().addAll(this.trackName, this.instNo,trackBox);
         AnchorPane.setTopAnchor(ctrlBox, 0.0);
         AnchorPane.setLeftAnchor(ctrlBox, 0.0);
         this.controllRoot.getChildren().addAll(ctrlBox);

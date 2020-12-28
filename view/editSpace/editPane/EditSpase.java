@@ -215,6 +215,9 @@ public class EditSpase {
         this.editSpaseRoot.setContent(this.editSpase);
         Scene scene = new Scene(this.editSpaseRoot);
         this.editStage.setScene(scene);
+    }
+
+    public void showStage(){
         this.editStage.show();
     }
 
