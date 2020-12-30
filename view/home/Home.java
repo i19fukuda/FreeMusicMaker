@@ -10,6 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import midi.conductor.Conductor;
+import view.editSpace.editPane.NoteRect;
+import view.trackBox.TrackBox;
 import view.trackLine.TrackLine;
 
 public class Home {
@@ -72,6 +74,36 @@ public class Home {
     public void playEventHandler(Event event){
         int tenpo = Integer.parseInt(this.inTenpoFL.getText());
         Conductor conductor = new Conductor(tenpo);
+
+        int notePich,volume;
+        long startTick,length;
+        for(int lineNo = 0;lineNo<lines.size();lineNo++){
+            conductor.createTrack();
+            conductor.changeInstrument(
+                lineNo,
+                lines.get(lineNo).getInstNo()
+            );
+            System.out.println("trackId = "+ lineNo);
+            System.out.println("inst changed" + lines.get(lineNo).getInstNo());
+            for(TrackBox box:lines.get(lineNo).getBoxs()){
+                for(NoteRect note:box.getNotes()){
+                    notePich    = note.getNotePich();
+                    volume      = 120;
+                    startTick   = note.getNoteStartTick();
+                    length      = note.getNoteLength();
+
+                    System.out.println(lines.get(lineNo).getTrackId());
+                    conductor.setNotes(
+                        lines.get(lineNo).getTrackId(),
+                        notePich,
+                        volume,
+                        startTick,
+                        length
+                    );
+                }
+            }
+        }
+        conductor.play(0);
 
     }
 }

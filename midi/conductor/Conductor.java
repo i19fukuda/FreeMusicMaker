@@ -16,26 +16,32 @@ public class Conductor {
     private Sequence    sequence;
     private Sequencer   sequencer;
     private ArrayList<Track> tracks;
+    //曲全体にかかるメタ情報
+    final private MetaMessage MMES;
 
     public Conductor(int tempo){
         this.tempo = tempo;
+        MMES = new MetaMessage();
         try{
-            this.sequence = new Sequence(Sequence.PPQ,24);
-            MetaMessage mmes = new MetaMessage();
             int l = 60*1000000/this.tempo;
-            mmes.setMessage(
+            MMES.setMessage(
                 0x51,
                 new byte[]{(byte)(l/65536),
                 (byte)(l%65536/256),
                 (byte)(l%256)},
                 3
-                );
+            );
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        try{
+            this.sequence = new Sequence(Sequence.PPQ,24);
             //曲のメタ情報が入るトラック
             this.tracks = new ArrayList<>();
-            createTrackAndSetMetaMessage(mmes);
+            createTrackAndSetMetaMessage(MMES);
 
             // 曲のデータが入るトラック
-            createTrackAndSetMetaMessage(mmes);
+            createTrackAndSetMetaMessage(MMES);
 
             this.sequencer = MidiSystem.getSequencer(false);
             Receiver receiver = MidiSystem.getReceiver();
@@ -73,7 +79,7 @@ public class Conductor {
             this.sequence.getTracks()[trackId].add(eventOn);
             this.sequence.getTracks()[trackId].add(eventOff);
 
-            //System.out.println("midiに出力");
+            // System.out.println(trackId);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
@@ -108,6 +114,11 @@ public class Conductor {
         Track track = this.sequence.createTrack();
         this.tracks.add(track);
         track.add(new MidiEvent(mmes, 0));
+    }
+
+    // 外部から新しくトラックを作ることを受け付ける
+    public void createTrack(){
+        createTrackAndSetMetaMessage(MMES);
     }
 }
 

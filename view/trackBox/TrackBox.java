@@ -54,6 +54,7 @@ public class TrackBox {
     // notesがない場合
     public TrackBox(double height, double startTck, double width){
         this.editSpase = new EditSpase();
+        this.notes     = this.editSpase.getNotes();
         this.boxHeight = height;
         this.boxWidth = width;
         this.startTick = startTck;
@@ -76,5 +77,10 @@ public class TrackBox {
 
     public Rectangle getRect(){
         return this.trackBoxRect;
+    }
+
+    public ArrayList<NoteRect> getNotes(){
+        this.notes = this.editSpase.getNotes();
+        return this.notes;
     }
 }

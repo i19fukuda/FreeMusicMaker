@@ -82,4 +82,19 @@ public class TrackLine {
     public void setHeight(double height){
         this.lineHeight = height;
     }
+
+    public ArrayList<TrackBox> getBoxs(){
+        return this.trackBoxs;
+    }
+
+    public int getInstNo(){
+        int instNo;
+        try{
+            instNo = Integer.parseInt(this.instNo.getText());
+        }catch(NumberFormatException ex){
+            instNo =0;
+            this.instNo.setText("0");
+        }
+        return instNo;
+    }
 }
