@@ -64,4 +64,22 @@ public class TrackLine {
     public AnchorPane getLineRoot(){
         return this.lineRoot;
     }
+
+    public int getTrackId(){
+        return this.trackId;
+    }
+
+    public double getWidth(){
+        return this.lineWidth;
+    }
+    public void setWidth(double width){
+        this.lineWidth = width;
+    }
+
+    public double getHeight(){
+        return this.lineHeight;
+    }
+    public void setHeight(double height){
+        this.lineHeight = height;
+    }
 }
