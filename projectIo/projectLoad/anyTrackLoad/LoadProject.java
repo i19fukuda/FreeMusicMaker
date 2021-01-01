@@ -11,6 +11,7 @@ import view.trackLine.TrackLine;
 public class LoadProject {
     ArrayList<TrackLine> lines;
     String fileName;
+    int tempo = 0;
 
     public LoadProject(String filename){
         this.fileName = filename;
@@ -34,6 +35,7 @@ public class LoadProject {
         tempo = Integer.parseInt(
             strings.get(tmpI).split(":")[1].split(",")[0]
         );
+        this.tempo = tempo;
 
         // 楽器の登録
         tmpI = 5;
@@ -87,6 +89,14 @@ public class LoadProject {
         }
 
         return trackLines;
+    }
+
+    public int getTempo(){
+        int tmpTempo = 120;
+        if(this.tempo != 0){
+            tmpTempo = this.tempo;
+        }
+        return tmpTempo;
     }
 
     public ArrayList<String> parseString(String fileName){

@@ -1,6 +1,6 @@
 meta:{
 "lineSize":2,
-"tempo":120,
+"tempo":140,
 },
 
 insts:0,0,

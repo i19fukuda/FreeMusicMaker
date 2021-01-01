@@ -97,6 +97,7 @@ public class Home {
             this.addLine(line.getTrackId(), lineHeight, lineWidth);
         }
         this.lines = linesTmp;
+        this.inTenpoFL.setText(Integer.toString(lp.getTempo()));
     }
 
     public VBox getHomeRoot(){
