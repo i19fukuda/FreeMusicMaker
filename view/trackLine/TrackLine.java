@@ -97,4 +97,17 @@ public class TrackLine {
         }
         return instNo;
     }
+    public void setInstNo(String instNo){
+        int no;
+        try{
+            no = Integer.parseInt(instNo);
+        }catch(NumberFormatException e){
+            no = 0;
+            this.instNo.setText("0");
+        }
+        this.setInstNo(no);
+    }
+    public void setInstNo(int instNo){
+        this.instNo.setText(Integer.toString(instNo));
+    }
 }

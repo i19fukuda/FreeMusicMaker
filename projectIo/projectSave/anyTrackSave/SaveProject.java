@@ -16,10 +16,36 @@ public class SaveProject {
         this.lines = lines;
     }
 
-    public void saveAll(String fileName){
-        String trackId,noteId,notePich,noteLength,noteStartTick;
-        String printString;
+    public void saveAll(String fileName, int tempo){
         ArrayList<String> strings = new ArrayList<>();
+        String printString;
+
+        //最初にメタ情報を埋め込む
+        String lineSize, tempoSt;
+        lineSize = Integer.toString(lines.size());
+        tempoSt   = Integer.toString(tempo);
+
+        printString = "meta:{\n"
+                    + "\"lineSize\":"   +   lineSize    +   ",\n"
+                    + "\"tempo\":"      +   tempoSt     +   ",\n"
+                    + "},\n";
+        strings.add(printString);
+
+
+        printString = "insts:";
+        int inst;
+        for(TrackLine line:lines){
+            inst = line.getInstNo();
+            printString += Integer.toString(inst);
+            printString += ",";
+        }
+        printString += "\n";
+
+        strings.add(printString);
+
+
+
+        String trackId,noteId,notePich,noteLength,noteStartTick;
         for(int lineId = 0; lineId < lines.size(); lineId++){
             for(TrackBox box:this.lines.get(lineId).getBoxs()){
                 for(NoteRect noterect:box.getNotes()){

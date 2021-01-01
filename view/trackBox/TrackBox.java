@@ -79,6 +79,10 @@ public class TrackBox {
         return this.trackBoxRect;
     }
 
+    public EditSpase getEditRoot(){
+        return this.editSpase;
+    }
+
     public ArrayList<NoteRect> getNotes(){
         this.notes = this.editSpase.getNotes();
         return this.notes;

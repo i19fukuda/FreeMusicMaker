@@ -10,6 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import midi.conductor.Conductor;
+import projectIo.projectLoad.anyTrackLoad.LoadProject;
+import projectIo.projectSave.anyTrackSave.SaveProject;
 import view.editSpace.editPane.NoteRect;
 import view.trackBox.TrackBox;
 import view.trackLine.TrackLine;
@@ -26,6 +28,8 @@ public class Home {
     TextField inTenpoFL;
     Button playButton;
     Button addLineButton;
+    Button saveButton;
+    Button loadButton;
     // trackLineがずらーってなるところ
     VBox linesVBox;
     ScrollPane lineRoot;
@@ -39,11 +43,20 @@ public class Home {
         this.playButton.setOnMouseClicked(event ->playEventHandler(event));
         this.addLineButton = new Button(" addLine ");
         this.addLineButton.setOnMouseClicked(event -> addLineHandler(event));
+        this.saveButton = new Button("save");
+        this.saveButton.setOnMouseClicked(event -> saveEventHandler(event));
+        this.loadButton = new Button("load");
+        this.loadButton.setOnMouseClicked(event -> loadEventHandler(event));
         this.linesVBox  = new VBox();
         this.lineRoot   = new ScrollPane();
+        this.lineRoot.prefHeight(Double.MAX_VALUE);
 
         this.ctrlRoot.getChildren().addAll(
-            this.playButton, this.addLineButton, this.inTenpoFL
+            this.playButton,
+            this.addLineButton,
+            this.saveButton,
+            this.loadButton,
+            this.inTenpoFL
         );
 
 
@@ -63,6 +76,27 @@ public class Home {
         TrackLine line = new TrackLine(trackId, lineHeight, lineWidth);
         this.lines.add(line);
         this.linesVBox.getChildren().add(line.getLineRoot());
+    }
+
+    public void saveEventHandler(MouseEvent event){
+        String fileName = "project.txt";
+        SaveProject sp = new SaveProject(lines);
+        sp.saveAll(fileName, this.getTempo());
+    }
+
+    public  void loadEventHandler(MouseEvent event){
+        String fileName = "project.txt";
+        LoadProject lp  =new LoadProject(fileName);
+
+        this.linesVBox.getChildren().clear();
+
+        ArrayList<TrackLine> linesTmp = lp.loadAll(fileName, lineWidth, lineHeight);
+        //System.out.println(linesTmp.size());
+        for(TrackLine line:linesTmp){
+            //System.out.println("line added!");
+            this.addLine(line.getTrackId(), lineHeight, lineWidth);
+        }
+        this.lines = linesTmp;
     }
 
     public VBox getHomeRoot(){
@@ -105,5 +139,15 @@ public class Home {
         }
         conductor.play(0);
 
+    }
+
+    public int getTempo(){
+        int tempo = 120;
+        try{
+            tempo = Integer.parseInt(this.inTenpoFL.getText());
+        }catch(NumberFormatException e){
+            tempo = 120;
+        }
+        return tempo;
     }
 }

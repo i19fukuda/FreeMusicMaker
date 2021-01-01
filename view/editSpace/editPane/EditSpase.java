@@ -92,7 +92,39 @@ public class EditSpase {
         setRect(rect, x, y);
     }
 
-    
+
+    public NoteRect createNoteRect(
+        int         notePich,
+        double      noteHeight,
+        long        noteLength,
+        long        noteStartTick,
+        long        noteId
+        )
+    {
+        NoteRect nr = new NoteRect(this, notePich, noteHeight, noteLength, noteStartTick);
+        nr.setNoteId(noteId);
+        return nr;
+    }
+    public NoteRect createNoteRect(
+        int         notePich,
+        long        noteLength,
+        long        noteStartTick,
+        long        noteId
+    ){
+        NoteRect nr = this.createNoteRect(
+            notePich,
+            this.QUAETER_NOTE_HEIGHT,
+            noteLength,
+            noteStartTick,
+            noteId
+        );
+        return nr;
+    }
+
+    public void addNoteRect(NoteRect noteRect){
+        this.notes.add(noteRect);
+    }
+
     public void loadAndSetNoteRects(ArrayList<NoteRect> notes){
         double x,y;
         int notePich;
@@ -105,6 +137,21 @@ public class EditSpase {
             this.setRect(note.getRect(), x, y);
             note.setNoteLength(note.getNoteLength());
             this.notes.add(note);
+        }
+    }
+
+    // notesの中のものを全部書き出す
+    public void createAndSetNoteRecs(){
+        double x,y;
+        int notePich;
+        long noteStartTick;
+        for(NoteRect note:notes){
+            notePich = note.getNotePich();
+            noteStartTick = note.getNoteStartTick();
+            x = noteStartTick*BAR_WIDTH_RATE;
+            y = notePich*QUAETER_NOTE_HEIGHT;
+            this.setRect(note.getRect(), x, y);
+            note.setNoteLength(note.getNoteLength());
         }
     }
 
