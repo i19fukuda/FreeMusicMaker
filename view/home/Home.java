@@ -111,7 +111,7 @@ public class Home {
 
     // todo
     public void playEventHandler(Event event){
-        int tenpo = Integer.parseInt(this.inTenpoFL.getText());
+        int tenpo = this.getTempo();
         Conductor conductor = new Conductor(tenpo);
 
         int notePich,volume;
