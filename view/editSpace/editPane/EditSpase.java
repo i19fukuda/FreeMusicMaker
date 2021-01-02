@@ -145,18 +145,19 @@ public class EditSpase {
         double x,y;
         int notePich;
         long noteStartTick;
-        for(NoteRect note:notes){
+        for(NoteRect note:this.notes){
             notePich = note.getNotePich();
             noteStartTick = note.getNoteStartTick();
             x = noteStartTick*BAR_WIDTH_RATE;
             y = notePich*QUAETER_NOTE_HEIGHT;
-            this.setRect(note.getRect(), x, y);
             note.setNoteLength(note.getNoteLength());
+            this.setRect(note.getRect(), x, y);
         }
     }
 
     // this.editSpaseに長方形を追加するだけのメソッド
     private void setRect(Rectangle rect,double x,double y){
+        //System.out.println("rect setted");
         AnchorPane.setLeftAnchor(rect, x);
         AnchorPane.setTopAnchor(rect, y);
         this.editSpase.getChildren().add(rect);

@@ -77,6 +77,10 @@ public class Home {
         this.lines.add(line);
         this.linesVBox.getChildren().add(line.getLineRoot());
     }
+    public void addLine(TrackLine line){
+        this.lines.add(line);
+        this.linesVBox.getChildren().add(line.getLineRoot());
+    }
 
     public void saveEventHandler(MouseEvent event){
         String fileName = "project.txt";
@@ -94,7 +98,7 @@ public class Home {
         //System.out.println(linesTmp.size());
         for(TrackLine line:linesTmp){
             //System.out.println("line added!");
-            this.addLine(line.getTrackId(), lineHeight, lineWidth);
+            this.addLine(line);
         }
         this.lines = linesTmp;
         this.inTenpoFL.setText(Integer.toString(lp.getTempo()));
@@ -112,31 +116,31 @@ public class Home {
 
         int notePich,volume;
         long startTick,length;
-        for(int lineNo = 0;lineNo<lines.size();lineNo++){
-            conductor.createTrack();
+        for(int lineNo = 0;lineNo<this.lines.size();lineNo++){
             conductor.changeInstrument(
                 lineNo,
-                lines.get(lineNo).getInstNo()
+                this.lines.get(lineNo).getInstNo()
             );
             System.out.println("trackId = "+ lineNo);
-            System.out.println("inst changed" + lines.get(lineNo).getInstNo());
-            for(TrackBox box:lines.get(lineNo).getBoxs()){
-                for(NoteRect note:box.getNotes()){
-                    notePich    = note.getNotePich();
-                    volume      = 120;
-                    startTick   = note.getNoteStartTick();
-                    length      = note.getNoteLength();
+            System.out.println("inst changed" + this.lines.get(lineNo).getInstNo());
+                for(TrackBox box:lines.get(lineNo).getBoxs()){
+                    for(NoteRect note:box.getNotes()){
+                        notePich    = note.getNotePich();
+                        volume      = 120;
+                        startTick   = note.getNoteStartTick();
+                        length      = note.getNoteLength();
 
-                    System.out.println(lines.get(lineNo).getTrackId());
-                    conductor.setNotes(
-                        lines.get(lineNo).getTrackId(),
-                        notePich,
-                        volume,
-                        startTick,
-                        length
-                    );
-                }
-            }
+                        System.out.println(lines.get(lineNo).getTrackId());
+                        conductor.setNotes(
+                            lines.get(lineNo).getTrackId(),
+                            notePich,
+                            volume,
+                            startTick,
+                            length
+                            );
+                        }
+                    }
+            conductor.createTrack();
         }
         conductor.play(0);
 

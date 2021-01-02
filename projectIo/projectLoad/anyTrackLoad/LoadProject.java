@@ -9,7 +9,6 @@ import view.editSpace.editPane.NoteRect;
 import view.trackLine.TrackLine;
 
 public class LoadProject {
-    ArrayList<TrackLine> lines;
     String fileName;
     int tempo = 0;
 
@@ -54,7 +53,7 @@ public class LoadProject {
             ln.setInstNo(insts[i]);
         }
 
-        for(int i=0;i<strings.size();i++){
+        for(int i=6;i<strings.size();i++){
             if(strings.get(i).equals("{")){
                 i+=1;
                 trackId = Integer.parseInt(
@@ -85,9 +84,10 @@ public class LoadProject {
             }
         }
         for(TrackLine line:trackLines){
+            //System.out.println("load and set notes:" + line.getBoxs().get(0).getEditRoot().getNotes().size());
             line.getBoxs().get(0).getEditRoot().createAndSetNoteRecs();
+            //System.out.println(line.getBoxs().get(0).getEditRoot().getNotes().size());
         }
-
         return trackLines;
     }
 
