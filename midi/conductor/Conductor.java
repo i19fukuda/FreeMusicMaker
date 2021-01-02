@@ -54,10 +54,13 @@ public class Conductor {
     }
 
     //トラックが指定されてない場合は1に振る
-    public void setNotes(int notePich,int volume,long startTick, long length){
-        setNotes(1, notePich, volume,startTick, length);
+    public void setNotes(int notePich,int volume,long startTick,int instNo, long length){
+        setNotes(1, notePich, volume,startTick, instNo,length);
     }
-    public void setNotes(int trackId, int notePich,int volume,long startTick, long length){
+    public void setNotes(int trackId, int notePich,int volume,long startTick,int instNo, long length){
+        if(this.sequence.getTracks().length <= trackId +1){
+            this.createTrack();
+        }
         if(notePich > 127){
             System.out.println("out of range:" + notePich + "  set 255");
             notePich = 127;
@@ -67,17 +70,22 @@ public class Conductor {
             volume = 127;
         }
         try{
+            ShortMessage changeProgram = new ShortMessage();
+            changeProgram.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instNo, 0);
+
             ShortMessage messageOn = new ShortMessage();
-            messageOn.setMessage(ShortMessage.NOTE_ON, notePich, volume);
+            messageOn.setMessage(ShortMessage.NOTE_ON,0, notePich, volume);
 
             ShortMessage messageOff = new ShortMessage();
-            messageOff.setMessage(ShortMessage.NOTE_OFF, notePich, 0);
+            messageOff.setMessage(ShortMessage.NOTE_OFF,0, notePich, 0);
 
+            MidiEvent eventChange = new MidiEvent(changeProgram, startTick);
             MidiEvent eventOn = new MidiEvent(messageOn,startTick);
             MidiEvent eventOff = new MidiEvent(messageOff, startTick + length);
 
-            this.sequence.getTracks()[trackId].add(eventOn);
-            this.sequence.getTracks()[trackId].add(eventOff);
+            this.sequence.getTracks()[trackId + 1].add(eventChange);
+            this.sequence.getTracks()[trackId + 1].add(eventOn);
+            this.sequence.getTracks()[trackId + 1].add(eventOff);
 
             // System.out.println(trackId);
         }catch(Exception e){
@@ -89,17 +97,23 @@ public class Conductor {
         this.changeInstrument(1,instrument);
     }
     public void changeInstrument(int trackId, int instrument){
+        int tId = trackId +1;
+        if(this.sequence.getTracks().length <= tId){
+            this.createTrack();
+        }
         try {
             ShortMessage programChange = new ShortMessage();
-            programChange.setMessage(ShortMessage.PROGRAM_CHANGE,instrument,0);
+            programChange.setMessage(ShortMessage.PROGRAM_CHANGE,0,instrument,0);
 
             MidiEvent eventChange = new MidiEvent(programChange,0L);
 
-            this.sequence.getTracks()[trackId].add(eventChange);
+            this.tracks.get(tId).add(eventChange);
         }catch(Exception e){
             System.out.println(e.getMessage());
-            this.sequencer.close();
-            this.sequencer.stop();
+            try{
+                this.sequencer.close();
+                this.sequencer.stop();
+            }catch(Exception ee){}
         }
     }
 
@@ -113,12 +127,16 @@ public class Conductor {
     public void createTrackAndSetMetaMessage(MetaMessage mmes){
         Track track = this.sequence.createTrack();
         this.tracks.add(track);
-        track.add(new MidiEvent(mmes, 0));
+        //track.add(new MidiEvent(mmes, 0));
     }
 
     // 外部から新しくトラックを作ることを受け付ける
     public void createTrack(){
         createTrackAndSetMetaMessage(MMES);
+    }
+
+    public int getTrackSize(){
+        return this.tracks.size();
     }
 }
 

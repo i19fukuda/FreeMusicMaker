@@ -4,13 +4,8 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import midi.conductor.Conductor;
 import projectIo.projectLoad.oneTrackLoad.LoadProject;
@@ -155,6 +150,8 @@ public class Main extends Application{
         this.editer.loadAndSetNoteRects(notes);
     }
 
+        /*
+
     public void playEventHandler(ActionEvent event){
         Conductor midiCon = new Conductor(this.tempo);
         ArrayList<NoteRect> noteRects = this.editer.getNotes();
@@ -170,9 +167,12 @@ public class Main extends Application{
         }
 
 
+
+
         //テスト！！！！！！
         midiCon.changeInstrument(1,this.inst);
 
         midiCon.play(0);
     }
+    */
 }

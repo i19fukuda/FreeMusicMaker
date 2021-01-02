@@ -117,10 +117,6 @@ public class Home {
         int notePich,volume;
         long startTick,length;
         for(int lineNo = 0;lineNo<this.lines.size();lineNo++){
-            conductor.changeInstrument(
-                lineNo,
-                this.lines.get(lineNo).getInstNo()
-            );
             System.out.println("trackId = "+ lineNo);
             System.out.println("inst changed" + this.lines.get(lineNo).getInstNo());
                 for(TrackBox box:lines.get(lineNo).getBoxs()){
@@ -136,11 +132,12 @@ public class Home {
                             notePich,
                             volume,
                             startTick,
+                            this.lines.get(lineNo).getInstNo(),
                             length
                             );
                         }
                     }
-            conductor.createTrack();
+            //System.out.println(conductor.getTrackSize());
         }
         conductor.play(0);
 
