@@ -6,6 +6,8 @@ import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -65,6 +67,7 @@ public class Home {
         this.lineRoot.setContent(this.linesVBox);
 
         this.root.getChildren().addAll(this.ctrlRoot,this.lineRoot);
+        this.root.setOnKeyPressed(event -> keyEventHandler(event));
     }
 
     public void addLineHandler(MouseEvent event){
@@ -82,10 +85,13 @@ public class Home {
         this.linesVBox.getChildren().add(line.getLineRoot());
     }
 
-    public void saveEventHandler(MouseEvent event){
+    public void saveProject(){
         String fileName = "project.txt";
         SaveProject sp = new SaveProject(lines);
         sp.saveAll(fileName, this.getTempo());
+    }
+    public void saveEventHandler(MouseEvent event){
+        this.saveProject();
     }
 
     public  void loadEventHandler(MouseEvent event){
@@ -102,6 +108,16 @@ public class Home {
         }
         this.lines = linesTmp;
         this.inTenpoFL.setText(Integer.toString(lp.getTempo()));
+    }
+
+    private void keyEventHandler(KeyEvent event){
+        if(event.isControlDown()){
+            if(event.getCode() == KeyCode.S){
+                this.saveProject();
+                System.out.println("save!");
+            }
+        } else {
+        }
     }
 
     public VBox getHomeRoot(){
