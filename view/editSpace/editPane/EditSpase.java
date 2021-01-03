@@ -238,7 +238,7 @@ public class EditSpase {
             }
             if((yPoint / this.QUAETER_NOTE_HEIGHT)% 12 == 7){
                 tmpLabel.setText(
-                    "F" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12
+                    "G" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12
                 );
             }
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
