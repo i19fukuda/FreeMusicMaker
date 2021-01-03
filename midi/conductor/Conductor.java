@@ -57,7 +57,14 @@ public class Conductor {
     public void setNotes(int notePich,int volume,long startTick,int instNo, long length){
         setNotes(1, notePich, volume,startTick, instNo,length);
     }
-    public void setNotes(int trackId, int notePich,int volume,long startTick,int instNo, long length){
+    public void setNotes(int trackId, int notePich,int volume,long startTick,int instNo,long length){
+        this.setNotes(trackId, notePich, volume, startTick, instNo, false, length);
+    }
+    public void setNotes(int trackId, int notePich,int volume,long startTick,int instNo,boolean isPercussion, long length){
+        int isper=0;
+        if(isPercussion){
+            isper = 9;
+        }
         if(this.sequence.getTracks().length <= trackId +1){
             this.createTrack();
         }
@@ -71,13 +78,13 @@ public class Conductor {
         }
         try{
             ShortMessage changeProgram = new ShortMessage();
-            changeProgram.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instNo, 0);
+            changeProgram.setMessage(ShortMessage.PROGRAM_CHANGE, isper, instNo, 0);
 
             ShortMessage messageOn = new ShortMessage();
-            messageOn.setMessage(ShortMessage.NOTE_ON,0, notePich, volume);
+            messageOn.setMessage(ShortMessage.NOTE_ON,isper, notePich, volume);
 
             ShortMessage messageOff = new ShortMessage();
-            messageOff.setMessage(ShortMessage.NOTE_OFF,0, notePich, 0);
+            messageOff.setMessage(ShortMessage.NOTE_OFF,isper, notePich, 0);
 
             MidiEvent eventChange = new MidiEvent(changeProgram, startTick);
             MidiEvent eventOn = new MidiEvent(messageOn,startTick);
