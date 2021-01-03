@@ -54,15 +54,32 @@ public class Conductor {
     }
 
     //トラックが指定されてない場合は1に振る
-    public void setNotes(int notePich,int volume,long startTick,int instNo, long length){
-        setNotes(1, notePich, volume,startTick, instNo,length);
+    public void setNotes(
+        int notePich,
+        int volume,
+        long startTick,
+        int instNo,
+        long length
+    ){
+        setNotes(
+            1,
+            notePich,
+            volume,
+            startTick,
+            instNo,
+            length
+        );
     }
-    public void setNotes(int trackId, int notePich,int volume,long startTick,int instNo,long length){
-        this.setNotes(trackId, notePich, volume, startTick, instNo, false, length);
-    }
-    public void setNotes(int trackId, int notePich,int volume,long startTick,int instNo,boolean isPercussion, long length){
+    public void setNotes(
+        int trackId,
+        int notePich,
+        int volume,
+        long startTick,
+        int instNo,
+        long length
+    ){
         int isper=0;
-        if(isPercussion){
+        if(instNo == 128){
             isper = 9;
         }
         if(this.sequence.getTracks().length <= trackId +1){
