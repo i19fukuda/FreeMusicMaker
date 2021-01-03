@@ -2,6 +2,7 @@ package view.trackLine;
 
 import java.util.ArrayList;
 
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -15,13 +16,15 @@ public class TrackLine {
     private AnchorPane          lineRoot;
 
     private AnchorPane  controllRoot;
-    // 楽器の番号
-    private TextField   instNo;
+
     private TextField   trackName;
 
     private int     trackId;
     private double  lineHeight;
     private double  lineWidth;
+
+    // 楽器選択のメニューバー
+    ElectInst electInst;
 
     public TrackLine(int trackId, double lineHeight, double lineWidth){
 
@@ -34,17 +37,26 @@ public class TrackLine {
         this.lineHeight = lineHeight;
         this.lineWidth = lineWidth;
 
+        this.electInst = new ElectInst();
+        MenuBar instMenubar = this.electInst.getMenuBar();
+
         // contrllのセット
         this.controllRoot   = new AnchorPane();
 
-        this.instNo = new TextField("00");
         this.trackName = new TextField(Integer.toString(trackId));
         Rectangle trackBox = this.trackBoxs.get(0).getRect();
         HBox ctrlBox = new HBox();
-        ctrlBox.getChildren().addAll(this.trackName, this.instNo,trackBox);
+        ctrlBox.getChildren().addAll(
+            this.trackName,
+            instMenubar
+        );
         AnchorPane.setTopAnchor(ctrlBox, 0.0);
         AnchorPane.setLeftAnchor(ctrlBox, 0.0);
-        this.controllRoot.getChildren().addAll(ctrlBox);
+
+        AnchorPane.setTopAnchor(trackBox, 0.0);
+        AnchorPane.setLeftAnchor(trackBox, 400.0);
+
+        this.controllRoot.getChildren().addAll(ctrlBox, trackBox);
 
         // lineRootのセット
         this.lineRoot.getChildren().addAll(this.controllRoot);
@@ -89,12 +101,7 @@ public class TrackLine {
 
     public int getInstNo(){
         int instNo;
-        try{
-            instNo = Integer.parseInt(this.instNo.getText());
-        }catch(NumberFormatException ex){
-            instNo =0;
-            this.instNo.setText("0");
-        }
+        instNo = this.electInst.getInstNo();
         return instNo;
     }
     public void setInstNo(String instNo){
@@ -102,12 +109,15 @@ public class TrackLine {
         try{
             no = Integer.parseInt(instNo);
         }catch(NumberFormatException e){
+            System.out.println(
+                "trackLine114 set InstNo(String instNo):"
+                + e.getMessage()
+            );
             no = 0;
-            this.instNo.setText("0");
         }
         this.setInstNo(no);
     }
     public void setInstNo(int instNo){
-        this.instNo.setText(Integer.toString(instNo));
+        this.electInst.setInstNo(instNo);
     }
 }
