@@ -33,9 +33,9 @@ public class TrackBox {
         double tmpStartTick =   notes.get(0).getNoteStartTick();
         double tmpEndTick   =   tmpStartTick
                                 + notes.get(0).getNoteLength();
-        for(NoteRect note:notes){
+        for(NoteRect note : notes){
             tmpStartTick = Math.min(
-                tmpStartTick,note.getNoteStartTick()
+                tmpStartTick, note.getNoteStartTick()
             );
             tmpEndTick = Math.max(
                 tmpEndTick, note.getNoteStartTick()
@@ -47,18 +47,18 @@ public class TrackBox {
 
         this.boxWidth = (
                 this.endTick - this.startTick
-                )*this.widthRate;
+                ) * this.widthRate;
 
-        createRect(this.boxWidth,this.boxHeight);
+        createRect(this.boxWidth, this.boxHeight);
     }
     // notesがない場合
     public TrackBox(double height, double startTck, double width){
-        this.editSpase = new EditSpase();
-        this.notes     = this.editSpase.getNotes();
-        this.boxHeight = height;
-        this.boxWidth = width;
-        this.startTick = startTck;
-        this.endTick = startTck + width;
+        this.editSpase  = new EditSpase();
+        this.notes      = this.editSpase.getNotes();
+        this.boxHeight  = height;
+        this.boxWidth   = width;
+        this.startTick  = startTck;
+        this.endTick    = startTck + width;
         createRect(this.boxWidth, this.boxHeight);
     }
 

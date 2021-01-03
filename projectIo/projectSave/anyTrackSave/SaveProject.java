@@ -47,13 +47,23 @@ public class SaveProject {
 
         String trackId,noteId,notePich,noteLength,noteStartTick;
         for(int lineId = 0; lineId < lines.size(); lineId++){
-            for(TrackBox box:this.lines.get(lineId).getBoxs()){
-                for(NoteRect noterect:box.getNotes()){
-                    trackId         = Integer.toString(lineId);
-                    noteId          = Long.toString(noterect.getNoteId());
-                    notePich        = Integer.toString(noterect.getNotePich());
-                    noteLength      = Long.toString(noterect.getNoteLength());
-                    noteStartTick   = Long.toString(noterect.getNoteStartTick());
+            for(TrackBox box : this.lines.get(lineId).getBoxs()){
+                for(NoteRect noterect : box.getNotes()){
+                    trackId         = Integer.toString(
+                                        lineId
+                                        );
+                    noteId          = Long.toString(
+                                        noterect.getNoteId()
+                                        );
+                    notePich        = Integer.toString(
+                                        noterect.getNotePich()
+                                        );
+                    noteLength      = Long.toString(
+                                        noterect.getNoteLength()
+                                        );
+                    noteStartTick   = Long.toString(
+                                        noterect.getNoteStartTick()
+                                        );
 
                     printString = "{\n"
                             + "\"trackId\":"      + trackId     +    ",\n"
@@ -72,7 +82,7 @@ public class SaveProject {
         PrintWriter fout = null;
         try{
             fout = new PrintWriter(new BufferedWriter(new FileWriter(outFileName)));
-            for(String s:strings){
+            for(String s : strings){
                 fout.println(s);
             }
         }catch(Exception e){

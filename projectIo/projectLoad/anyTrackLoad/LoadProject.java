@@ -9,15 +9,15 @@ import view.editSpace.editPane.NoteRect;
 import view.trackLine.TrackLine;
 
 public class LoadProject {
-    String fileName;
-    int tempo = 0;
+    private String fileName;
+    private int tempo = 0;
 
     public LoadProject(String filename){
         this.fileName = filename;
     }
 
     public ArrayList<TrackLine> loadAll(
-        String fileName,double lineWidth, double lineHeight
+        String fileName, double lineWidth, double lineHeight
     ){
         long noteId,noteLength,noteStartTick;
         int trackId,notePich;
@@ -30,6 +30,7 @@ public class LoadProject {
         lineSize = Integer.parseInt(
             strings.get(tmpI).split(":")[1].split(",")[0]
         );
+
         tmpI++;
         tempo = Integer.parseInt(
             strings.get(tmpI).split(":")[1].split(",")[0]
@@ -78,15 +79,16 @@ public class LoadProject {
                 EditSpase editRoot = trackLines.get(trackId)
                                     .getBoxs().get(0).getEditRoot();
                 NoteRect noteRect = editRoot.createNoteRect(
-                                    notePich, noteLength, noteStartTick, noteId
-                );
+                                        notePich,
+                                        noteLength,
+                                        noteStartTick,
+                                        noteId
+                                    );
                 editRoot.addNoteRect(noteRect);
             }
         }
         for(TrackLine line:trackLines){
-            //System.out.println("load and set notes:" + line.getBoxs().get(0).getEditRoot().getNotes().size());
             line.getBoxs().get(0).getEditRoot().createAndSetNoteRecs();
-            //System.out.println(line.getBoxs().get(0).getEditRoot().getNotes().size());
         }
         return trackLines;
     }
@@ -99,7 +101,7 @@ public class LoadProject {
         return tmpTempo;
     }
 
-    public ArrayList<String> parseString(String fileName){
+    private ArrayList<String> parseString(String fileName){
         ArrayList<String> tmpStrings = new ArrayList<String>();
 
         BufferedReader fin = null;

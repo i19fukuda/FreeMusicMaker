@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import view.editSpace.editPane.NoteRect;
 
 public class SaveProject {
+
     private ArrayList<NoteRect> noterects;
+
     public SaveProject(ArrayList<NoteRect> noteRects){
         this.noterects = noteRects;
     }
@@ -18,7 +20,7 @@ public class SaveProject {
         String printString;
 
         ArrayList<String> strings = new ArrayList<>();
-        for(NoteRect noterect:this.noterects){
+        for(NoteRect noterect : this.noterects){
             noteId          = Long.toString(noterect.getNoteId());
             notePich        = Integer.toString(noterect.getNotePich());
             noteLength      = Long.toString(noterect.getNoteLength());
@@ -37,8 +39,10 @@ public class SaveProject {
     public void printStrings(String outFileName, ArrayList<String> strings){
         PrintWriter fout = null;
         try{
-            fout = new PrintWriter(new BufferedWriter(new FileWriter(outFileName)));
-            for(String s:strings){
+            fout = new PrintWriter(
+                new BufferedWriter(new FileWriter(outFileName))
+            );
+            for(String s : strings){
                 fout.println(s);
             }
         }catch(Exception e){

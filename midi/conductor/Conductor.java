@@ -11,7 +11,7 @@ import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
-public class Conductor {
+public class Conductor{
     private int         tempo;
     private Sequence    sequence;
     private Sequencer   sequencer;
@@ -23,19 +23,19 @@ public class Conductor {
         this.tempo = tempo;
         MMES = new MetaMessage();
         try{
-            int l = 60*1000000/this.tempo;
+            int l = 60*1000000 / this.tempo;
             MMES.setMessage(
                 0x51,
-                new byte[]{(byte)(l/65536),
-                (byte)(l%65536/256),
-                (byte)(l%256)},
+                new byte[]{(byte)(l / 65536),
+                (byte)(l % 65536/256),
+                (byte)(l % 256)},
                 3
             );
         } catch(Exception e){
             System.out.println(e.getMessage());
         }
         try{
-            this.sequence = new Sequence(Sequence.PPQ,24);
+            this.sequence = new Sequence(Sequence.PPQ, 24);
             //曲のメタ情報が入るトラック
             this.tracks = new ArrayList<>();
             createTrackAndSetMetaMessage(MMES);
@@ -82,11 +82,13 @@ public class Conductor {
         if(instNo == 128){
             isper = 9;
         }
-        if(this.sequence.getTracks().length <= trackId +1){
+        if(this.sequence.getTracks().length <= trackId + 1){
             this.createTrack();
         }
         if(notePich > 127){
-            System.out.println("out of range:" + notePich + "  set 255");
+            System.out.println(
+                "out of range:" + notePich + "  set 255"
+            );
             notePich = 127;
         }
         if(volume > 127){
@@ -95,16 +97,20 @@ public class Conductor {
         }
         try{
             ShortMessage changeProgram = new ShortMessage();
-            changeProgram.setMessage(ShortMessage.PROGRAM_CHANGE, isper, instNo, 0);
+            changeProgram.setMessage(
+                ShortMessage.PROGRAM_CHANGE, isper, instNo, 0
+            );
 
             ShortMessage messageOn = new ShortMessage();
-            messageOn.setMessage(ShortMessage.NOTE_ON,isper, notePich, volume);
+            messageOn.setMessage(
+                ShortMessage.NOTE_ON, isper, notePich, volume
+            );
 
             ShortMessage messageOff = new ShortMessage();
-            messageOff.setMessage(ShortMessage.NOTE_OFF,isper, notePich, 0);
+            messageOff.setMessage(ShortMessage.NOTE_OFF, isper, notePich, 0);
 
             MidiEvent eventChange = new MidiEvent(changeProgram, startTick);
-            MidiEvent eventOn = new MidiEvent(messageOn,startTick);
+            MidiEvent eventOn = new MidiEvent(messageOn, startTick);
             MidiEvent eventOff = new MidiEvent(messageOff, startTick + length);
 
             this.sequence.getTracks()[trackId + 1].add(eventChange);
@@ -125,11 +131,13 @@ public class Conductor {
         if(this.sequence.getTracks().length <= tId){
             this.createTrack();
         }
-        try {
+        try{
             ShortMessage programChange = new ShortMessage();
-            programChange.setMessage(ShortMessage.PROGRAM_CHANGE,0,instrument,0);
+            programChange.setMessage(
+                ShortMessage.PROGRAM_CHANGE, 0, instrument, 0
+            );
 
-            MidiEvent eventChange = new MidiEvent(programChange,0L);
+            MidiEvent eventChange = new MidiEvent(programChange, 0L);
 
             this.tracks.get(tId).add(eventChange);
         }catch(Exception e){
@@ -143,12 +151,12 @@ public class Conductor {
 
     //実際に音を鳴らすメソッド
     public void play(long startTick){
-        MyMidiPlayer player = new MyMidiPlayer(this.sequencer,this.sequence);
+        MyMidiPlayer player = new MyMidiPlayer(this.sequencer, this.sequence);
         player.start();
     }
 
     //新しくトラックを作ってメタ情報を埋め込むメソッド
-    public void createTrackAndSetMetaMessage(MetaMessage mmes){
+    private void createTrackAndSetMetaMessage(MetaMessage mmes){
         Track track = this.sequence.createTrack();
         this.tracks.add(track);
         track.add(new MidiEvent(mmes, 0));

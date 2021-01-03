@@ -5,12 +5,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-/**
- * @author i19fukuda
- * 音符の情報を保持し，表示する特殊な矩形
- * javafx.scene.shape.Rectangleを利用する．
- */
-
 public class NoteRect {
     //ここのフィールドに置かれるnoteTick等は
     //まじの値を代入すること．
@@ -50,7 +44,7 @@ public class NoteRect {
         this.rect.setFill(Color.BLACK);
         this.rect.setStroke(Color.RED);
         this.rect.setHeight(this.rectHeight);
-        this.rect.setWidth(this.rectWidth -2);
+        this.rect.setWidth(this.rectWidth - 2);
 
         this.rect.setOnMouseClicked(
             event -> clickEventHandler(event)
@@ -64,18 +58,24 @@ public class NoteRect {
 
         double changeRate = baseLength*lengthRate;
 
-        if(event.getButton() == MouseButton.PRIMARY && event.isControlDown()){
+        if(
+            (event.getButton() == MouseButton.PRIMARY )
+            && event.isControlDown()
+        ){
             // 左クリック一回に付き16分音符一個分伸ばす
             if(this.rect.getWidth() < 400){
-                this.setNoteLength(this.getNoteLength()+6);
+                this.setNoteLength(this.getNoteLength() + 6);
                 this.rect.setWidth(
                     this.rect.getWidth() + changeRate
                 );
             }
-        } else if(event.getButton() == MouseButton.SECONDARY && event.isControlDown()){
+        } else if(
+            (event.getButton() == MouseButton.SECONDARY)
+            && event.isControlDown()
+            ){
             // 右クリック一回に付き16分音符一個分短くする
             if(this.rect.getWidth() > changeRate){
-                this.setNoteLength(this.getNoteLength()-6);
+                this.setNoteLength(this.getNoteLength() - 6);
 
                 this.rect.setWidth(
                     this.rect.getWidth() - changeRate

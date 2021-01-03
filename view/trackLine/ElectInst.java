@@ -50,9 +50,9 @@ public class ElectInst {
         "Sound effects",
         "Doram set",
     };
-    private String[] instNames;
+    private String[]        instNames;
     private RadioMenuItem[] radioMenuItems;
-    private ToggleGroup groupElect;
+    private ToggleGroup     groupElect;
 
     private int electedInstNo;
 
@@ -77,7 +77,7 @@ public class ElectInst {
 
     private void electedActionHandler(ActionEvent event,RadioMenuItem radioMenuItem){
         //System.out.println("cliecked!!");
-        for(int i=0;i<this.radioMenuItems.length;i++){
+        for(int i=0; i<this.radioMenuItems.length; i++){
             if(radioMenuItem == this.radioMenuItems[i]){
                 System.out.println(this.instNames[i]);
                 this.electedInstNo = i;
@@ -100,14 +100,16 @@ public class ElectInst {
 
 
     private void initMenus(){
-        for(int i=0;i<INST_BROCK_SIZE;i++){
+        for(int i=0; i<INST_BROCK_SIZE; i++){
             this.menus[i] = new Menu(this.MENU_INST_NAMES[i]);
         }
     }
 
     private void initRadioMenuItems(){
-        RadioMenuItem[] tmpRadioMenuItems =new RadioMenuItem[this.instNames.length];
-        for(int i =0;i<tmpRadioMenuItems.length;i++){
+        RadioMenuItem[] tmpRadioMenuItems = new RadioMenuItem[
+                                                this.instNames.length
+                                            ];
+        for(int i =0; i<tmpRadioMenuItems.length; i++){
             RadioMenuItem menu = new RadioMenuItem(this.instNames[i]);
             tmpRadioMenuItems[i] = menu;
             menu.setToggleGroup(this.groupElect);
@@ -117,16 +119,16 @@ public class ElectInst {
     }
 
     private void setRadioMenuItemsToMenu(){
-        for(int i=0;i<INST_BROCK_SIZE;i++){
-            for(int j=MENU_INST_RANGES[i][0];j<MENU_INST_RANGES[i][1];j++){
-                System.out.println("i= " + i + " j= " + j);
+        for(int i=0; i<INST_BROCK_SIZE; i++){
+            for(int j=MENU_INST_RANGES[i][0]; j<MENU_INST_RANGES[i][1]; j++){
+                //System.out.println("i= " + i + " j= " + j);
                 this.menus[i].getItems().add(this.radioMenuItems[j]);
             }
         }
     }
 
     private void setMenuToRootM(){
-        for(Menu menu:this.menus){
+        for(Menu menu : this.menus){
             this.rootM.getItems().add(menu);
         }
     }

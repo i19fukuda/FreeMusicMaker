@@ -101,7 +101,13 @@ public class EditSpase {
         long        noteId
         )
     {
-        NoteRect nr = new NoteRect(this, notePich, noteHeight, noteLength, noteStartTick);
+        NoteRect nr = new NoteRect(
+            this,
+            notePich,
+            noteHeight,
+            noteLength,
+            noteStartTick
+        );
         nr.setNoteId(noteId);
         return nr;
     }
@@ -126,14 +132,14 @@ public class EditSpase {
     }
 
     public void loadAndSetNoteRects(ArrayList<NoteRect> notes){
-        double x,y;
+        double x, y;
         int notePich;
         long noteStartTick;
-        for(NoteRect note:notes){
+        for(NoteRect note : notes){
             notePich = note.getNotePich();
             noteStartTick = note.getNoteStartTick();
-            x = noteStartTick*BAR_WIDTH_RATE;
-            y = notePich*QUAETER_NOTE_HEIGHT;
+            x = noteStartTick * BAR_WIDTH_RATE;
+            y = notePich * QUAETER_NOTE_HEIGHT;
             this.setRect(note.getRect(), x, y);
             note.setNoteLength(note.getNoteLength());
             this.notes.add(note);
@@ -142,21 +148,21 @@ public class EditSpase {
 
     // notesの中のものを全部書き出す
     public void createAndSetNoteRecs(){
-        double x,y;
+        double x, y;
         int notePich;
         long noteStartTick;
-        for(NoteRect note:this.notes){
+        for(NoteRect note : this.notes){
             notePich = note.getNotePich();
             noteStartTick = note.getNoteStartTick();
-            x = noteStartTick*BAR_WIDTH_RATE;
-            y = notePich*QUAETER_NOTE_HEIGHT;
+            x = noteStartTick * BAR_WIDTH_RATE;
+            y = notePich * QUAETER_NOTE_HEIGHT;
             note.setNoteLength(note.getNoteLength());
             this.setRect(note.getRect(), x, y);
         }
     }
 
     // this.editSpaseに長方形を追加するだけのメソッド
-    private void setRect(Rectangle rect,double x,double y){
+    private void setRect(Rectangle rect, double x, double y){
         //System.out.println("rect setted");
         AnchorPane.setLeftAnchor(rect, x);
         AnchorPane.setTopAnchor(rect, y);
@@ -171,20 +177,20 @@ public class EditSpase {
     }
 
     public void init(){
-        this.notes = new ArrayList<>();
-        this.editSpaseRoot = new ScrollPane();
-        this.editSpase = new AnchorPane();
+        this.notes          = new ArrayList<>();
+        this.editSpaseRoot  = new ScrollPane();
+        this.editSpase      = new AnchorPane();
 
-        ArrayList<Line> xLine = new ArrayList<>();
-        ArrayList<Line> yLine = new ArrayList<>();
+        ArrayList<Line> xLine   = new ArrayList<>();
+        ArrayList<Line> yLine   = new ArrayList<>();
         ArrayList<Label> xLabel = new ArrayList<>();
         ArrayList<Label> yLabel = new ArrayList<>();
 
         // 縦線を引く
         for(
             int xPoint = 0;
-            xPoint< this.maxRootWidth;
-            xPoint+=this.QUAETER_NOTE_WIDTH / 4
+            xPoint < this.maxRootWidth;
+            xPoint += this.QUAETER_NOTE_WIDTH / 4
         ){
             Line tmpLine = new Line(
                 xPoint, 0,
@@ -211,8 +217,8 @@ public class EditSpase {
 
         for(
             int yPoint = 0;
-            yPoint< this.maxRootHeight;
-            yPoint+=this.QUAETER_NOTE_HEIGHT
+            yPoint < this.maxRootHeight;
+            yPoint += this.QUAETER_NOTE_HEIGHT
         ){
             Line tmpLine = new Line(
                 0, yPoint,
@@ -226,19 +232,19 @@ public class EditSpase {
             Label tmpLabel = new Label(
                 Integer.toString(yPoint / this.QUAETER_NOTE_HEIGHT)
             );
-            if((yPoint / this.QUAETER_NOTE_HEIGHT)% 12 == 0){
+            if((yPoint / this.QUAETER_NOTE_HEIGHT) % 12 == 0){
                 tmpLabel.setText(
-                    "C" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12
+                    "C" + (yPoint / this.QUAETER_NOTE_HEIGHT) / 12
                 );
             }
-            if((yPoint / this.QUAETER_NOTE_HEIGHT)% 12 == 4){
+            if((yPoint / this.QUAETER_NOTE_HEIGHT) % 12 == 4){
                 tmpLabel.setText(
-                    "E" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12
+                    "E" + (yPoint / this.QUAETER_NOTE_HEIGHT) / 12
                 );
             }
-            if((yPoint / this.QUAETER_NOTE_HEIGHT)% 12 == 7){
+            if((yPoint / this.QUAETER_NOTE_HEIGHT) % 12 == 7){
                 tmpLabel.setText(
-                    "G" + (yPoint / this.QUAETER_NOTE_HEIGHT)/12
+                    "G" + (yPoint / this.QUAETER_NOTE_HEIGHT) / 12
                 );
             }
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
@@ -247,16 +253,16 @@ public class EditSpase {
         }
 
         // 可変長配列に入ったLineを乗っけていく
-        for(Line l:xLine){
+        for(Line l : xLine){
             this.editSpase.getChildren().add(l);
         }
-        for(Line l:yLine){
+        for(Line l : yLine){
             this.editSpase.getChildren().add(l);
         }
-        for(Label l:xLabel){
+        for(Label l : xLabel){
             this.editSpase.getChildren().add(l);
         }
-        for(Label l:yLabel){
+        for(Label l : yLabel){
             this.editSpase.getChildren().add(l);
         }
 

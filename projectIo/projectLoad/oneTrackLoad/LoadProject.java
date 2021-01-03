@@ -8,16 +8,16 @@ import view.editSpace.editPane.EditSpase;
 import view.editSpace.editPane.NoteRect;
 
 public class LoadProject {
-    EditSpase root;
-    String projectName;
-    ArrayList<NoteRect> notes;
+    private EditSpase root;
+    private String projectName;
+    private ArrayList<NoteRect> notes;
 
     public LoadProject(String projectName){;
         this.projectName = projectName;
         this.notes = new ArrayList<>();
     }
 
-    public ArrayList<NoteRect> loadNoteRect(EditSpase root,int noteHeight){
+    public ArrayList<NoteRect> loadNoteRect(EditSpase root, int noteHeight){
         this.root = root;
         ArrayList<String> strings = this.parseString(this.projectName);
         long noteId,noteLength,noteStartTick;

@@ -19,36 +19,49 @@ import view.trackBox.TrackBox;
 import view.trackLine.TrackLine;
 
 public class Home {
-    VBox root;
-    ArrayList<TrackLine> lines;
+    private VBox root;
+    private ArrayList<TrackLine> lines;
 
-    double lineHeight   = 40;
-    double lineWidth    = 6000;
+    private double lineHeight   = 40;
+    private double lineWidth    = 6000;
 
     // いろいろ表示するところ
-    HBox ctrlRoot;
-    TextField inTenpoFL;
-    Button playButton;
-    Button addLineButton;
-    Button saveButton;
-    Button loadButton;
+    private HBox ctrlRoot;
+    private TextField inTenpoFL;
+    private Button playButton;
+    private Button addLineButton;
+    private Button saveButton;
+    private Button loadButton;
     // trackLineがずらーってなるところ
-    VBox linesVBox;
-    ScrollPane lineRoot;
+    private VBox linesVBox;
+    private ScrollPane lineRoot;
 
     public Home(){
         this.root       = new VBox();
         this.lines      = new ArrayList<>();
         this.ctrlRoot   = new HBox();
         this.inTenpoFL  = new TextField("120");
+
         this.playButton = new Button("play");
-        this.playButton.setOnMouseClicked(event ->playEventHandler(event));
+        this.playButton.setOnMouseClicked(
+            event ->playEventHandler(event)
+        );
+
         this.addLineButton = new Button(" addLine ");
-        this.addLineButton.setOnMouseClicked(event -> addLineHandler(event));
+        this.addLineButton.setOnMouseClicked(
+            event -> addLineHandler(event)
+        );
+
         this.saveButton = new Button("save");
-        this.saveButton.setOnMouseClicked(event -> saveEventHandler(event));
+        this.saveButton.setOnMouseClicked(
+            event -> saveEventHandler(event)
+        );
+
         this.loadButton = new Button("load");
-        this.loadButton.setOnMouseClicked(event -> loadEventHandler(event));
+        this.loadButton.setOnMouseClicked(
+            event -> loadEventHandler(event)
+        );
+
         this.linesVBox  = new VBox();
         this.lineRoot   = new ScrollPane();
         this.lineRoot.prefHeight(Double.MAX_VALUE);
@@ -66,8 +79,12 @@ public class Home {
 
         this.lineRoot.setContent(this.linesVBox);
 
-        this.root.getChildren().addAll(this.ctrlRoot,this.lineRoot);
-        this.root.setOnKeyPressed(event -> keyEventHandler(event));
+        this.root.getChildren().addAll(
+            this.ctrlRoot,this.lineRoot
+        );
+        this.root.setOnKeyPressed(
+            event -> keyEventHandler(event)
+        );
     }
 
     public void addLineHandler(MouseEvent event){
@@ -100,7 +117,11 @@ public class Home {
 
         this.linesVBox.getChildren().clear();
 
-        ArrayList<TrackLine> linesTmp = lp.loadAll(fileName, lineWidth, lineHeight);
+        ArrayList<TrackLine> linesTmp = lp.loadAll(
+                                            fileName,
+                                            lineWidth,
+                                            lineHeight
+                                        );
         //System.out.println(linesTmp.size());
         for(TrackLine line:linesTmp){
             //System.out.println("line added!");
@@ -132,10 +153,12 @@ public class Home {
 
         int notePich,volume;
         long startTick,length;
-        for(int lineNo = 0;lineNo<this.lines.size();lineNo++){
-            System.out.println("trackId = "+ lineNo);
-            System.out.println("inst changed" + this.lines.get(lineNo).getInstNo());
-                for(TrackBox box:lines.get(lineNo).getBoxs()){
+        for(int lineNo = 0; lineNo<this.lines.size(); lineNo++){
+            System.out.println("trackId = " + lineNo);
+            System.out.println(
+                "inst changed" + this.lines.get(lineNo).getInstNo()
+            );
+                for(TrackBox box : lines.get(lineNo).getBoxs()){
                     for(NoteRect note:box.getNotes()){
                         notePich    = note.getNotePich();
                         volume      = 120;

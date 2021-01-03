@@ -33,19 +33,20 @@ public class TrackLine {
 
         this.lineRoot   = new AnchorPane();
 
-        this.trackId = trackId;
+        this.trackId    = trackId;
         this.lineHeight = lineHeight;
-        this.lineWidth = lineWidth;
+        this.lineWidth  = lineWidth;
 
-        this.electInst = new ElectInst();
+        this.electInst      = new ElectInst();
         MenuBar instMenubar = this.electInst.getMenuBar();
 
         // contrllのセット
         this.controllRoot   = new AnchorPane();
 
-        this.trackName = new TextField(Integer.toString(trackId));
-        Rectangle trackBox = this.trackBoxs.get(0).getRect();
-        HBox ctrlBox = new HBox();
+        this.trackName      = new TextField(Integer.toString(trackId));
+        Rectangle trackBox  = this.trackBoxs.get(0).getRect();
+
+        HBox ctrlBox    = new HBox();
         ctrlBox.getChildren().addAll(
             this.trackName,
             instMenubar
