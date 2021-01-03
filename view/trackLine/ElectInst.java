@@ -94,6 +94,8 @@ public class ElectInst {
     }
     public void setInstNo(int instNo){
         this.electedInstNo = instNo;
+        String instName = this.instNames[instNo];
+        this.rootM.setText(instName);
     }
 
 

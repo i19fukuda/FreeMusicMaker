@@ -116,6 +116,7 @@ public class TrackLine {
             no = 0;
         }
         this.setInstNo(no);
+        this.electInst.setInstNo(no);
     }
     public void setInstNo(int instNo){
         this.electInst.setInstNo(instNo);
