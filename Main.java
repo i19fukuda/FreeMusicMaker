@@ -1,17 +1,9 @@
-import java.util.ArrayList;
-
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import midi.conductor.Conductor;
-import projectIo.projectLoad.oneTrackLoad.LoadProject;
-import projectIo.projectSave.oneTrackSave.SaveProject;
 import view.editSpace.editPane.EditSpase;
-import view.editSpace.editPane.NoteRect;
 import view.home.Home;
 
 public class Main extends Application{
