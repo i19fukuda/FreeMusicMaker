@@ -151,7 +151,7 @@ public class Conductor {
     public void createTrackAndSetMetaMessage(MetaMessage mmes){
         Track track = this.sequence.createTrack();
         this.tracks.add(track);
-        //track.add(new MidiEvent(mmes, 0));
+        track.add(new MidiEvent(mmes, 0));
     }
 
     // 外部から新しくトラックを作ることを受け付ける

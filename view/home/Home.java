@@ -111,8 +111,8 @@ public class Home {
 
     // todo
     public void playEventHandler(Event event){
-        int tenpo = this.getTempo();
-        Conductor conductor = new Conductor(tenpo);
+        int tempo = this.getTempo();
+        Conductor conductor = new Conductor(tempo);
 
         int notePich,volume;
         long startTick,length;
@@ -148,8 +148,10 @@ public class Home {
         try{
             tempo = Integer.parseInt(this.inTenpoFL.getText());
         }catch(NumberFormatException e){
+            //System.out.println(e.getMessage());
             tempo = 120;
         }
+        //System.out.println("tempo seted : " + tempo);
         return tempo;
     }
 }
