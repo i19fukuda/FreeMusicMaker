@@ -25,6 +25,20 @@ public class Main extends Application{
         this.home = new Home();
         this.root = new VBox();
 
+        menuInit();
+
+        root.getChildren().addAll(
+            this.menubar, home.getHomeRoot()
+        );
+
+
+
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void menuInit(){
         this.menubar    = new MenuBar();
         this.mFile      = new Menu("file");
 
@@ -42,15 +56,5 @@ public class Main extends Application{
         this.mFile.getItems().addAll(
             this.miSave, this.miLoad
         );
-
-        root.getChildren().addAll(
-            this.menubar, home.getHomeRoot()
-        );
-
-
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 }
