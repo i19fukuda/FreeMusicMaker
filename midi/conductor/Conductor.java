@@ -11,6 +11,10 @@ import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
+
 public class Conductor{
     private int         tempo;
     private Sequence    sequence;
@@ -32,6 +36,7 @@ public class Conductor{
                 3
             );
         } catch(Exception e){
+            this.showErrorDialog(e.getMessage());
             System.out.println(e.getMessage());
         }
         try{
@@ -49,6 +54,7 @@ public class Conductor{
             //this.sequencer.open();
             //this.sequencer.setSequence(this.sequence);
         } catch(Exception e){
+            showErrorDialog(e.getMessage());
             System.out.println(e.getMessage());
         }
     }
@@ -119,6 +125,7 @@ public class Conductor{
 
             // System.out.println(trackId);
         }catch(Exception e){
+            showErrorDialog(e.getMessage());
             System.out.println(e.getMessage());
         }
     }
@@ -141,6 +148,7 @@ public class Conductor{
 
             this.tracks.get(tId).add(eventChange);
         }catch(Exception e){
+            showErrorDialog(e.getMessage());
             System.out.println(e.getMessage());
             try{
                 this.sequencer.close();
@@ -170,6 +178,14 @@ public class Conductor{
     public int getTrackSize(){
         return this.tracks.size();
     }
+    private void showErrorDialog(String errorMessage){
+        Alert errorDialog = new Alert(
+                            AlertType.ERROR,
+                            errorMessage,
+                            ButtonType.CLOSE
+                            );
+        errorDialog.showAndWait();
+    }
 }
 
 class MyMidiPlayer extends Thread{
@@ -197,6 +213,7 @@ class MyMidiPlayer extends Thread{
             //this.sequencer.setTickPosition(0L);
             System.out.println("sequencer stoped,closed succece");
         } catch (Exception e){
+            this.showErrorDialog(e.getMessage());
             try{
                 this.sequencer.stop();
                 this.sequencer.close();
@@ -205,5 +222,13 @@ class MyMidiPlayer extends Thread{
             } catch (Exception ee){}
             System.out.println(e.getMessage());
         }
+    }
+    private void showErrorDialog(String errorMessage){
+        Alert errorDialog = new Alert(
+                            AlertType.ERROR,
+                            errorMessage,
+                            ButtonType.CLOSE
+                            );
+        errorDialog.showAndWait();
     }
 }

@@ -2,8 +2,11 @@ package view.trackLine;
 
 import java.util.ArrayList;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -110,6 +113,7 @@ public class TrackLine {
         try{
             no = Integer.parseInt(instNo);
         }catch(NumberFormatException e){
+            this.showErrorDialog(e.getMessage());
             System.out.println(
                 "trackLine114 set InstNo(String instNo):"
                 + e.getMessage()
@@ -121,5 +125,14 @@ public class TrackLine {
     }
     public void setInstNo(int instNo){
         this.electInst.setInstNo(instNo);
+    }
+
+    private void showErrorDialog(String errorMessage){
+        Alert errorDialog = new Alert(
+                            AlertType.ERROR,
+                            errorMessage,
+                            ButtonType.CLOSE
+                            );
+        errorDialog.showAndWait();
     }
 }

@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import view.editSpace.editPane.EditSpase;
 import view.editSpace.editPane.NoteRect;
 import view.trackLine.TrackLine;
@@ -113,6 +116,7 @@ public class LoadProject {
                 line = fin.readLine();
             }
         } catch(Exception e){
+            showErrorDialog(e.getMessage());
             System.out.println(e.getMessage());
             tmpStrings = new ArrayList<>();
         }finally{
@@ -121,5 +125,14 @@ public class LoadProject {
             }catch(Exception ee){}
         }
         return tmpStrings;
+    }
+
+    private void showErrorDialog(String errorMessage){
+        Alert errorDialog = new Alert(
+                            AlertType.ERROR,
+                            errorMessage,
+                            ButtonType.CLOSE
+                            );
+        errorDialog.showAndWait();
     }
 }

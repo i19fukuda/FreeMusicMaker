@@ -5,6 +5,9 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import view.editSpace.editPane.NoteRect;
 
 public class SaveProject {
@@ -46,11 +49,20 @@ public class SaveProject {
                 fout.println(s);
             }
         }catch(Exception e){
+            showErrorDialog(e.getMessage());
             System.out.println(e.getMessage());
         }finally{
             try{
                 fout.close();
             }catch(Exception ee){}
         }
+    }
+    private void showErrorDialog(String errorMessage){
+        Alert errorDialog = new Alert(
+                            AlertType.ERROR,
+                            errorMessage,
+                            ButtonType.CLOSE
+                            );
+        errorDialog.showAndWait();
     }
 }
