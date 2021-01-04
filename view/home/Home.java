@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -35,6 +36,7 @@ public class Home {
     private Button addLineButton;
     private Button saveButton;
     private Button loadButton;
+    private Button removeLineButton;
     // trackLineがずらーってなるところ
     private VBox linesVBox;
     private ScrollPane lineRoot;
@@ -65,6 +67,11 @@ public class Home {
             event -> loadEventHandler(event)
         );
 
+        this.removeLineButton = new Button(" remove Line ");
+        this.removeLineButton.setOnMouseClicked(
+            event -> removeLineEventHandler(event)
+        );
+
         this.linesVBox  = new VBox();
         this.lineRoot   = new ScrollPane();
         this.lineRoot.prefHeight(Double.MAX_VALUE);
@@ -74,6 +81,7 @@ public class Home {
             this.addLineButton,
             this.saveButton,
             this.loadButton,
+            this.removeLineButton,
             this.inTenpoFL
         );
 
@@ -103,6 +111,27 @@ public class Home {
     public void addLine(TrackLine line){
         this.lines.add(line);
         this.linesVBox.getChildren().add(line.getLineRoot());
+    }
+
+    public void removeLineEventHandler(MouseEvent event){
+        TextInputDialog inputDialog = new TextInputDialog(
+                                        "トラックの番号を入力してください"
+                                    );
+        inputDialog.showAndWait();
+        int lineNo;
+        try{
+            lineNo = Integer.parseInt(
+                        inputDialog.getEditor().getText()
+            );
+            this.removeLine(lineNo);
+        } catch (NumberFormatException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void removeLine(int lineId){
+        this.linesVBox.getChildren().remove(lineId);
+        this.lines.remove(lineId);
     }
 
     public void saveProject(){
@@ -203,4 +232,5 @@ public class Home {
         //System.out.println("tempo seted : " + tempo);
         return tempo;
     }
+
 }
