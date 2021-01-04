@@ -3,9 +3,12 @@ package view.home;
 import java.util.ArrayList;
 
 import javafx.event.Event;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -106,6 +109,13 @@ public class Home {
         String fileName = "project.txt";
         SaveProject sp = new SaveProject(lines);
         sp.saveAll(fileName, this.getTempo());
+
+        Alert alert = new Alert(
+            AlertType.INFORMATION,
+            "保存されました",
+            ButtonType.OK
+        );
+        alert.showAndWait();
     }
     public void saveEventHandler(MouseEvent event){
         this.saveProject();
