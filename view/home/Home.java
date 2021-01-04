@@ -228,9 +228,18 @@ public class Home {
         }catch(NumberFormatException e){
             //System.out.println(e.getMessage());
             tempo = 120;
+            showErrorDialog(e.getMessage());
         }
         //System.out.println("tempo seted : " + tempo);
         return tempo;
     }
 
+    private void showErrorDialog(String errorMessage){
+        Alert errorDialog = new Alert(
+                            AlertType.ERROR,
+                            errorMessage,
+                            ButtonType.CLOSE
+                            );
+        errorDialog.showAndWait();
+    }
 }
