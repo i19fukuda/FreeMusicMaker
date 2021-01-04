@@ -34,8 +34,8 @@ public class Home {
     private TextField inTenpoFL;
     private Button playButton;
     private Button addLineButton;
-    private Button saveButton;
-    private Button loadButton;
+    //private Button saveButton;
+    //private Button loadButton;
     private Button removeLineButton;
     // trackLineがずらーってなるところ
     private VBox linesVBox;
@@ -56,7 +56,7 @@ public class Home {
         this.addLineButton.setOnMouseClicked(
             event -> addLineHandler(event)
         );
-
+        /*
         this.saveButton = new Button("save");
         this.saveButton.setOnMouseClicked(
             event -> saveEventHandler(event)
@@ -66,12 +66,12 @@ public class Home {
         this.loadButton.setOnMouseClicked(
             event -> loadEventHandler(event)
         );
-
+        */
         this.removeLineButton = new Button(" remove Line ");
         this.removeLineButton.setOnMouseClicked(
             event -> removeLineEventHandler(event)
         );
-
+        
         this.linesVBox  = new VBox();
         this.lineRoot   = new ScrollPane();
         this.lineRoot.prefHeight(Double.MAX_VALUE);
@@ -79,8 +79,8 @@ public class Home {
         this.ctrlRoot.getChildren().addAll(
             this.playButton,
             this.addLineButton,
-            this.saveButton,
-            this.loadButton,
+            //this.saveButton,
+            //this.loadButton,
             this.removeLineButton,
             this.inTenpoFL
         );
@@ -146,11 +146,11 @@ public class Home {
         );
         alert.showAndWait();
     }
-    public void saveEventHandler(MouseEvent event){
+    public void saveEventHandler(Event event){
         this.saveProject();
     }
 
-    public  void loadEventHandler(MouseEvent event){
+    public  void loadEventHandler(Event event){
         String fileName = "Project.txt";
         LoadProject lp  =new LoadProject(fileName);
 

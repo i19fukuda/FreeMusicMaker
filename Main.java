@@ -1,10 +1,19 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import view.home.Home;
 
 public class Main extends Application{
+    private Home home;
+    private VBox root;
+
+    private MenuBar     menubar;
+    private Menu        mFile;
+    private MenuItem    miSave,miLoad;
     public static void main(String[] argas){
         Application.launch(argas);
     }
@@ -12,9 +21,34 @@ public class Main extends Application{
     public void start(Stage stage){
         stage.setWidth(1900);
         stage.setHeight(1040);
-        Home home = new Home();
-        VBox root = new VBox();
-        root.getChildren().add(home.getHomeRoot());
+
+        this.home = new Home();
+        this.root = new VBox();
+
+        this.menubar    = new MenuBar();
+        this.mFile      = new Menu("file");
+
+        this.miSave     = new MenuItem("Save project    ctrl + S");
+        this.miSave.setOnAction(
+            event -> this.home.saveEventHandler(event)
+        );
+
+        this.miLoad     = new MenuItem("Load project");
+        this.miLoad.setOnAction(
+            event -> home.loadEventHandler(event)
+        );
+
+        this.menubar.getMenus().addAll(this.mFile);
+        this.mFile.getItems().addAll(
+            this.miSave, this.miLoad
+        );
+
+        root.getChildren().addAll(
+            this.menubar, home.getHomeRoot()
+        );
+
+
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
