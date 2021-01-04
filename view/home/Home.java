@@ -106,7 +106,7 @@ public class Home {
     }
 
     public void saveProject(){
-        String fileName = "project.txt";
+        String fileName = "Project.txt";
         SaveProject sp = new SaveProject(lines);
         sp.saveAll(fileName, this.getTempo());
 
@@ -122,7 +122,7 @@ public class Home {
     }
 
     public  void loadEventHandler(MouseEvent event){
-        String fileName = "project.txt";
+        String fileName = "Project.txt";
         LoadProject lp  =new LoadProject(fileName);
 
         this.linesVBox.getChildren().clear();
