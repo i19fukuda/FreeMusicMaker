@@ -16,6 +16,10 @@ public class NoteRect {
     private int notePich;
     private long noteStartTick;
 
+    private boolean isElected;
+
+    private double changeRate;
+
     private double rectHeight;
     private double rectWidth  = 12;
 
@@ -36,6 +40,10 @@ public class NoteRect {
         setNoteStartTick(noteStartTick);
         setNoteId(System.currentTimeMillis());
 
+        this.isElected = false;
+
+        this.changeRate = this.root.getBAR_WIDTH_RATE() * 6.0;
+
         //System.out.println("まじのnotePich=" + this.notePich);
         //System.out.println("まじのnoteLength=" + this.noteLength);
         //System.out.println("まじのnoteStartTick=" + this.noteStartTick);
@@ -52,41 +60,82 @@ public class NoteRect {
         );
 
     }
-    
+
     public void clickEventHandler(MouseEvent event){;
-        double lengthRate = this.root.getBAR_WIDTH_RATE();
-        double baseLength = 6.0;
-
-        double changeRate = baseLength*lengthRate;
-
         if(
+            // shift + 左クリック一回に付き16分音符一個分伸ばす
             (event.getButton() == MouseButton.PRIMARY )
-            && event.isControlDown()
+            && event.isShiftDown()
         ){
-            // 左クリック一回に付き16分音符一個分伸ばす
-            if(this.rect.getWidth() < 400){
-                this.setNoteLength(this.getNoteLength() + 6);
-                this.rect.setWidth(
-                    this.rect.getWidth() + changeRate
-                );
-            }
+            this.longerNote();
         } else if(
+            // shift + 右クリック一回に付き16分音符一個分短くする
             (event.getButton() == MouseButton.SECONDARY)
+            && event.isShiftDown()
+            ){
+            this.shorterNote();
+        } else if(
+            // ctrlが押されている場合の右クリックは削除
+            event.getButton() == MouseButton.SECONDARY
             && event.isControlDown()
             ){
-            // 右クリック一回に付き16分音符一個分短くする
-            if(this.rect.getWidth() > changeRate){
-                this.setNoteLength(this.getNoteLength() - 6);
-
-                this.rect.setWidth(
-                    this.rect.getWidth() - changeRate
-                );
-            }
-        } else if(event.getButton() == MouseButton.SECONDARY){
-            // ctrlが押されていない右クリックは削除
-            this.root.removeNoteRect(this);
+            this.removeNote();
+        }   else if(
+            // ctrlが押されている場合の左クリックは選択
+            event.getButton() == MouseButton.PRIMARY
+            && event.isControlDown()
+            ){
+            this.electNote();
         }
     }
+
+    public void justLongerNote(){
+        if(this.rect.getWidth() < 400){
+            this.setNoteLength(this.getNoteLength() + 6);
+            this.rect.setWidth(
+                this.rect.getWidth() + changeRate
+            );
+        }
+    }
+    private void longerNote(){
+        this.root.longerElectedNotes();
+        if(! isElected){
+            this.justLongerNote();
+        }
+    }
+
+    public void justShorterNote(){
+        if(this.rect.getWidth() > changeRate){
+            this.setNoteLength(this.getNoteLength() - 6);
+            this.rect.setWidth(
+                this.rect.getWidth() - changeRate
+            );
+        }
+    }
+    private void shorterNote(){
+        this.root.shorterElectedNotes();
+        if(! isElected){
+            this.justShorterNote();
+        }
+    }
+    public void justRemoveNote(){
+        this.root.removeNoteRect(this);
+    }
+    private void removeNote(){
+        this.root.removeElectedNotes();
+        if(! isElected){
+            this.justRemoveNote();
+        }
+    }
+    public void electNote(){
+        this.isElected = ! this.isElected;
+        if(isElected){
+            this.rect.setFill(Color.BLUE);
+        } else{
+            this.rect.setFill(Color.BLACK);
+        }
+    }
+
 
     // todo
     // 設定できない値なら弾くようにする必要あり
@@ -140,5 +189,9 @@ public class NoteRect {
 
     public Rectangle getRect(){
         return this.rect;
+    }
+
+    public boolean isElected(){
+        return this.isElected;
     }
 }

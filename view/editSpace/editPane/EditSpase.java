@@ -51,7 +51,9 @@ public class EditSpase {
         if(
             event.getClickCount() == 2
             && event.getButton() == MouseButton.PRIMARY
-            && ! event.isControlDown()){
+            && ! event.isControlDown()
+            && ! event.isShiftDown()
+            ){
             //System.out.println("2 click!!");
             setNoteRect(event);
         }
@@ -174,6 +176,35 @@ public class EditSpase {
     public void removeNoteRect(NoteRect noteRect){
         this.notes.remove(noteRect);
         this.editSpase.getChildren().remove(noteRect.getRect());
+    }
+
+    public void longerElectedNotes(){
+        ArrayList<NoteRect> electedNotes = this.getElectedNotes();
+        for(NoteRect note:electedNotes){
+            note.justLongerNote();
+        }
+    }
+    public void shorterElectedNotes(){
+        ArrayList<NoteRect>electedNotes = this.getElectedNotes();
+        for(NoteRect note:electedNotes){
+            note.justShorterNote();
+        }
+    }
+    public void removeElectedNotes(){
+        ArrayList<NoteRect> electedNotes = this.getElectedNotes();
+        for(NoteRect note:electedNotes){
+            note.justRemoveNote();
+        }
+    }
+
+    private ArrayList<NoteRect> getElectedNotes(){
+        ArrayList<NoteRect> electedNotes = new ArrayList<>();
+        for(NoteRect note:this.notes){
+            if(note.isElected()){
+                electedNotes.add(note);
+            }
+        }
+        return electedNotes;
     }
 
     public void init(){
