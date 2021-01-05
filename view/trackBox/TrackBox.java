@@ -61,6 +61,16 @@ public class TrackBox {
         this.endTick    = startTck + width;
         createRect(this.boxWidth, this.boxHeight);
     }
+    // 最大幅で初期化する場合
+    public TrackBox(double height, double startTick){
+        this.editSpase  = new EditSpase();
+        this.notes      = this.editSpase.getNotes();
+        this.boxHeight  = height;
+        this.boxWidth   = Double.MAX_VALUE;
+        this.startTick  = startTick;
+        this.endTick    = startTick + Double.MAX_VALUE;
+        createRect(this.boxWidth, this.boxHeight);
+    }
 
     public void createRect(double boxWidth, double boxHeight){
         this.trackBoxRect = new Rectangle(boxWidth, boxHeight);

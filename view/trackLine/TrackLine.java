@@ -32,7 +32,7 @@ public class TrackLine {
     public TrackLine(int trackId, double lineHeight, double lineWidth){
 
         this.trackBoxs  = new ArrayList<>();
-        this.trackBoxs.add(new TrackBox(50, 0, 1900));
+        this.trackBoxs.add(new TrackBox(50, 0,1000));
 
         this.lineRoot   = new AnchorPane();
 
