@@ -33,7 +33,7 @@ public class EditSpase {
 
     // スクロールペインの最大の大きさ
     private int maxRootHeight = 2286;
-    private int maxRootWidth = 6000;
+    private int maxRootWidth = 60000;
     // 実際にユーザが入力するところ
     private ScrollPane editSpaseRoot;
     private AnchorPane editSpase;
@@ -236,13 +236,14 @@ public class EditSpase {
             }
             xLine.add(tmpLine);
 
-            if(xPoint % (4*QUAETER_NOTE_WIDTH) == 0){
+            if(xPoint % (QUAETER_NOTE_WIDTH) == 0){
                 Label tmpLabel = new Label(
-                    Integer.toString(xPoint / BAR_WIDTH_RATE)
+                    Integer.toString(xPoint / BAR_WIDTH_RATE / 24)
                 );
                 AnchorPane.setTopAnchor(tmpLabel, 0.0);
                 AnchorPane.setLeftAnchor(tmpLabel,(double)xPoint);
                 xLabel.add(tmpLabel);
+
             }
         }
 
