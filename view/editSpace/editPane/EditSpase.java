@@ -8,9 +8,16 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class EditSpase {
@@ -36,7 +43,9 @@ public class EditSpase {
     private int maxRootWidth = 60000;
     // 実際にユーザが入力するところ
     private ScrollPane editSpaseRoot;
+    private HBox       editAndshowRoot;
     private AnchorPane editSpase;
+    private AnchorPane pichCheckSpase;
 
     // 補助線，マウスに沿って移動
     private Line xSupportLine;
@@ -234,7 +243,9 @@ public class EditSpase {
     public void init(){
         this.notes          = new ArrayList<>();
         this.editSpaseRoot  = new ScrollPane();
+        this.editAndshowRoot = new HBox();
         this.editSpase      = new AnchorPane();
+        this.pichCheckSpase = new AnchorPane();
 
         this.xSupportLine = new Line(0, 0, 0, 0);
         this.ySupportLine = new Line(0, 0, 0, 0);
@@ -311,8 +322,20 @@ public class EditSpase {
                     "G" + (yPoint / this.QUAETER_NOTE_HEIGHT) / 12
                 );
             }
+            tmpLabel.setText(String.format("%3s",tmpLabel.getText()));
+            tmpLabel.setFont(new Font("NanumGothic", 13));
+
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
             AnchorPane.setLeftAnchor(tmpLabel,0.0);
+            Border border = new Border(
+                new BorderStroke(
+                    Color.BLACK,
+                    BorderStrokeStyle.SOLID,
+                    CornerRadii.EMPTY,
+                    BorderWidths.DEFAULT
+                )
+            );
+            tmpLabel.setBorder(border);
             yLabel.add(tmpLabel);
         }
 
@@ -327,10 +350,12 @@ public class EditSpase {
             this.editSpase.getChildren().add(l);
         }
         for(Label l : yLabel){
-            this.editSpase.getChildren().add(l);
+            this.pichCheckSpase.getChildren().add(l);
         }
-
-        this.editSpaseRoot.setContent(this.editSpase);
+        this.editAndshowRoot.getChildren().addAll(
+            this.pichCheckSpase, this.editSpase
+        );
+        this.editSpaseRoot.setContent(this.editAndshowRoot);
         Scene scene = new Scene(this.editSpaseRoot);
         this.editStage.setScene(scene);
     }
