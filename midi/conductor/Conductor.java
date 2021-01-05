@@ -211,7 +211,6 @@ class MyMidiPlayer extends Thread{
     private Sequencer sequencer;
     private Sequence sequence;
     // 現在どこまで再生したか保持する
-    private long playedTick = 1;
     public MyMidiPlayer(Sequencer sequencer, Sequence sequence){
         this.sequencer = sequencer;
         this.sequence = sequence;
@@ -250,7 +249,6 @@ class MyMidiPlayer extends Thread{
     }
     public void stopPlaying(){
         try{
-            this.playedTick = sequencer.getTickPosition();
             this.sequencer.stop();
         } catch(Exception e){
             showErrorDialog(e.getMessage());
