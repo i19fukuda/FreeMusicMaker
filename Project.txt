@@ -3,5 +3,33 @@ meta:{
 "tempo":120,
 },
 
-insts:0,
+insts:30,
 
+{
+"trackId":0,
+"noteId":1609858525684,
+"notePich":48,
+"noteLength":24,
+"noteStartTick":0
+},
+{
+"trackId":0,
+"noteId":1609858528488,
+"notePich":50,
+"noteLength":24,
+"noteStartTick":24
+},
+{
+"trackId":0,
+"noteId":1609858533374,
+"notePich":52,
+"noteLength":24,
+"noteStartTick":48
+},
+{
+"trackId":0,
+"noteId":1609858534673,
+"notePich":53,
+"noteLength":24,
+"noteStartTick":72
+},

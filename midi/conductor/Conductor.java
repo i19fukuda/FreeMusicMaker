@@ -23,6 +23,9 @@ public class Conductor{
     //曲全体にかかるメタ情報
     final private MetaMessage MMES;
 
+    // 再生にかかわるクラス
+    private MyMidiPlayer myMidiPlayer;
+
     public Conductor(int tempo){
         this.tempo = tempo;
         MMES = new MetaMessage();
@@ -157,10 +160,18 @@ public class Conductor{
         }
     }
 
+    public boolean isRunning(){
+        boolean isRunning = this.sequencer.isRunning();
+        return isRunning;
+    }
+
     //実際に音を鳴らすメソッド
     public void play(long startTick){
-        MyMidiPlayer player = new MyMidiPlayer(this.sequencer, this.sequence);
-        player.start();
+        this.myMidiPlayer = new MyMidiPlayer(this.sequencer, this.sequence);
+        myMidiPlayer.start();
+    }
+    public void play(){
+        this.myMidiPlayer.run();
     }
 
     //新しくトラックを作ってメタ情報を埋め込むメソッド
@@ -178,6 +189,14 @@ public class Conductor{
     public int getTrackSize(){
         return this.tracks.size();
     }
+
+    public void stop(){
+        if(this.myMidiPlayer.isAlive()){
+            System.out.println("stopping!");
+            this.myMidiPlayer.stopPlaying();
+        }
+    }
+
     private void showErrorDialog(String errorMessage){
         Alert errorDialog = new Alert(
                             AlertType.ERROR,
@@ -189,20 +208,26 @@ public class Conductor{
 }
 
 class MyMidiPlayer extends Thread{
-    Sequencer sequencer;
-    Sequence sequence;
+    private Sequencer sequencer;
+    private Sequence sequence;
+    // 現在どこまで再生したか保持する
+    private long playedTick = 1;
     public MyMidiPlayer(Sequencer sequencer, Sequence sequence){
         this.sequencer = sequencer;
         this.sequence = sequence;
     }
     public void run(){
         try{
-            this.sequencer.open();
-            System.out.println("Sequencer open");
+            if(! this.sequencer.isOpen()){
+                this.sequencer.open();
+                System.out.println("Sequencer open");
+            }
             this.sequencer.setSequence(sequence);
             System.out.println("sequencer start");
             this.sequencer.start();
-            while(this.sequencer.isRunning()){
+            while(
+                    this.sequencer.isRunning()
+                ){
                 Thread.sleep(100);
             }
             this.sequencer.stop();
@@ -221,6 +246,14 @@ class MyMidiPlayer extends Thread{
 
             } catch (Exception ee){}
             System.out.println(e.getMessage());
+        }
+    }
+    public void stopPlaying(){
+        try{
+            this.playedTick = sequencer.getTickPosition();
+            this.sequencer.stop();
+        } catch(Exception e){
+            showErrorDialog(e.getMessage());
         }
     }
     private void showErrorDialog(String errorMessage){

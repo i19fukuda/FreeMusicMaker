@@ -33,13 +33,15 @@ public class Home {
     private HBox ctrlRoot;
     private TextField inTenpoFL;
     private Button playButton;
+    private Button stopButton;
     private Button addLineButton;
-    //private Button saveButton;
-    //private Button loadButton;
     private Button removeLineButton;
     // trackLineがずらーってなるところ
     private VBox linesVBox;
     private ScrollPane lineRoot;
+
+    // midiコンダクター
+    private Conductor conductor;
 
     public Home(){
         this.root       = new VBox();
@@ -52,21 +54,15 @@ public class Home {
             event ->playEventHandler(event)
         );
 
+        this.stopButton = new Button("stop");
+        this.stopButton.setOnMouseClicked(
+            event -> stopEventHandler(event)
+        );
+
         this.addLineButton = new Button(" addLine ");
         this.addLineButton.setOnMouseClicked(
             event -> addLineHandler(event)
         );
-        /*
-        this.saveButton = new Button("save");
-        this.saveButton.setOnMouseClicked(
-            event -> saveEventHandler(event)
-        );
-
-        this.loadButton = new Button("load");
-        this.loadButton.setOnMouseClicked(
-            event -> loadEventHandler(event)
-        );
-        */
         this.removeLineButton = new Button(" remove Line ");
         this.removeLineButton.setOnMouseClicked(
             event -> removeLineEventHandler(event)
@@ -78,9 +74,8 @@ public class Home {
 
         this.ctrlRoot.getChildren().addAll(
             this.playButton,
+            this.stopButton,
             this.addLineButton,
-            //this.saveButton,
-            //this.loadButton,
             this.removeLineButton,
             this.inTenpoFL
         );
@@ -188,7 +183,7 @@ public class Home {
     // todo
     public void playEventHandler(Event event){
         int tempo = this.getTempo();
-        Conductor conductor = new Conductor(tempo);
+        this.conductor = new Conductor(tempo);
 
         int notePich,volume;
         long startTick,length;
@@ -218,7 +213,9 @@ public class Home {
             //System.out.println(conductor.getTrackSize());
         }
         conductor.play(0);
-
+    }
+    public void stopEventHandler(MouseEvent event){
+        conductor.stop();
     }
 
     public int getTempo(){
