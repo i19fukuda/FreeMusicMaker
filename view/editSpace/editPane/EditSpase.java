@@ -84,11 +84,11 @@ public class EditSpase {
         this.xSupportLine.setStartY(y);
         this.xSupportLine.setStartX(0);
         this.xSupportLine.setEndY(y);
-        this.xSupportLine.setEndX(this.editSpase.getWidth());
+        this.xSupportLine.setEndX(maxRootWidth);
 
         this.ySupportLine.setStartY(0);
         this.ySupportLine.setStartX(x);
-        this.ySupportLine.setEndY(this.editSpase.getHeight());
+        this.ySupportLine.setEndY(this.maxRootHeight);
         this.ySupportLine.setEndX(x);
     }
 
