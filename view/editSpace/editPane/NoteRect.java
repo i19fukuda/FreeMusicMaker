@@ -53,7 +53,7 @@ public class NoteRect {
         this.rect.setStroke(Color.RED);
         this.rect.setHeight(this.rectHeight);
         this.rect.setWidth(this.rectWidth - 2);
-        this.rect.setOpacity(0.8);
+        this.rect.setOpacity(0.7);
 
         this.rect.setOnMouseClicked(
             event -> clickEventHandler(event)
