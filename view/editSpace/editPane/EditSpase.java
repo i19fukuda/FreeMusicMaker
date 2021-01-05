@@ -37,6 +37,11 @@ public class EditSpase {
     // 実際にユーザが入力するところ
     private ScrollPane editSpaseRoot;
     private AnchorPane editSpase;
+
+    // 補助線，マウスに沿って移動
+    private Line xSupportLine;
+    private Line ySupportLine;
+
     // NoteRectを記憶し，呼び出し元に渡せるようにする．
     private ArrayList<NoteRect> notes;
 
@@ -44,6 +49,9 @@ public class EditSpase {
         init();
         this.editSpase.setOnMouseClicked(
             event -> clickEventHandler(event)
+        );
+        this.editSpase.setOnMouseMoved(
+            event -> mouseMuveEventHandler(event)
         );
     }
 
@@ -57,6 +65,22 @@ public class EditSpase {
             //System.out.println("2 click!!");
             setNoteRect(event);
         }
+    }
+
+    private void mouseMuveEventHandler(MouseEvent event){
+        double x,y;
+        x = event.getX();
+        y = event.getY();
+
+        this.xSupportLine.setStartY(y);
+        this.xSupportLine.setStartX(0);
+        this.xSupportLine.setEndY(y);
+        this.xSupportLine.setEndX(this.editSpase.getWidth());
+
+        this.ySupportLine.setStartY(0);
+        this.ySupportLine.setStartX(x);
+        this.ySupportLine.setEndY(this.editSpase.getHeight());
+        this.ySupportLine.setEndX(x);
     }
 
     public void setNoteRect(MouseEvent event){
@@ -211,6 +235,14 @@ public class EditSpase {
         this.notes          = new ArrayList<>();
         this.editSpaseRoot  = new ScrollPane();
         this.editSpase      = new AnchorPane();
+
+        this.xSupportLine = new Line(0, 0, 0, 0);
+        this.ySupportLine = new Line(0, 0, 0, 0);
+        this.xSupportLine.setStroke(Color.MAGENTA);
+        this.ySupportLine.setStroke(Color.MAGENTA);
+        this.editSpase.getChildren().addAll(
+            this.xSupportLine, this.ySupportLine
+        );
 
         ArrayList<Line> xLine   = new ArrayList<>();
         ArrayList<Line> yLine   = new ArrayList<>();
