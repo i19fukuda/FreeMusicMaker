@@ -192,10 +192,10 @@ public class Home {
             System.out.println(
                 "inst changed" + this.lines.get(lineNo).getInstNo()
             );
+            volume = this.lines.get(lineNo).getMasterVol();
                 for(TrackBox box : lines.get(lineNo).getBoxs()){
                     for(NoteRect note:box.getNotes()){
                         notePich    = note.getNotePich();
-                        volume      = 120;
                         startTick   = note.getNoteStartTick();
                         length      = note.getNoteLength();
 

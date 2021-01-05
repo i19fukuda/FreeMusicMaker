@@ -2,6 +2,7 @@ package view.trackLine;
 
 import java.util.ArrayList;
 
+import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuBar;
@@ -10,6 +11,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import view.trackBox.TrackBox;
 
@@ -20,11 +22,15 @@ public class TrackLine {
 
     private AnchorPane  controllRoot;
 
+    private TextField   volumField;
     private TextField   trackName;
 
     private int     trackId;
     private double  lineHeight;
     private double  lineWidth;
+
+    final private int MAX_VOL = 127;
+    private double vol;
 
     // 楽器選択のメニューバー
     ElectInst electInst;
@@ -35,10 +41,16 @@ public class TrackLine {
         this.trackBoxs.add(new TrackBox(50, 0,1000));
 
         this.lineRoot   = new AnchorPane();
+        this.volumField = new TextField("100");
+        this.volumField.setOnAction(
+            event -> volChangeEventHandler(event)
+        );
 
         this.trackId    = trackId;
         this.lineHeight = lineHeight;
         this.lineWidth  = lineWidth;
+
+        this.vol = 1.0;
 
         this.electInst      = new ElectInst();
         MenuBar instMenubar = this.electInst.getMenuBar();
@@ -50,8 +62,13 @@ public class TrackLine {
         Rectangle trackBox  = this.trackBoxs.get(0).getRect();
 
         HBox ctrlBox    = new HBox();
-        ctrlBox.getChildren().addAll(
+        VBox ctrlKit    = new VBox();
+        ctrlKit.getChildren().addAll(
             this.trackName,
+            this.volumField
+        );
+        ctrlBox.getChildren().addAll(
+            ctrlKit,
             instMenubar
         );
         AnchorPane.setTopAnchor(ctrlBox, 0.0);
@@ -74,7 +91,31 @@ public class TrackLine {
     public void clickEventHandler(MouseEvent event){
         //TrackBox trackBox = new TrackBox(50, notes, widthRate)
         System.out.println("clicked");
+    }
 
+    private void volChangeEventHandler(ActionEvent event){
+        String inputText = this.volumField.getText();
+        int tmpVol = 100;
+        try{
+            tmpVol = Integer.parseInt(inputText);
+        } catch (NumberFormatException e){
+            tmpVol = 100;
+            showErrorDialog(e.getMessage());
+        }
+        this.setMasterVol(tmpVol * 0.01);
+    }
+
+    public void setMasterVol(double volume){
+        if(volume>1.0){
+            volume = 1.0;
+            showErrorDialog("out of range");
+        }
+        this.vol = volume;
+    }
+
+    public int getMasterVol(){
+        int masVol = (int) (MAX_VOL * this.vol);
+        return masVol;
     }
 
     public AnchorPane getLineRoot(){
