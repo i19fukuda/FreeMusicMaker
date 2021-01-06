@@ -22,7 +22,7 @@ public class Mix {
 
     Stage stage;
 
-    int[] octPichs = {-36, -24, -12, 0, 12, 24, 36, 48, 100000};
+    int[] octPichs = {-36, -24, -12, 0, 12, 24, 36, 48};
 
     TextField[] inputFealFields;
     double[] volums;
