@@ -5,15 +5,17 @@ import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -43,9 +45,12 @@ public class EditSpase {
     private int maxRootWidth = 60000;
     // 実際にユーザが入力するところ
     private ScrollPane editSpaseRoot;
-    private HBox       editAndshowRoot;
+    private GridPane   editAndshowRoot;
     private AnchorPane editSpase;
+    private ScrollPane pichSupportSp;
     private AnchorPane pichCheckSpase;
+    private ScrollPane quaeterChSp;
+    private AnchorPane quaeterCkSpase;
 
     // 補助線，マウスに沿って移動
     private Line xSupportLine;
@@ -240,12 +245,27 @@ public class EditSpase {
         return electedNotes;
     }
 
+    private void scrollEventHandler(ScrollEvent event){
+        double dx, dy;
+        
+        dx = this.editSpaseRoot.getHvalue();
+        dy = this.editSpaseRoot.getVvalue();
+        
+        this.pichSupportSp.setVvalue(dy);
+        this.quaeterChSp.setHvalue(dx);
+    }
+
     public void init(){
         this.notes          = new ArrayList<>();
         this.editSpaseRoot  = new ScrollPane();
-        this.editAndshowRoot = new HBox();
+        this.editSpaseRoot.setOnScroll(event -> scrollEventHandler(event));
+        this.editAndshowRoot= new GridPane();
         this.editSpase      = new AnchorPane();
+
+        this.pichSupportSp  = new ScrollPane();
         this.pichCheckSpase = new AnchorPane();
+        this.quaeterChSp    = new ScrollPane();
+        this.quaeterCkSpase = new AnchorPane();
 
         this.xSupportLine = new Line(0, 0, 0, 0);
         this.ySupportLine = new Line(0, 0, 0, 0);
@@ -347,16 +367,33 @@ public class EditSpase {
             this.editSpase.getChildren().add(l);
         }
         for(Label l : xLabel){
-            this.editSpase.getChildren().add(l);
+            this.quaeterCkSpase.getChildren().add(l);
         }
         for(Label l : yLabel){
             this.pichCheckSpase.getChildren().add(l);
         }
+        this.pichSupportSp.setContent(this.pichCheckSpase);
+        this.pichSupportSp.setVbarPolicy(ScrollBarPolicy.NEVER);
+
+        this.quaeterChSp.setContent(this.quaeterCkSpase);
+        this.quaeterChSp.setHbarPolicy(ScrollBarPolicy.NEVER);
+
+        this.editSpaseRoot.setContent(this.editSpase);
+
+        GridPane.setColumnIndex(this.quaeterChSp, 1);
+        GridPane.setRowIndex(   this.quaeterChSp, 0);
+        GridPane.setColumnIndex(this.pichSupportSp, 0);
+        GridPane.setRowIndex(   this.pichSupportSp, 1);
+        GridPane.setColumnIndex(    this.editSpaseRoot, 1);
+        GridPane.setRowIndex(       this.editSpaseRoot, 1);
+
         this.editAndshowRoot.getChildren().addAll(
-            this.pichCheckSpase, this.editSpase
+            this.pichSupportSp,
+            this.quaeterChSp,
+            this.editSpaseRoot
         );
-        this.editSpaseRoot.setContent(this.editAndshowRoot);
-        Scene scene = new Scene(this.editSpaseRoot);
+
+        Scene scene = new Scene(this.editAndshowRoot);
         this.editStage.setScene(scene);
     }
 
