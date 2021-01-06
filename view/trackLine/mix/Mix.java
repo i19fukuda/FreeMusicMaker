@@ -3,6 +3,7 @@ package view.trackLine.mix;
 
 import java.util.ArrayList;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -21,7 +22,7 @@ public class Mix {
 
     Stage stage;
 
-    int[] octPichs = {-24, -12, 0, 12, 24};
+    int[] octPichs = {-36, -24, -12, 0, 12, 24, 36, 48, 100000};
 
     TextField[] inputFealFields;
     double[] volums;
@@ -39,12 +40,15 @@ public class Mix {
         Scene scene = new Scene(this.ocRootHB);
         stage.setScene(scene);
 
-        inputFealFields = new TextField[5];
-        volums = new double[5];
+        inputFealFields = new TextField[this.octPichs.length];
+        volums = new double[this.octPichs.length];
 
         for(int i=0; i<inputFealFields.length; i++){
             inputFealFields[i] = new TextField();
             inputFealFields[i].setText("0");
+            inputFealFields[i].setOnAction(
+                event -> actionEventHandler(event)
+            );
             ocRootHB.getChildren().add(inputFealFields[i]);
         }
         for(int i=0; i<volums.length; i++){
@@ -57,8 +61,8 @@ public class Mix {
             double vol;
             try{
                 vol = Double.parseDouble(this.inputFealFields[i].getText());
-                if(vol>100){
-                    this.showErrorDialog("out of range");
+                if(vol>=100){
+                    this.showErrorDialog("out of range:" + vol);
                 }
             } catch (NumberFormatException e){
                 this.showErrorDialog(e.getMessage());
@@ -78,20 +82,45 @@ public class Mix {
             volum           = noteRect.getVolum();
 
             for(int i = 0; i< this.octPichs.length; i++){
-                createdNotes.add(
+                notePich = notePich + this.octPichs[i];
+                volum = (int) (volum * this.volums[i]);
+                if(
+                    notePich <128
+                    && notePich>=0
+                    && volum <128
+                ){
+                    createdNotes.add(
                     new Note(
                         noteId,
-                        notePich + this.octPichs[i],
+                        notePich,
                         noteLength,
                         noteStartTick,
-                        (int)(volum * this.volums[i])
-                    )
-                );
+                        volum
+                        )
+                    );
+                }
             }
         }
 
         for(Note note:createdNotes){
             this.notes.add(note);
+        }
+    }
+
+    private void actionEventHandler(ActionEvent event){
+        for(TextField field:this.inputFealFields){
+            try{
+                double imput = Double.parseDouble(field.getText());
+                if(
+                    imput > 100
+                    || imput<0
+                ){
+                    field.setText("0-100の数値");
+                }
+            } catch (NumberFormatException e){
+                showErrorDialog(e.getMessage());
+                field.setText("0-100の数値");
+            }
         }
     }
 

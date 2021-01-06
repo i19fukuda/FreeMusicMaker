@@ -3,7 +3,7 @@ meta:{
 "tempo":120,
 },
 
-insts:30,
+insts:107,
 
 {
 "trackId":0,
