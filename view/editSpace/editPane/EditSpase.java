@@ -19,7 +19,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class EditSpase {
@@ -312,7 +311,8 @@ public class EditSpase {
                 );
                 AnchorPane.setTopAnchor(tmpLabel, 0.0);
                 AnchorPane.setLeftAnchor(tmpLabel,(double)xPoint);
-                tmpLabel.setBorder(border);
+                //tmpLabel.setBorder(border);
+                //tmpLabel.setMinWidth(BAR_WIDTH);
                 xLabel.add(tmpLabel);
 
             }
