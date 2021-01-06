@@ -5,16 +5,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class NoteRect {
+public class NoteRect extends Note{
     //ここのフィールドに置かれるnoteTick等は
     //まじの値を代入すること．
     //表示のための座標じゃない．
 
     private Rectangle rect;
-    private long noteId;
-    private long noteLength;
-    private int notePich;
-    private long noteStartTick;
 
     private boolean isElected;
 
@@ -31,14 +27,18 @@ public class NoteRect {
         double      noteHeight,
         long        noteLength,
         long        noteStartTick
-        ){
+    ){
+        super(
+            System.currentTimeMillis(),
+            notePich,
+            noteLength,
+            noteStartTick,
+            127
+        );
 
         setRoot(root);
         this.rectHeight = noteHeight;
-        setNotePich(notePich);
-        setNoteLength(noteLength);
-        setNoteStartTick(noteStartTick);
-        setNoteId(System.currentTimeMillis());
+        this.setNoteLength(noteLength);
 
         this.isElected = false;
 
@@ -147,16 +147,10 @@ public class NoteRect {
         return this.root;
     }
 
-    public void setNotePich(int notePich){
-        this.notePich = notePich;
-    }
-
-    public int getNotePich(){
-        return this.notePich;
-    }
+    @Override
 
     public void setNoteLength(long noteLength){
-        this.noteLength = noteLength;
+        super.setNoteLength(noteLength);
         // widthプロパティーを変更することで矩形の
         // 幅の初期値を変更する.
         double lengthRate = this.root.getBAR_WIDTH_RATE();
@@ -164,25 +158,7 @@ public class NoteRect {
         this.rectWidth = (noteLength * lengthRate) - lengthPadding;
     }
 
-    public long getNoteLength(){
-        return this.noteLength;
-    }
 
-    public void setNoteStartTick(long noteStartTick){
-        this.noteStartTick = noteStartTick;
-    }
-
-    public long getNoteStartTick(){
-        return this.noteStartTick;
-    }
-
-    public void setNoteId(long noteId){
-        this.noteId = noteId;
-    }
-
-    public long getNoteId(){
-        return this.noteId;
-    }
     public void setRect(Rectangle rect){
         this.rect = rect;
     }
