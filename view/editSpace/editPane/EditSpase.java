@@ -247,10 +247,8 @@ public class EditSpase {
 
     private void scrollEventHandler(ScrollEvent event){
         double dx, dy;
-        
         dx = this.editSpaseRoot.getHvalue();
         dy = this.editSpaseRoot.getVvalue();
-        
         this.pichSupportSp.setVvalue(dy);
         this.quaeterChSp.setHvalue(dx);
     }
@@ -280,6 +278,15 @@ public class EditSpase {
         ArrayList<Label> xLabel = new ArrayList<>();
         ArrayList<Label> yLabel = new ArrayList<>();
 
+        Border border = new Border(
+            new BorderStroke(
+                Color.BLACK,
+                BorderStrokeStyle.SOLID,
+                CornerRadii.EMPTY,
+                BorderWidths.DEFAULT
+            )
+        );
+
         // 縦線を引く
         for(
             int xPoint = 0;
@@ -305,6 +312,7 @@ public class EditSpase {
                 );
                 AnchorPane.setTopAnchor(tmpLabel, 0.0);
                 AnchorPane.setLeftAnchor(tmpLabel,(double)xPoint);
+                tmpLabel.setBorder(border);
                 xLabel.add(tmpLabel);
 
             }
@@ -343,18 +351,10 @@ public class EditSpase {
                 );
             }
             tmpLabel.setText(String.format("%3s",tmpLabel.getText()));
-            tmpLabel.setFont(new Font("NanumGothic", 13));
 
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
             AnchorPane.setLeftAnchor(tmpLabel,0.0);
-            Border border = new Border(
-                new BorderStroke(
-                    Color.BLACK,
-                    BorderStrokeStyle.SOLID,
-                    CornerRadii.EMPTY,
-                    BorderWidths.DEFAULT
-                )
-            );
+            tmpLabel.setMinWidth(100);
             tmpLabel.setBorder(border);
             yLabel.add(tmpLabel);
         }
