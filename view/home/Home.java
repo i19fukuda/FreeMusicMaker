@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import midi.conductor.Conductor;
 import projectIo.projectLoad.anyTrackLoad.LoadProject;
 import projectIo.projectSave.anyTrackSave.SaveProject;
+import view.editSpace.editPane.Note;
 import view.editSpace.editPane.NoteRect;
 import view.trackBox.TrackBox;
 import view.trackLine.TrackLine;
@@ -185,22 +186,40 @@ public class Home {
         int tempo = this.getTempo();
         this.conductor = new Conductor(tempo);
 
-        int notePich,volume;
+        int notePich,volume,instNo;
         long startTick,length;
         for(int lineNo = 0; lineNo<this.lines.size(); lineNo++){
+            /*
             System.out.println("trackId = " + lineNo);
             System.out.println(
                 "inst changed" + this.lines.get(lineNo).getInstNo()
             );
+            */
+
+            for(Note note:lines.get(lineNo).getMixedNotes()){
+                notePich = note.getNotePich();
+                volume = note.getVolum();
+                startTick = note.getNoteStartTick();
+                instNo =  lines.get(lineNo).getInstNo();
+                length = note.getNoteLength();
+                this.setNote(
+                    lineNo,
+                    notePich,
+                    volume,
+                    startTick,
+                    instNo,
+                    length
+                );
+            }
             volume = this.lines.get(lineNo).getMasterVol();
-                for(TrackBox box : lines.get(lineNo).getBoxs()){
+            for(TrackBox box : lines.get(lineNo).getBoxs()){
                     for(NoteRect note:box.getNotes()){
                         notePich    = note.getNotePich();
                         startTick   = note.getNoteStartTick();
                         length      = note.getNoteLength();
 
                         System.out.println(lines.get(lineNo).getTrackId());
-                        conductor.setNotes(
+                        this.setNote(
                             lines.get(lineNo).getTrackId(),
                             notePich,
                             volume,
@@ -214,6 +233,25 @@ public class Home {
         }
         conductor.play(0);
     }
+
+    private void setNote(
+        int lineNo,
+        int notePich,
+        int volume,
+        long startTick,
+        int instNo,
+        long length
+    ){
+        conductor.setNotes(
+            lineNo,
+            notePich,
+            volume,
+            startTick,
+            instNo,
+            length
+        );
+    }
+
     public void stopEventHandler(MouseEvent event){
         conductor.stop();
     }

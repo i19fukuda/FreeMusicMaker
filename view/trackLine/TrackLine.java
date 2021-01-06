@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
@@ -13,7 +14,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import view.editSpace.editPane.Note;
 import view.trackBox.TrackBox;
+import view.trackLine.mix.Mix;
 
 public class TrackLine {
     private ArrayList<TrackBox> trackBoxs;
@@ -24,6 +27,9 @@ public class TrackLine {
 
     private TextField   volumField;
     private TextField   trackName;
+
+    private Button  mixButton;
+    private Mix     mix;
 
     private int     trackId;
     private double  lineHeight;
@@ -61,6 +67,12 @@ public class TrackLine {
         this.trackName      = new TextField(Integer.toString(trackId));
         Rectangle trackBox  = this.trackBoxs.get(0).getRect();
 
+        this.mixButton = new Button("mix");
+        this.mixButton.setOnMouseClicked(
+            event -> mixEventHandler(event)
+        );
+        this.mix = new Mix(this);
+
         HBox ctrlBox    = new HBox();
         VBox ctrlKit    = new VBox();
         ctrlKit.getChildren().addAll(
@@ -69,7 +81,8 @@ public class TrackLine {
         );
         ctrlBox.getChildren().addAll(
             ctrlKit,
-            instMenubar
+            instMenubar,
+            this.mixButton
         );
         AnchorPane.setTopAnchor(ctrlBox, 0.0);
         AnchorPane.setLeftAnchor(ctrlBox, 0.0);
@@ -91,6 +104,16 @@ public class TrackLine {
     public void clickEventHandler(MouseEvent event){
         //TrackBox trackBox = new TrackBox(50, notes, widthRate)
         System.out.println("clicked");
+    }
+
+    public void mixEventHandler(MouseEvent event){
+        mix.showMixer();
+    }
+
+    public ArrayList<Note> getMixedNotes(){
+        ArrayList<Note> notes = new ArrayList<>();
+        notes = this.mix.getNotes();
+        return notes;
     }
 
     private void volChangeEventHandler(ActionEvent event){
