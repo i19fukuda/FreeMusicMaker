@@ -111,9 +111,12 @@ public class EditSpase {
         x = x - (x % this.quantize);
         y = y - (y % QUAETER_NOTE_HEIGHT);
 
-        //System.out.println("x=" + x + " y=" + y);
+        double iy = y / QUAETER_NOTE_HEIGHT;
 
-        int  notePich       = (int)y / QUAETER_NOTE_HEIGHT;
+        // System.out.println("x=" + x + " y=" + y);
+
+        // yはノートの上の値なので下に補正するために(-1)をする
+        int  notePich       = 127 - (int) iy - 1;
         long noteLength     = defNoteLen / BAR_WIDTH_RATE;
         long noteStartTick  = (long) x / BAR_WIDTH_RATE;
 
@@ -178,7 +181,7 @@ public class EditSpase {
             notePich = note.getNotePich();
             noteStartTick = note.getNoteStartTick();
             x = noteStartTick * BAR_WIDTH_RATE;
-            y = notePich * QUAETER_NOTE_HEIGHT;
+            y = (127 - notePich) * QUAETER_NOTE_HEIGHT;
             this.setRect(note.getRect(), x, y);
             note.setNoteLength(note.getNoteLength());
             this.notes.add(note);
@@ -194,7 +197,7 @@ public class EditSpase {
             notePich = note.getNotePich();
             noteStartTick = note.getNoteStartTick();
             x = noteStartTick * BAR_WIDTH_RATE;
-            y = notePich * QUAETER_NOTE_HEIGHT;
+            y = (127 - notePich - 1) * QUAETER_NOTE_HEIGHT;
             note.setNoteLength(note.getNoteLength());
             this.setRect(note.getRect(), x, y);
         }
@@ -317,19 +320,22 @@ public class EditSpase {
 
             }
         }
-
+        // 横線を引く
+        int yPoint;
         for(
-            int yPoint = 0;
-            yPoint < this.maxRootHeight;
-            yPoint += this.QUAETER_NOTE_HEIGHT
+            int yPointU = 0;
+            yPointU < this.maxRootHeight;
+            yPointU += this.QUAETER_NOTE_HEIGHT
         ){
+            yPoint = this.maxRootHeight - yPointU;
             Line tmpLine = new Line(
-                0, yPoint,
-                this.maxRootWidth, yPoint
+                0, yPointU,
+                this.maxRootWidth, yPointU
                 );
             if(
-                ( yPoint % (this.QUAETER_NOTE_HEIGHT *  7) == 0)
-            ||  ( yPoint % (this.QUAETER_NOTE_HEIGHT * 12) == 0)
+                (( yPoint % (this.QUAETER_NOTE_HEIGHT *  4) == 0)
+            &&  !( yPoint % (this.QUAETER_NOTE_HEIGHT * 8) == 0))
+            ||  ( yPoint % (this.QUAETER_NOTE_HEIGHT * 7) == 0)
             ){
                 tmpLine.setStroke(Color.YELLOWGREEN);
             }
@@ -339,26 +345,27 @@ public class EditSpase {
             yLine.add(tmpLine);
 
             Label tmpLabel = new Label(
-                Integer.toString(yPoint / this.QUAETER_NOTE_HEIGHT)
+                Integer.toString(yPointU / this.QUAETER_NOTE_HEIGHT)
             );
-            if((yPoint / this.QUAETER_NOTE_HEIGHT) % 12 == 0){
+            if((yPointU / this.QUAETER_NOTE_HEIGHT) % 12 == 0){
                 tmpLabel.setText(
-                    "C" + (yPoint / this.QUAETER_NOTE_HEIGHT) / 12
+                    "C" + (yPointU / this.QUAETER_NOTE_HEIGHT) / 12
                 );
             }
-            if((yPoint / this.QUAETER_NOTE_HEIGHT) % 12 == 4){
+            if((yPointU / this.QUAETER_NOTE_HEIGHT) % 12 == 4){
                 tmpLabel.setText(
-                    "E" + (yPoint / this.QUAETER_NOTE_HEIGHT) / 12
+                    "E" + (yPointU / this.QUAETER_NOTE_HEIGHT) / 12
                 );
             }
-            if((yPoint / this.QUAETER_NOTE_HEIGHT) % 12 == 7){
+            if((yPointU / this.QUAETER_NOTE_HEIGHT) % 12 == 7){
                 tmpLabel.setText(
-                    "G" + (yPoint / this.QUAETER_NOTE_HEIGHT) / 12
+                    "G" + (yPointU / this.QUAETER_NOTE_HEIGHT) / 12
                 );
             }
             tmpLabel.setText(String.format("%3s",tmpLabel.getText()));
 
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
+            System.out.println(yPoint);
             AnchorPane.setLeftAnchor(tmpLabel,0.0);
             tmpLabel.setMinWidth(100);
             tmpLabel.setBorder(border);
