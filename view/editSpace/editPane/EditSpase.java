@@ -327,6 +327,12 @@ public class EditSpase {
                 0, yPoint,
                 this.maxRootWidth, yPoint
                 );
+            if(
+                ( yPoint % (this.QUAETER_NOTE_HEIGHT *  7) == 0)
+            ||  ( yPoint % (this.QUAETER_NOTE_HEIGHT * 12) == 0)
+            ){
+                tmpLine.setStroke(Color.YELLOWGREEN);
+            }
             if(yPoint % (this.QUAETER_NOTE_HEIGHT * 12) == 0){
                 tmpLine.setStroke(Color.GREEN);
             }
