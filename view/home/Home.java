@@ -170,7 +170,7 @@ public class Home {
         if(event.isControlDown()){
             if(event.getCode() == KeyCode.S){
                 this.saveProject();
-                System.out.println("save!");
+                //System.out.println("save!");
             }
         } else {
         }
@@ -218,7 +218,7 @@ public class Home {
                         startTick   = note.getNoteStartTick();
                         length      = note.getNoteLength();
 
-                        System.out.println(lines.get(lineNo).getTrackId());
+                        //System.out.println(lines.get(lineNo).getTrackId());
                         this.setNote(
                             lines.get(lineNo).getTrackId(),
                             notePich,

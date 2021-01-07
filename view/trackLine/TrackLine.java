@@ -103,7 +103,7 @@ public class TrackLine {
 
     public void clickEventHandler(MouseEvent event){
         //TrackBox trackBox = new TrackBox(50, notes, widthRate)
-        System.out.println("clicked");
+        //System.out.println("clicked");
     }
 
     public void mixEventHandler(MouseEvent event){

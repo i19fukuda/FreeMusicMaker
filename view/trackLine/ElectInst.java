@@ -79,7 +79,7 @@ public class ElectInst {
         //System.out.println("cliecked!!");
         for(int i=0; i<this.radioMenuItems.length; i++){
             if(radioMenuItem == this.radioMenuItems[i]){
-                System.out.println(this.instNames[i]);
+                //System.out.println(this.instNames[i]);
                 this.electedInstNo = i;
                 this.rootM.setText(this.instNames[i]);
             }

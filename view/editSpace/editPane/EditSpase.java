@@ -365,7 +365,7 @@ public class EditSpase {
             tmpLabel.setText(String.format("%3s",tmpLabel.getText()));
 
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
-            System.out.println(yPoint);
+            // System.out.println(yPoint);
             AnchorPane.setLeftAnchor(tmpLabel,0.0);
             tmpLabel.setMinWidth(100);
             tmpLabel.setBorder(border);
