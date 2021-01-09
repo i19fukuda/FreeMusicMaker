@@ -2,21 +2,16 @@ package view.trackLine;
 
 import java.util.ArrayList;
 
-import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import view.editSpace.editPane.Note;
 import view.trackBox.TrackBox;
-import view.trackLine.mix.Mix;
+import view.trackLine.ctrlBox.Controls;
 
 public class TrackLine {
     private ArrayList<TrackBox> trackBoxs;
@@ -24,12 +19,7 @@ public class TrackLine {
     private AnchorPane          lineRoot;
 
     private AnchorPane  controllRoot;
-
-    private TextField   volumField;
-    private TextField   trackName;
-
-    private Button  mixButton;
-    private Mix     mix;
+    private Controls controls;
 
     private int     trackId;
     private double  lineHeight;
@@ -38,19 +28,12 @@ public class TrackLine {
     final private int MAX_VOL = 127;
     private double vol;
 
-    // 楽器選択のメニューバー
-    ElectInst electInst;
-
     public TrackLine(int trackId, double lineHeight, double lineWidth){
 
         this.trackBoxs  = new ArrayList<>();
         this.trackBoxs.add(new TrackBox(50, 0,1000));
 
         this.lineRoot   = new AnchorPane();
-        this.volumField = new TextField("100");
-        this.volumField.setOnAction(
-            event -> volChangeEventHandler(event)
-        );
 
         this.trackId    = trackId;
         this.lineHeight = lineHeight;
@@ -58,32 +41,16 @@ public class TrackLine {
 
         this.vol = 1.0;
 
-        this.electInst      = new ElectInst();
-        MenuBar instMenubar = this.electInst.getMenuBar();
 
         // contrllのセット
         this.controllRoot   = new AnchorPane();
 
-        this.trackName      = new TextField(Integer.toString(trackId));
+        this.controls = new Controls(this);
+
         Rectangle trackBox  = this.trackBoxs.get(0).getRect();
 
-        this.mixButton = new Button("mix");
-        this.mixButton.setOnMouseClicked(
-            event -> mixEventHandler(event)
-        );
-        this.mix = new Mix(this);
+        VBox ctrlBox = controls.getctrlBoxRoot();
 
-        HBox ctrlBox    = new HBox();
-        VBox ctrlKit    = new VBox();
-        ctrlKit.getChildren().addAll(
-            this.trackName,
-            this.volumField
-        );
-        ctrlBox.getChildren().addAll(
-            ctrlKit,
-            instMenubar,
-            this.mixButton
-        );
         AnchorPane.setTopAnchor(ctrlBox, 0.0);
         AnchorPane.setLeftAnchor(ctrlBox, 0.0);
 
@@ -106,38 +73,23 @@ public class TrackLine {
         //System.out.println("clicked");
     }
 
-    public void mixEventHandler(MouseEvent event){
-        mix.showMixer();
-    }
-
     public ArrayList<Note> getMixedNotes(){
         ArrayList<Note> notes = new ArrayList<>();
-        notes = this.mix.getNotes();
+        notes = this.controls.getMix().getNotes();
         return notes;
-    }
-
-    private void volChangeEventHandler(ActionEvent event){
-        String inputText = this.volumField.getText();
-        int tmpVol = 100;
-        try{
-            tmpVol = Integer.parseInt(inputText);
-        } catch (NumberFormatException e){
-            tmpVol = 100;
-            showErrorDialog(e.getMessage());
-        }
-        this.setMasterVol(tmpVol * 0.01);
     }
 
     public void setMasterVol(double volume){
         if(volume>1.0){
             volume = 1.0;
-            showErrorDialog("out of range");
+            showErrorDialog("out of range(volume):" +volume);
         }
         this.vol = volume;
     }
 
     public int getMasterVol(){
         int masVol = (int) (MAX_VOL * this.vol);
+        System.out.println(masVol);
         return masVol;
     }
 
@@ -169,7 +121,7 @@ public class TrackLine {
 
     public int getInstNo(){
         int instNo;
-        instNo = this.electInst.getInstNo();
+        instNo = this.controls.getElectInst().getInstNo();
         return instNo;
     }
     public void setInstNo(String instNo){
@@ -185,10 +137,10 @@ public class TrackLine {
             no = 0;
         }
         this.setInstNo(no);
-        this.electInst.setInstNo(no);
+        this.controls.getElectInst().setInstNo(no);
     }
     public void setInstNo(int instNo){
-        this.electInst.setInstNo(instNo);
+        this.controls.getElectInst().setInstNo(instNo);
     }
 
     private void showErrorDialog(String errorMessage){

@@ -213,7 +213,7 @@ public class Home {
             }
             volume = this.lines.get(lineNo).getMasterVol();
             for(TrackBox box : lines.get(lineNo).getBoxs()){
-                    for(NoteRect note:box.getNotes()){
+                for(NoteRect note:box.getNotes()){
                         notePich    = note.getNotePich();
                         startTick   = note.getNoteStartTick();
                         length      = note.getNoteLength();
