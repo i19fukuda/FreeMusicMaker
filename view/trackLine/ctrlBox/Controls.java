@@ -1,13 +1,10 @@
 package view.trackLine.ctrlBox;
 
 import javafx.event.Event;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import view.trackLine.ElectInst;
 import view.trackLine.TrackLine;
@@ -100,14 +97,5 @@ public class Controls {
     }
     public ElectInst getElectInst(){
         return this.electInst;
-    }
-
-    private void showErrorDialog(String errorMessage){
-        Alert errorDialog = new Alert(
-                            AlertType.ERROR,
-                            errorMessage,
-                            ButtonType.CLOSE
-                            );
-        errorDialog.showAndWait();
     }
 }
