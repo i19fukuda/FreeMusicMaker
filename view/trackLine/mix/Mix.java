@@ -7,9 +7,11 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import view.editSpace.editPane.Note;
 import view.editSpace.editPane.NoteRect;
@@ -23,6 +25,7 @@ public class Mix {
     Stage stage;
 
     int[] octPichs = {-36, -24, -12, 0, 12, 24, 36, 48};
+    VBox[] octVB = new VBox[octPichs.length];
 
     TextField[] inputFealFields;
     double[] volums;
@@ -35,7 +38,7 @@ public class Mix {
         this.ocRootHB = new HBox();
         this.stage = new Stage();
         this.stage.setTitle("Mix");
-        this.stage.setWidth(500);
+        this.stage.setWidth(800);
         this.stage.setHeight(300);
         Scene scene = new Scene(this.ocRootHB);
         stage.setScene(scene);
@@ -44,13 +47,21 @@ public class Mix {
         volums = new double[this.octPichs.length];
 
         for(int i=0; i<inputFealFields.length; i++){
+            Label tmpLb = new Label(
+                Integer.toString(this.octPichs[i] / 12)
+                + "オクターブ"
+            );
             inputFealFields[i] = new TextField();
             inputFealFields[i].setText("0");
             inputFealFields[i].setOnAction(
                 event -> actionEventHandler(event)
             );
-            ocRootHB.getChildren().add(inputFealFields[i]);
+
+            this.octVB[i] = new VBox();
+            this.octVB[i].getChildren().addAll(tmpLb, inputFealFields[i]);
+            this.ocRootHB.getChildren().add(this.octVB[i]);
         }
+
         for(int i=0; i<volums.length; i++){
             volums[i] = 0.0;
         }
