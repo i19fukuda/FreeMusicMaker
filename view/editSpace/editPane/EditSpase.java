@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -255,10 +257,26 @@ public class EditSpase {
         this.quaeterChSp.setHvalue(dx);
     }
 
+    private void keyEventHandler(KeyEvent event){
+        KeyCode inputCode = event.getCode();
+        if(event.isControlDown()){
+            if(inputCode == KeyCode.A){
+                for(NoteRect note:this.notes){
+                    note.electNoteMust();
+                }
+            }
+        }
+    }
+
     public void init(){
         this.notes          = new ArrayList<>();
         this.editSpaseRoot  = new ScrollPane();
-        this.editSpaseRoot.setOnScroll(event -> scrollEventHandler(event));
+        this.editSpaseRoot.setOnScroll(
+            event -> scrollEventHandler(event)
+        );
+        this.editSpaseRoot.setOnKeyPressed(
+            event -> keyEventHandler(event)
+        );
         this.editAndshowRoot= new GridPane();
         this.editSpase      = new AnchorPane();
 

@@ -136,6 +136,11 @@ public class NoteRect extends Note{
         }
     }
 
+    public void electNoteMust(){
+        this.isElected = true;
+        this.rect.setFill(Color.BLUE);
+    }
+
 
     // todo
     // 設定できない値なら弾くようにする必要あり
