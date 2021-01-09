@@ -1,5 +1,55 @@
 package view.home.soundMixer;
 
+import java.util.ArrayList;
+
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import view.home.soundMixer.lineInfo.LineInfo;
+import view.trackLine.TrackLine;
+
+// 各トラックのマスターボリュームの調節及びソロ，ミュートの登録
 public class SoundMixer {
-    
+    private ArrayList<TrackLine> lines;
+
+    private ArrayList<LineInfo> lineInfos;
+
+    private VBox soundMixerRoot;
+    private HBox lineInfoRoot;
+
+    ToggleGroup groupSolo;
+
+    public SoundMixer(ArrayList<TrackLine> lines){
+        this.lines = lines;
+        this.lineInfos = new ArrayList<>();
+        this.lineInfoRoot = new HBox();
+        this.soundMixerRoot = new VBox();
+
+
+        for(TrackLine line:lines){
+            LineInfo lineInfo = new LineInfo(line);
+            this.lineInfos.add(
+                lineInfo
+            );
+            this.lineInfoRoot.getChildren().add(
+                        lineInfo.getLineInfoRoot()
+            );
+        }
+
+        this.soundMixerRoot.getChildren().add(
+            this.lineInfoRoot
+        );
+    }
+
+    public void addLineInfo(TrackLine line){
+        LineInfo lineInfo = new LineInfo(line);
+        this.lineInfos.add(lineInfo);
+        this.lineInfoRoot.getChildren().add(
+            lineInfo.getLineInfoRoot()
+        );
+    }
+
+    public VBox getSoundMixerRoot(){
+        return this.soundMixerRoot;
+    }
 }

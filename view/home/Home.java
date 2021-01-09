@@ -20,6 +20,7 @@ import projectIo.projectLoad.anyTrackLoad.LoadProject;
 import projectIo.projectSave.anyTrackSave.SaveProject;
 import view.editSpace.editPane.Note;
 import view.editSpace.editPane.NoteRect;
+import view.home.soundMixer.SoundMixer;
 import view.trackBox.TrackBox;
 import view.trackLine.TrackLine;
 
@@ -43,12 +44,16 @@ public class Home {
 
     // midiコンダクター
     private Conductor conductor;
+    //ソロとかミュートとか
+    private SoundMixer soundMixer;
 
     public Home(){
         this.root       = new VBox();
         this.lines      = new ArrayList<>();
         this.ctrlRoot   = new HBox();
         this.inTenpoFL  = new TextField("120");
+
+        this.soundMixer = new SoundMixer(this.lines);
 
         this.playButton = new Button("play");
         this.playButton.setOnMouseClicked(
@@ -86,8 +91,10 @@ public class Home {
 
         this.lineRoot.setContent(this.linesVBox);
 
+        this.soundMixer = new SoundMixer(this.lines);
+
         this.root.getChildren().addAll(
-            this.ctrlRoot,this.lineRoot
+            this.ctrlRoot, this.lineRoot, soundMixer.getSoundMixerRoot()
         );
         this.root.setOnKeyPressed(
             event -> keyEventHandler(event)
@@ -103,6 +110,7 @@ public class Home {
         TrackLine line = new TrackLine(trackId, lineHeight, lineWidth);
         this.lines.add(line);
         this.linesVBox.getChildren().add(line.getLineRoot());
+        this.soundMixer.addLineInfo(line);
     }
     public void addLine(TrackLine line){
         this.lines.add(line);

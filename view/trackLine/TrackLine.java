@@ -154,6 +154,12 @@ public class TrackLine {
         this.controls.getElectInst().setInstNo(instNo);
     }
 
+    public String getTrackName(){
+        String inputString = this.controls.getTrackNameFl().getText();
+        return inputString;
+    }
+
+
     private void showErrorDialog(String errorMessage){
         Alert errorDialog = new Alert(
                             AlertType.ERROR,
