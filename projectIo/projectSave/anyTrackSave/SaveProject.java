@@ -34,7 +34,7 @@ public class SaveProject {
                     + "},\n";
         strings.add(printString);
 
-
+        //楽器を配列で書き出す
         printString = "insts:";
         int inst;
         for(TrackLine line:lines){
@@ -46,6 +46,16 @@ public class SaveProject {
 
         strings.add(printString);
 
+        //トラックごとのマスターボリュームを書き出す
+        printString = "volums:";
+        int trackMVo;
+        for(TrackLine line:lines){
+            trackMVo = line.getMasterVol();
+            printString += Integer.toString(trackMVo);
+            printString += ",";
+        }
+        printString += "\n";
+        strings.add(printString);
 
 
         String trackId,noteId,notePich,noteLength,noteStartTick;

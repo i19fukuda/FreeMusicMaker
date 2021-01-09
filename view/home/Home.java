@@ -211,6 +211,7 @@ public class Home {
                     length
                 );
             }
+            //0-127のまじの値
             volume = this.lines.get(lineNo).getMasterVol();
             for(TrackBox box : lines.get(lineNo).getBoxs()){
                 for(NoteRect note:box.getNotes()){

@@ -39,7 +39,7 @@ public class TrackLine {
         this.lineHeight = lineHeight;
         this.lineWidth  = lineWidth;
 
-        this.vol = 1.0;
+        this.vol = 127;
 
 
         // contrllのセット
@@ -79,16 +79,27 @@ public class TrackLine {
         return notes;
     }
 
-    public void setMasterVol(double volume){
-        if(volume>1.0){
-            volume = 1.0;
-            showErrorDialog("out of range(volume):" +volume);
+    //0-127のまじの値を格納
+    //割合で入力されたときの場合にのみ仕様
+    public void setMasterVol(double volumeRange){
+        if(volumeRange>1.0){
+            volumeRange = 1.0;
+            showErrorDialog("out of range(volumeRange):" +volumeRange);
         }
+        this.vol = volumeRange * MAX_VOL;
+    }
+    //0-127のまじの値を格納
+    public void setMasterVol(int volume){
+        if(volume>127||volume<0){
+            showErrorDialog("out of range(volume):" +volume);
+            volume = 127;
+        }
+        this.controls.setMasterVol(volume);
         this.vol = volume;
     }
 
     public int getMasterVol(){
-        int masVol = (int) (MAX_VOL * this.vol);
+        int masVol = (int) this.vol;
         System.out.println(masVol);
         return masVol;
     }

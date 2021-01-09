@@ -41,7 +41,7 @@ public class LoadProject {
         this.tempo = tempo;
 
         // 楽器の登録
-        tmpI = 5;
+        tmpI += 3;
         insts = new int[lineSize];
         String tmpString;
         tmpString = strings.get(tmpI);
@@ -57,7 +57,22 @@ public class LoadProject {
             ln.setInstNo(insts[i]);
         }
 
-        for(int i=6;i<strings.size();i++){
+
+        int[] mVols = new int[lineSize];
+        tmpI += 2;
+        tmpString = strings.get(tmpI);
+        for(int i = 0;i<lineSize;i++){
+            mVols[i] = Integer.parseInt(
+                tmpString.split(":")[1].split(",")[i]
+            );
+        }
+        for(int i = 0;i<lineSize;i++){
+            trackLines.get(i).setMasterVol(mVols[i]);
+        }
+
+        final int NOTE_INFO_START = 9;
+
+        for(int i=NOTE_INFO_START;i<strings.size();i++){
             if(strings.get(i).equals("{")){
                 i+=1;
                 trackId = Integer.parseInt(

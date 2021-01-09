@@ -102,7 +102,7 @@ public class Conductor{
             notePich = 127;
         }
         if(volume > 127){
-            System.out.println("out of range:" + volume + "set 255");
+            System.out.println("out of range:" + volume +127);
             volume = 127;
         }
         try{
@@ -115,6 +115,9 @@ public class Conductor{
             messageOn.setMessage(
                 ShortMessage.NOTE_ON, isper, notePich, volume
             );
+
+
+            // System.out.println("Volume= " + volume);
 
             ShortMessage messageOff = new ShortMessage();
             messageOff.setMessage(ShortMessage.NOTE_OFF, isper, notePich, 0);
