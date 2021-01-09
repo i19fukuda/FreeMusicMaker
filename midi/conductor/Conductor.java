@@ -90,6 +90,7 @@ public class Conductor{
         int isper=0;
         if(instNo == 128){
             isper = 9;
+            instNo = 0;
         }
         if(this.sequence.getTracks().length <= trackId + 1){
             this.createTrack();
@@ -143,6 +144,7 @@ public class Conductor{
         }
         try{
             ShortMessage programChange = new ShortMessage();
+            System.out.println(instrument);
             programChange.setMessage(
                 ShortMessage.PROGRAM_CHANGE, 0, instrument, 0
             );
