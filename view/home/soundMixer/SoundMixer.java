@@ -69,4 +69,8 @@ public class SoundMixer {
             info.getTrackLine().setIsMute(info.isMute());
         }
     }
+
+    public ArrayList<TrackLine> getLines(){
+        return this.lines;
+    }
 }
