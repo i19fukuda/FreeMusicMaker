@@ -8,7 +8,13 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import view.trackLine.ElectInst;
 import view.trackLine.TrackLine;
 import view.trackLine.mix.Mix;
@@ -40,6 +46,17 @@ public class Controls {
             this.electInstMenubar,
             this.mixButton,
             this.masterVolSlider
+        );
+
+        this.ctrlRoot.setBorder(
+            new Border(
+                new BorderStroke(
+                    Color.BLACK,
+                    BorderStrokeStyle.SOLID,
+                    CornerRadii.EMPTY,
+                    BorderWidths.DEFAULT
+                )
+            )
         );
     }
 
