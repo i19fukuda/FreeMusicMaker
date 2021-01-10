@@ -137,6 +137,7 @@ public class Home {
     public void removeLine(int lineId){
         this.linesVBox.getChildren().remove(lineId);
         this.lines.remove(lineId);
+        this.soundMixer.removeLineInfo(lineId);
     }
 
     public void saveProject(){
