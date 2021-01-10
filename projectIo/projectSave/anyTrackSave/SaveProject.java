@@ -1,6 +1,7 @@
 package projectIo.projectSave.anyTrackSave;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class SaveProject {
         this.lines = lines;
     }
 
-    public void saveAll(String fileName, int tempo){
+    public void saveAll(File file, int tempo){
         ArrayList<String> strings = new ArrayList<>();
         String printString;
 
@@ -88,13 +89,13 @@ public class SaveProject {
                 }
             }
         }
-        printStrings(fileName, strings);
+        printStrings(file, strings);
     }
 
-    public void printStrings(String outFileName, ArrayList<String> strings){
+    public void printStrings(File outFile, ArrayList<String> strings){
         PrintWriter fout = null;
         try{
-            fout = new PrintWriter(new BufferedWriter(new FileWriter(outFileName)));
+            fout = new PrintWriter(new BufferedWriter(new FileWriter(outFile)));
             for(String s : strings){
                 fout.println(s);
             }

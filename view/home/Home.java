@@ -1,5 +1,6 @@
 package view.home;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javafx.event.Event;
@@ -15,6 +16,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import midi.conductor.Conductor;
 import projectIo.projectLoad.anyTrackLoad.LoadProject;
 import projectIo.projectSave.anyTrackSave.SaveProject;
@@ -148,9 +151,17 @@ public class Home {
             );
             alert.showAndWait();
             if(alert.getResult() == ButtonType.OK){
-                String fileName = "Project.txt";
+                //String fileName = "Project.txt";
+                //SaveProject sp = new SaveProject(lines);
+                //sp.saveAll(fileName, this.getTempo());
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("save file");
+                fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("text file", "*.txt")
+                );
+                File file = fileChooser.showSaveDialog(new Stage());
                 SaveProject sp = new SaveProject(lines);
-                sp.saveAll(fileName, this.getTempo());
+                sp.saveAll(file, this.getTempo());
             }
     }
     public void saveEventHandler(Event event){
@@ -158,14 +169,22 @@ public class Home {
     }
 
     public  void loadEventHandler(Event event){
-        String fileName = "Project.txt";
-        LoadProject lp  =new LoadProject(fileName);
+        // String fileName = "Project.txt";
+        // LoadProject lp  =new LoadProject(fileName);
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("load file");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("text file", "*.txt")
+        );
+        File file = fileChooser.showOpenDialog(new Stage());
+
+        LoadProject lp = new LoadProject(file);
 
         this.linesVBox.getChildren().clear();
         this.soundMixer.getLineInfoRoot().getChildren().clear();
 
         ArrayList<TrackLine> linesTmp = lp.loadAll(
-                                            fileName,
                                             lineWidth,
                                             lineHeight
                                         );

@@ -1,6 +1,7 @@
 package projectIo.projectLoad.anyTrackLoad;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
@@ -12,22 +13,22 @@ import view.editSpace.editPane.NoteRect;
 import view.trackLine.TrackLine;
 
 public class LoadProject {
-    private String fileName;
+    private File file;
     private int tempo = 0;
 
-    public LoadProject(String filename){
-        this.fileName = filename;
+    public LoadProject(File file){
+        this.file = file;
     }
 
     public ArrayList<TrackLine> loadAll(
-        String fileName, double lineWidth, double lineHeight
+        double lineWidth, double lineHeight
     ){
         long noteId,noteLength,noteStartTick;
         int trackId,notePich;
         int lineSize,tempo;
         int[] insts;
 
-        ArrayList<String> strings = parseString(this.fileName);
+        ArrayList<String> strings = parseString(this.file);
         // メタ情報を抜き出す
         int tmpI = 1;
         lineSize = Integer.parseInt(
@@ -119,12 +120,12 @@ public class LoadProject {
         return tmpTempo;
     }
 
-    private ArrayList<String> parseString(String fileName){
+    private ArrayList<String> parseString(File file){
         ArrayList<String> tmpStrings = new ArrayList<String>();
 
         BufferedReader fin = null;
         try{
-            fin = new BufferedReader(new FileReader(fileName));
+            fin = new BufferedReader(new FileReader(file));
             String line = fin.readLine();
             while(line != null){
                 tmpStrings.add(line);
