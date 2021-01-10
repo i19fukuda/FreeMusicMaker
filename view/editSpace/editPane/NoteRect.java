@@ -136,6 +136,11 @@ public class NoteRect extends Note{
         }
     }
 
+    public void unElectNote(){
+        this.isElected = false;
+        this.rect.setFill(Color.BLACK);
+    }
+
     public void electNoteMust(){
         this.isElected = true;
         this.rect.setFill(Color.BLUE);

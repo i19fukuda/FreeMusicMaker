@@ -213,6 +213,13 @@ public class EditSpase {
         this.editSpase.getChildren().add(rect);
     }
 
+    // すべてのnoteRectの選択を解除するメソッド
+    private void unElectAllNote(){
+        for(NoteRect noteRict:this.notes){
+            noteRict.unElectNote();
+        }
+    }
+
     // this.editSpaseにある長方形から指定の
     // オブジェクトを削除するメソッド
     public void removeNoteRect(NoteRect noteRect){
@@ -268,6 +275,14 @@ public class EditSpase {
         }
     }
 
+    //クリックされたときのイベントハンドラ
+    private void mouseClickEventHandler(MouseEvent event){
+        //クリックされたらすべてのノートの選択を解除する
+        if(! event.isControlDown()){
+            this.unElectAllNote();
+        }
+    }
+
     public void init(){
         this.notes          = new ArrayList<>();
         this.editSpaseRoot  = new ScrollPane();
@@ -276,6 +291,9 @@ public class EditSpase {
         );
         this.editSpaseRoot.setOnKeyPressed(
             event -> keyEventHandler(event)
+        );
+        this.editSpaseRoot.setOnMouseClicked(
+            event -> mouseClickEventHandler(event)
         );
         this.editAndshowRoot= new GridPane();
         this.editSpase      = new AnchorPane();
