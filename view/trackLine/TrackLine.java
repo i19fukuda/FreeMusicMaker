@@ -28,6 +28,9 @@ public class TrackLine {
     final private int MAX_VOL = 127;
     private double vol;
 
+    private boolean isSolo;
+    private boolean isMute;
+
     public TrackLine(int trackId, double lineHeight, double lineWidth){
 
         this.trackBoxs  = new ArrayList<>();
@@ -157,6 +160,20 @@ public class TrackLine {
     public String getTrackName(){
         String inputString = this.controls.getTrackNameFl().getText();
         return inputString;
+    }
+
+    public void setIsSolo(boolean isSolo){
+        this.isSolo = isSolo;
+    }
+    public boolean isSolo(){
+        return this.isSolo;
+    }
+
+    public void setIsMute(boolean isMute){
+        this.isMute = isMute;
+    }
+    public boolean isMute(){
+        return isMute;
     }
 
 

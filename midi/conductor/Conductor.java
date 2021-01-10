@@ -92,7 +92,7 @@ public class Conductor{
             isper = 9;
             instNo = 0;
         }
-        if(this.sequence.getTracks().length <= trackId + 1){
+        while(this.sequence.getTracks().length <= trackId + 1){
             this.createTrack();
         }
         if(notePich > 127){
@@ -242,14 +242,13 @@ class MyMidiPlayer extends Thread{
             //this.sequencer.setTickPosition(0L);
             System.out.println("sequencer stoped,closed succece");
         } catch (Exception e){
-            this.showErrorDialog(e.getMessage());
+            System.out.println(e.getLocalizedMessage());
             try{
                 this.sequencer.stop();
                 this.sequencer.close();
                 System.out.println("sequencer stoped,closed with error");
 
             } catch (Exception ee){}
-            System.out.println(e.getMessage());
         }
     }
     public void stopPlaying(){

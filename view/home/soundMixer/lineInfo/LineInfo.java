@@ -30,7 +30,7 @@ public class LineInfo {
         this.soloButton = new ToggleButton("S");
         this.soloButton.setToggleGroup(this.groupSoM);
 
-        this.muteButton = new ToggleButton("T");
+        this.muteButton = new ToggleButton("M");
         this.muteButton.setToggleGroup(this.groupSoM);
 
         this.lineInfoRootVB = new VBox();
@@ -62,5 +62,9 @@ public class LineInfo {
 
     public VBox getLineInfoRoot(){
         return this.lineInfoRootVB;
+    }
+
+    public TrackLine getTrackLine(){
+        return this.line;
     }
 }

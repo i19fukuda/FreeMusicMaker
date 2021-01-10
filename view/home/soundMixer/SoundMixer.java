@@ -52,4 +52,21 @@ public class SoundMixer {
     public VBox getSoundMixerRoot(){
         return this.soundMixerRoot;
     }
+    public HBox getLineInfoRoot(){
+        return this.lineInfoRoot;
+    }
+
+    // TrackLineにソロの情報をセットする
+    public void setSoloTrack(){
+        for(LineInfo info:this.lineInfos){
+            info.getTrackLine().setIsSolo(info.isSolo());
+        }
+    }
+
+    // TrackLineにミュートの情報をセットする
+    public void setMuteTrack(){
+        for(LineInfo info:this.lineInfos){
+            info.getTrackLine().setIsMute(info.isMute());
+        }
+    }
 }

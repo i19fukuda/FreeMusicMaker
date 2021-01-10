@@ -115,6 +115,7 @@ public class Home {
     public void addLine(TrackLine line){
         this.lines.add(line);
         this.linesVBox.getChildren().add(line.getLineRoot());
+        this.soundMixer.addLineInfo(line);
     }
 
     public void removeLineEventHandler(MouseEvent event){
@@ -159,6 +160,7 @@ public class Home {
         LoadProject lp  =new LoadProject(fileName);
 
         this.linesVBox.getChildren().clear();
+        this.soundMixer.getLineInfoRoot().getChildren().clear();
 
         ArrayList<TrackLine> linesTmp = lp.loadAll(
                                             fileName,
@@ -194,65 +196,81 @@ public class Home {
         int tempo = this.getTempo();
         this.conductor = new Conductor(tempo);
 
-        int notePich,volume,instNo;
-        long startTick,length;
-        for(int lineNo = 0; lineNo<this.lines.size(); lineNo++){
-            /*
-            System.out.println("trackId = " + lineNo);
-            System.out.println(
-                "inst changed" + this.lines.get(lineNo).getInstNo()
-            );
-            */
+        this.soundMixer.setMuteTrack();
+        this.soundMixer.setSoloTrack();
 
-            for(Note note:lines.get(lineNo).getMixedNotes()){
-                notePich = note.getNotePich();
-                volume = note.getVolum();
-                startTick = note.getNoteStartTick();
-                instNo =  lines.get(lineNo).getInstNo();
-                length = note.getNoteLength();
-                this.setNote(
-                    lineNo,
-                    notePich,
-                    volume,
-                    startTick,
-                    instNo,
-                    length
-                );
+        int volume,instNo;
+
+        //ソロパートのセット
+        if(isSoloInLines()){
+            int soloLineId = -1;
+            for(TrackLine line:this.lines){
+                if(line.isSolo()){
+                    soloLineId = this.lines.indexOf(line);
+                    break;
+                }
             }
-            //0-127のまじの値
-            volume = this.lines.get(lineNo).getMasterVol();
-            for(TrackBox box : lines.get(lineNo).getBoxs()){
-                for(NoteRect note:box.getNotes()){
-                        notePich    = note.getNotePich();
-                        startTick   = note.getNoteStartTick();
-                        length      = note.getNoteLength();
+            if(soloLineId == -1){
+                System.out.println("ソロパートが見つかりません");
+            }
 
-                        //System.out.println(lines.get(lineNo).getTrackId());
+            TrackLine line = lines.get(soloLineId);
+
+            for(TrackBox box:line.getBoxs()){
+                for(Note note:box.getNotes()){
+                    this.setNote(
+                        soloLineId,
+                        line.getInstNo(),
+                        line.getMasterVol(),
+                        note
+                    );
+                }
+            }
+        } else {
+            // muteされていないもの以外のノートを登録
+            for(int lineNo=0; lineNo<this.lines.size(); lineNo++){
+                TrackLine line = lines.get(lineNo);
+                instNo = line.getInstNo();
+
+                if(line.isMute()) continue;
+
+                volume = line.getMasterVol();
+
+                for(Note note:line.getMixedNotes()){
+                    this.setNote(
+                        lineNo,
+                        instNo,
+                        note.getVolum(),
+                        note
+                    );
+                }
+
+                for(TrackBox box : line.getBoxs()){
+                    for(NoteRect note:box.getNotes()){
                         this.setNote(
-                            lines.get(lineNo).getTrackId(),
-                            notePich,
+                            lineNo,
+                            instNo,
                             volume,
-                            startTick,
-                            this.lines.get(lineNo).getInstNo(),
-                            length
-                            );
-                        }
+                            note
+                        );
                     }
-            //System.out.println(conductor.getTrackSize());
+                }
+            }
         }
-        conductor.play(0);
+        this.conductor.play(0);
     }
 
-    private void setNote(
-        int lineNo,
-        int notePich,
-        int volume,
-        long startTick,
-        int instNo,
-        long length
-    ){
-        conductor.setNotes(
-            lineNo,
+    private void setNote(int trackId, int instNo,int volume, Note note){
+        int notePich;
+        long startTick,length;
+        System.out.println("noteVol = " + volume);
+        notePich    = note.getNotePich();
+        startTick   = note.getNoteStartTick();
+        length      = note.getNoteLength();
+
+        //System.out.println(lines.get(lineNo).getTrackId());
+        this.conductor.setNotes(
+            trackId,
             notePich,
             volume,
             startTick,
@@ -285,5 +303,16 @@ public class Home {
                             ButtonType.CLOSE
                             );
         errorDialog.showAndWait();
+    }
+
+    private boolean isSoloInLines(){
+        boolean flag = false;
+        for(TrackLine line:this.lines){
+            if(line.isSolo()){
+                flag = true;
+                break;
+            }
+        }
+        return flag;
     }
 }
