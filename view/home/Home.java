@@ -141,16 +141,17 @@ public class Home {
     }
 
     public void saveProject(){
-        String fileName = "Project.txt";
-        SaveProject sp = new SaveProject(lines);
-        sp.saveAll(fileName, this.getTempo());
-
         Alert alert = new Alert(
             AlertType.INFORMATION,
-            "保存されました",
-            ButtonType.OK
-        );
-        alert.showAndWait();
+            "保存しますか?",
+            ButtonType.CANCEL, ButtonType.OK
+            );
+            alert.showAndWait();
+            if(alert.getResult() == ButtonType.OK){
+                String fileName = "Project.txt";
+                SaveProject sp = new SaveProject(lines);
+                sp.saveAll(fileName, this.getTempo());
+            }
     }
     public void saveEventHandler(Event event){
         this.saveProject();
