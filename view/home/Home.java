@@ -144,27 +144,16 @@ public class Home {
     }
 
     public void saveProject(){
-        Alert alert = new Alert(
-            AlertType.INFORMATION,
-            "保存しますか?",
-            ButtonType.CANCEL, ButtonType.OK
-            );
-            alert.showAndWait();
-            if(alert.getResult() == ButtonType.OK){
-                //String fileName = "Project.txt";
-                //SaveProject sp = new SaveProject(lines);
-                //sp.saveAll(fileName, this.getTempo());
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("save file");
-                fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("text file", "*.txt")
-                );
-                File file = fileChooser.showSaveDialog(new Stage());
-                if(file != null){
-                    SaveProject sp = new SaveProject(lines);
-                    sp.saveAll(file, this.getTempo());
-                }
-            }
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("save file");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("text file", "*.txt")
+        );
+        File file = fileChooser.showSaveDialog(new Stage());
+        if(file != null){
+            SaveProject sp = new SaveProject(lines);
+            sp.saveAll(file, this.getTempo());
+        }
     }
     public void saveEventHandler(Event event){
         this.saveProject();
