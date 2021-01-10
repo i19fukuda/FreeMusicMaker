@@ -160,8 +160,10 @@ public class Home {
                     new FileChooser.ExtensionFilter("text file", "*.txt")
                 );
                 File file = fileChooser.showSaveDialog(new Stage());
-                SaveProject sp = new SaveProject(lines);
-                sp.saveAll(file, this.getTempo());
+                if(file != null){
+                    SaveProject sp = new SaveProject(lines);
+                    sp.saveAll(file, this.getTempo());
+                }
             }
     }
     public void saveEventHandler(Event event){
@@ -169,9 +171,6 @@ public class Home {
     }
 
     public  void loadEventHandler(Event event){
-        // String fileName = "Project.txt";
-        // LoadProject lp  =new LoadProject(fileName);
-
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("load file");
         fileChooser.getExtensionFilters().addAll(
@@ -179,22 +178,24 @@ public class Home {
         );
         File file = fileChooser.showOpenDialog(new Stage());
 
-        LoadProject lp = new LoadProject(file);
+        if(file != null){
+            LoadProject lp = new LoadProject(file);
 
-        this.linesVBox.getChildren().clear();
-        this.soundMixer.getLineInfoRoot().getChildren().clear();
+            this.linesVBox.getChildren().clear();
+            this.soundMixer.getLineInfoRoot().getChildren().clear();
 
-        ArrayList<TrackLine> linesTmp = lp.loadAll(
-                                            lineWidth,
-                                            lineHeight
-                                        );
-        //System.out.println(linesTmp.size());
-        for(TrackLine line:linesTmp){
-            //System.out.println("line added!");
-            this.addLine(line);
+            ArrayList<TrackLine> linesTmp = lp.loadAll(
+                                                lineWidth,
+                                                lineHeight
+                                            );
+            //System.out.println(linesTmp.size());
+            for(TrackLine line:linesTmp){
+                //System.out.println("line added!");
+                this.addLine(line);
+            }
+            this.lines = linesTmp;
+            this.inTenpoFL.setText(Integer.toString(lp.getTempo()));
         }
-        this.lines = linesTmp;
-        this.inTenpoFL.setText(Integer.toString(lp.getTempo()));
     }
 
     private void keyEventHandler(KeyEvent event){
