@@ -14,7 +14,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -28,7 +31,7 @@ import view.trackBox.TrackBox;
 import view.trackLine.TrackLine;
 
 public class Home {
-    private VBox root;
+    private GridPane root;
     private ArrayList<TrackLine> lines;
 
     private double lineHeight   = 40;
@@ -51,7 +54,7 @@ public class Home {
     private SoundMixer soundMixer;
 
     public Home(){
-        this.root       = new VBox();
+        this.root       = new GridPane();
         this.lines      = new ArrayList<>();
         this.ctrlRoot   = new HBox();
         this.inTenpoFL  = new TextField("120");
@@ -96,8 +99,23 @@ public class Home {
 
         this.soundMixer = new SoundMixer(this.lines);
 
+
+        GridPane.setConstraints(this.ctrlRoot, 0, 0);
+        GridPane.setConstraints(this.lineRoot, 0, 1);
+        GridPane.setConstraints(this.soundMixer.getSoundMixerRoot(), 0, 2);
+        RowConstraints row0 = new RowConstraints();
+        row0.setPrefHeight(100);
+        RowConstraints row1 = new RowConstraints(100,5000,Double.MAX_VALUE);
+        row1.setVgrow(Priority.ALWAYS);
+        RowConstraints row2 = new RowConstraints();
+        row2.setPrefHeight(100);
+
+        this.root.getRowConstraints().addAll(row0,row1,row2);
+
         this.root.getChildren().addAll(
-            this.ctrlRoot, this.lineRoot, soundMixer.getSoundMixerRoot()
+            this.ctrlRoot,
+            this.lineRoot,
+            this.soundMixer.getSoundMixerRoot()
         );
         this.root.setOnKeyPressed(
             event -> keyEventHandler(event)
@@ -197,7 +215,7 @@ public class Home {
         }
     }
 
-    public VBox getHomeRoot(){
+    public GridPane getHomeRoot(){
         return this.root;
     }
 
