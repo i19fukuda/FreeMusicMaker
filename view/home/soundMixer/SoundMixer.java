@@ -14,7 +14,6 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import view.home.soundMixer.lineInfo.LineInfo;
 import view.trackLine.TrackLine;
@@ -110,25 +109,9 @@ public class SoundMixer {
         return this.lines;
     }
 
-    public void removeLineInfo(int trackId){
-        TrackLine targetLine;
-        LineInfo targetInfo;
-        remove: for(TrackLine line:this.lines){
-            if(line.getTrackId() == trackId){
-                targetLine = line;
-                this.lines.remove(line);
-                for(LineInfo info:this.lineInfos){
-                    if(info.getTrackLine() == targetLine){
-                        targetInfo = info;
-
-                        this.lineInfoRoot.getChildren().remove(
-                            targetInfo.getLineInfoRoot()
-                        );
-
-                        break remove;
-                    }
-                }
-            }
-        }
+    public void removeLineInfo(TrackLine line, int indexOf){
+        this.lines.remove(line);
+        this.lineInfoRoot.getChildren().remove(indexOf);
+        this.lines.remove(indexOf);
     }
 }

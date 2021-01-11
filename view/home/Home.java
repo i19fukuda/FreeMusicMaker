@@ -44,6 +44,9 @@ public class Home {
     private double lineHeight   = 40;
     private double lineWidth    = 6000;
 
+    // 累計のトラックライン
+    private int trackLineSize = 0;
+
     // いろいろ表示するところ
     private HBox ctrlRoot;
     private TextField inTenpoFL;
@@ -178,17 +181,19 @@ public class Home {
     }
 
     public void addLineHandler(MouseEvent event){
-        int lineId = this.lines.size();
+        int lineId = this.trackLineSize;
         addLine(lineId, lineHeight, lineWidth);
     }
 
     public void addLine(int trackId,double lineHeight,double lineWidth){
+        this.trackLineSize += 1;
         TrackLine line = new TrackLine(trackId, lineHeight, lineWidth);
         this.lines.add(line);
         this.linesVBox.getChildren().add(line.getLineRoot());
         this.soundMixer.addLineInfo(line);
     }
     public void addLine(TrackLine line){
+        this.trackLineSize += 1;
         this.lines.add(line);
         this.linesVBox.getChildren().add(line.getLineRoot());
         this.soundMixer.addLineInfo(line);
@@ -204,16 +209,33 @@ public class Home {
             lineNo = Integer.parseInt(
                         inputDialog.getEditor().getText()
             );
-            this.removeLine(lineNo);
+            // 何番目のラインなのかを判断し削除
+            int indexOfTargetTrackLine;
+            for(TrackLine tmpLine:this.lines){
+                if(tmpLine.getTrackId() == lineNo){
+                    indexOfTargetTrackLine = linesVBox
+                        .getChildren()
+                        .indexOf(
+                        tmpLine.getLineRoot()
+                    );
+                    this.removeLine(tmpLine, indexOfTargetTrackLine);
+                    break;
+                }
+            }
         } catch (NumberFormatException e){
             System.out.println(e.getMessage());
         }
     }
 
-    public void removeLine(int lineId){
-        this.linesVBox.getChildren().remove(lineId);
-        this.lines.remove(lineId);
-        this.soundMixer.removeLineInfo(lineId);
+    public void removeLine(TrackLine trackLine, int indexNo){
+        //this.linesVBox.getChildren().remove(lineId);
+        //TrackLine targetLine = trackLine;
+        this.lines.remove(trackLine);
+        this.linesVBox.getChildren().remove(indexNo);
+        this.soundMixer.removeLineInfo(trackLine, indexNo);
+
+        // this.lines.remove(lineId);
+        // this.soundMixer.removeLineInfo(l);
     }
 
     public void saveProject(){
@@ -233,6 +255,7 @@ public class Home {
     }
 
     public  void loadEventHandler(Event event){
+        this.trackLineSize = 0;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("load file");
         fileChooser.getExtensionFilters().addAll(
