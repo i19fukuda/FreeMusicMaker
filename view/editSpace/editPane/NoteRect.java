@@ -49,11 +49,11 @@ public class NoteRect extends Note{
         //System.out.println("まじのnoteStartTick=" + this.noteStartTick);
 
         this.rect = new Rectangle();
-        this.rect.setFill(Color.BLACK);
+        this.rect.setFill(Color.MAGENTA);
         this.rect.setStroke(Color.RED);
         this.rect.setHeight(this.rectHeight);
         this.rect.setWidth(this.rectWidth - 2);
-        this.rect.setOpacity(0.7);
+        this.rect.setOpacity(0.5);
 
         this.rect.setOnMouseClicked(
             event -> clickEventHandler(event)
@@ -132,13 +132,13 @@ public class NoteRect extends Note{
         if(isElected){
             this.rect.setFill(Color.BLUE);
         } else{
-            this.rect.setFill(Color.BLACK);
+            this.rect.setFill(Color.MAGENTA);
         }
     }
 
     public void unElectNote(){
         this.isElected = false;
-        this.rect.setFill(Color.BLACK);
+        this.rect.setFill(Color.MAGENTA);
     }
 
     public void electNoteMust(){
