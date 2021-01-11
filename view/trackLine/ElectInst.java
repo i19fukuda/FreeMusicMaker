@@ -1,14 +1,21 @@
 package view.trackLine;
 
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 
 public class ElectInst {
-    MenuBar menubar;
-    Menu rootM;
+    private MenuBar menubar;
+    private Menu rootM;
+
+    private Background blackBackground;
 
     final private int[][] MENU_INST_RANGES = {
         {0   ,7},
@@ -61,9 +68,18 @@ public class ElectInst {
     private Menu[] menus = new Menu[INST_BROCK_SIZE];
     // Ensemble
     public ElectInst(){
+        this.blackBackground = new Background(
+            new BackgroundFill(
+                Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY
+            )
+        );
+
         this.menubar = new MenuBar();
+        this.menubar.setBackground(this.blackBackground);
+
         this.menubar.setMaxWidth(400);
         this.groupElect = new ToggleGroup();
+
         this.rootM = new Menu("inst");
 
         initMenus();

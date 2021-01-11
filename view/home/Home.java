@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javafx.event.Event;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -16,11 +17,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import midi.conductor.Conductor;
@@ -55,10 +60,22 @@ public class Home {
     //ソロとかミュートとか
     private SoundMixer soundMixer;
 
+    // 背景
+    private Background blacBackground;
+
     public Home(){
+        this.blacBackground = new Background(
+            new BackgroundFill(
+                Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)
+        );
+
         this.root       = new GridPane();
+        this.root.setBackground(this.blacBackground);
+
         this.lines      = new ArrayList<>();
+
         this.ctrlRoot   = new HBox();
+
         this.inTenpoFL  = new TextField("120");
 
         this.soundMixer = new SoundMixer(this.lines);
@@ -114,8 +131,12 @@ public class Home {
         );
         
         this.linesVBox  = new VBox();
+        VBox.setVgrow(this.linesVBox, Priority.ALWAYS);
+        this.linesVBox.setPrefHeight(2000);
+        this.linesVBox.setBackground(this.blacBackground);
+
         this.lineRoot   = new ScrollPane();
-        this.lineRoot.prefHeight(Double.MAX_VALUE);
+        this.lineRoot.setBackground(this.blacBackground);
 
         this.ctrlRoot.getChildren().addAll(
             this.playButton,
@@ -153,6 +174,7 @@ public class Home {
         this.root.setOnKeyPressed(
             event -> keyEventHandler(event)
         );
+        this.root.setBackground(this.blacBackground);
     }
 
     public void addLineHandler(MouseEvent event){

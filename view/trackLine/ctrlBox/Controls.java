@@ -1,6 +1,7 @@
 package view.trackLine.ctrlBox;
 
 import javafx.event.Event;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -8,7 +9,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import view.trackLine.ElectInst;
 import view.trackLine.TrackLine;
 import view.trackLine.mix.Mix;
@@ -26,7 +31,15 @@ public class Controls {
     Slider masterVolSlider;
     MenuBar electInstMenubar;
 
+    Background blackBackground;
+
     public Controls(TrackLine trackLine){
+        this.blackBackground = new Background(
+            new BackgroundFill(
+                Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY
+            )
+        );
+
         this.trackLine =  trackLine;
         this.ctrlRoot = new VBox();
 
@@ -50,6 +63,7 @@ public class Controls {
     private void createMixButton(){
         this.mix = new Mix(this.trackLine);
         this.mixButton = new Button("Mix");
+        this.mixButton.setBackground(this.blackBackground);
         this.mixButton.setOnMouseClicked(
             event -> mix.showMixer()
         );
@@ -63,10 +77,11 @@ public class Controls {
 
     private void createTrackNameFl(){
         this.trackNameFl = new TextField(
-                            Integer.toString(
+                                Integer.toString(
                                 this.trackLine.getTrackId()
-                            )
+                                )
                             );
+        this.trackNameFl.setBackground(this.blackBackground);
     }
     public TextField getTrackNameFl(){
         return this.trackNameFl;

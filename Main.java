@@ -1,9 +1,14 @@
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import view.home.Home;
 
@@ -34,6 +39,7 @@ public class Main extends Application{
 
 
         Scene scene = new Scene(root);
+        scene.setFill(Color.BLACK);
         stage.setScene(scene);
         stage.show();
     }

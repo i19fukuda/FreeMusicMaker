@@ -1,9 +1,18 @@
 package view.home.soundMixer.lineInfo;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import view.trackLine.TrackLine;
 
 public class LineInfo {
@@ -19,7 +28,15 @@ public class LineInfo {
 
     private ToggleGroup groupSoM;
 
+    private Background blackBackground;
+
     public LineInfo(TrackLine line){
+        this.blackBackground = new Background(
+            new BackgroundFill(
+                Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY
+            )
+        );
+
         this.line = line;
 
 
@@ -28,12 +45,26 @@ public class LineInfo {
 
 
         this.soloButton = new ToggleButton("S");
+        this.soloButton.setBackground(this.blackBackground);
         this.soloButton.setToggleGroup(this.groupSoM);
 
         this.muteButton = new ToggleButton("M");
+        this.muteButton.setBackground(this.blackBackground);
         this.muteButton.setToggleGroup(this.groupSoM);
 
         this.lineInfoRootVB = new VBox();
+        this.lineInfoRootVB.setBorder(
+            new Border(
+                new BorderStroke(
+                    Color.RED,
+                    BorderStrokeStyle.SOLID,
+                    CornerRadii.EMPTY,
+                    BorderWidths.DEFAULT
+                    )
+            )
+        );
+        this.lineInfoRootVB.setBackground(this.blackBackground);
+
         this.soloAndMuteVB = new VBox();
 
         this.groupSoM = new ToggleGroup();
