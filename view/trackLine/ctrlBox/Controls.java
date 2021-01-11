@@ -47,17 +47,6 @@ public class Controls {
             this.mixButton,
             this.masterVolSlider
         );
-
-        this.ctrlRoot.setBorder(
-            new Border(
-                new BorderStroke(
-                    Color.BLACK,
-                    BorderStrokeStyle.SOLID,
-                    CornerRadii.EMPTY,
-                    BorderWidths.DEFAULT
-                )
-            )
-        );
     }
 
     public VBox getctrlBoxRoot(){

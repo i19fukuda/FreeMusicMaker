@@ -7,7 +7,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import view.editSpace.editPane.Note;
 import view.trackBox.TrackBox;
@@ -37,6 +43,16 @@ public class TrackLine {
         this.trackBoxs.add(new TrackBox(50, 0,1000));
 
         this.lineRoot   = new AnchorPane();
+        this.lineRoot.setBorder(
+            new Border(
+                new BorderStroke(
+                    Color.BLACK,
+                    BorderStrokeStyle.SOLID,
+                    CornerRadii.EMPTY,
+                    BorderWidths.DEFAULT
+                )
+            )
+        );
 
         this.trackId    = trackId;
         this.lineHeight = lineHeight;
