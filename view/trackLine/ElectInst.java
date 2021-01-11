@@ -62,6 +62,7 @@ public class ElectInst {
     // Ensemble
     public ElectInst(){
         this.menubar = new MenuBar();
+        this.menubar.setMaxWidth(400);
         this.groupElect = new ToggleGroup();
         this.rootM = new Menu("inst");
 

@@ -77,6 +77,7 @@ public class Controls {
         this.masterVolSlider.setMin(0);
         this.masterVolSlider.setMax(100);
         this.masterVolSlider.setValue(100);
+        this.masterVolSlider.setMinWidth(400);
         this.masterVolSlider.setShowTickLabels(true);
         this.masterVolSlider.setShowTickMarks(true);
         this.masterVolSlider.setOnMouseReleased(
