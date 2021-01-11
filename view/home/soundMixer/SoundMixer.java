@@ -2,9 +2,9 @@ package view.home.soundMixer;
 
 import java.util.ArrayList;
 
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import view.home.soundMixer.lineInfo.LineInfo;
 import view.trackLine.TrackLine;
 
@@ -14,7 +14,7 @@ public class SoundMixer {
 
     private ArrayList<LineInfo> lineInfos;
 
-    private VBox soundMixerRoot;
+    private ScrollPane soundMixerRoot;
     private HBox lineInfoRoot;
 
     ToggleGroup groupSolo;
@@ -23,7 +23,9 @@ public class SoundMixer {
         this.lines = lines;
         this.lineInfos = new ArrayList<>();
         this.lineInfoRoot = new HBox();
-        this.soundMixerRoot = new VBox();
+        
+        this.soundMixerRoot = new ScrollPane();
+        this.soundMixerRoot.setMinHeight(100);
 
 
         for(TrackLine line:lines){
@@ -36,7 +38,7 @@ public class SoundMixer {
             );
         }
 
-        this.soundMixerRoot.getChildren().add(
+        this.soundMixerRoot.setContent(
             this.lineInfoRoot
         );
     }
@@ -49,7 +51,7 @@ public class SoundMixer {
         );
     }
 
-    public VBox getSoundMixerRoot(){
+    public ScrollPane getSoundMixerRoot(){
         return this.soundMixerRoot;
     }
     public HBox getLineInfoRoot(){
