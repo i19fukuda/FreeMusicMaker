@@ -11,6 +11,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -62,20 +64,51 @@ public class Home {
         this.soundMixer = new SoundMixer(this.lines);
 
         this.playButton = new Button("play");
+        Image playImage = new Image(
+            getClass().getResourceAsStream("../../image/play_button.png")
+        );
+        ImageView playImageView = new ImageView(playImage);
+        playImageView.setFitWidth(15);
+        playImageView.setFitHeight(15);
+        this.playButton.setGraphic(playImageView);
         this.playButton.setOnMouseClicked(
             event ->playEventHandler(event)
         );
 
+
         this.stopButton = new Button("stop");
+        Image stopImage = new Image(
+            getClass().getResourceAsStream("../../image/stop_button.png")
+        );
+        ImageView stopImageView = new ImageView(stopImage);
+        stopImageView.setFitWidth(15);
+        stopImageView.setFitHeight(15);
+        this.stopButton.setGraphic(stopImageView);
         this.stopButton.setOnMouseClicked(
             event -> stopEventHandler(event)
         );
 
         this.addLineButton = new Button(" addLine ");
+        Image addLineImage = new Image(
+            getClass().getResourceAsStream("../../image/plus.png")
+        );
+        ImageView addLineImageView = new ImageView(addLineImage);
+        addLineImageView.setFitWidth(15);
+        addLineImageView.setFitHeight(15);
+        this.addLineButton.setGraphic(addLineImageView);
         this.addLineButton.setOnMouseClicked(
             event -> addLineHandler(event)
         );
+
+
         this.removeLineButton = new Button(" remove Line ");
+        Image removeLineImage = new Image(
+            getClass().getResourceAsStream("../../image/minus.png")
+        );
+        ImageView removeLineImageView = new ImageView(removeLineImage);
+        removeLineImageView.setFitWidth(15);
+        removeLineImageView.setFitHeight(15);
+        this.removeLineButton.setGraphic(removeLineImageView);
         this.removeLineButton.setOnMouseClicked(
             event -> removeLineEventHandler(event)
         );
