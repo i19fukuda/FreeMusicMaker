@@ -370,7 +370,7 @@ public class Home {
     private void setNote(int trackId, int instNo,int volume, Note note){
         int notePich;
         long startTick,length;
-        System.out.println("noteVol = " + volume);
+        //System.out.println("noteVol = " + volume);
         notePich    = note.getNotePich();
         startTick   = note.getNoteStartTick();
         length      = note.getNoteLength();
