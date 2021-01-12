@@ -60,9 +60,11 @@ public class SoundMixer {
         HBox.setHgrow(this.soundMixerRoot, Priority.ALWAYS);
         this.soundMixerRoot.setPrefWidth(2000);
 
+        this.groupSolo = new ToggleGroup();
+
 
         for(TrackLine line:lines){
-            LineInfo lineInfo = new LineInfo(line);
+            LineInfo lineInfo = new LineInfo(line, this.groupSolo);
             this.lineInfos.add(
                 lineInfo
             );
@@ -77,7 +79,7 @@ public class SoundMixer {
     }
 
     public void addLineInfo(TrackLine line){
-        LineInfo lineInfo = new LineInfo(line);
+        LineInfo lineInfo = new LineInfo(line, this.groupSolo);
         this.lineInfos.add(lineInfo);
         this.lineInfoRoot.getChildren().add(
             lineInfo.getLineInfoRoot()

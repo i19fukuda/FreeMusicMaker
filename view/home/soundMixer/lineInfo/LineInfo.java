@@ -26,14 +26,15 @@ public class LineInfo {
     private ToggleButton soloButton;
     private ToggleButton muteButton;
 
+    private ToggleGroup groupSolo;
     private ToggleGroup groupSoM;
 
     private Background blackBackground;
 
-    public LineInfo(TrackLine line){
+    public LineInfo(TrackLine line, ToggleGroup soloGroup){
         this.blackBackground = new Background(
             new BackgroundFill(
-                Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY
+                Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY
             )
         );
 
@@ -43,13 +44,14 @@ public class LineInfo {
         String trackName = line.getTrackName();
         this.trackNameLb = new Label(trackName);
 
+        this.groupSolo = soloGroup;
 
         this.soloButton = new ToggleButton("S");
-        this.soloButton.setBackground(this.blackBackground);
-        this.soloButton.setToggleGroup(this.groupSoM);
+        //this.soloButton.setBackground(this.blackBackground);
+        this.soloButton.setToggleGroup(this.groupSolo);
 
         this.muteButton = new ToggleButton("M");
-        this.muteButton.setBackground(this.blackBackground);
+        //this.muteButton.setBackground(this.blackBackground);
         this.muteButton.setToggleGroup(this.groupSoM);
 
         this.lineInfoRootVB = new VBox();
