@@ -41,7 +41,7 @@ public class Home {
     private GridPane root;
     private ArrayList<TrackLine> lines;
 
-    private double lineHeight   = 40;
+    private double lineHeight   = 100;
     private double lineWidth    = 6000;
 
     // 累計のトラックライン

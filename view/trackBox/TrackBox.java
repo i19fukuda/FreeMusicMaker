@@ -14,61 +14,16 @@ public class TrackBox {
 
     private EditSpase editSpase;
 
-    private int widthRate;
-
     private double boxHeight;
     private double boxWidth;
 
-    // tickはまじの値
-    // 倍率とか無視
-    private double startTick;
-    private double endTick;
-
     private ArrayList<NoteRect> notes;
-    // notesが存在する場合
-    public TrackBox(double height,ArrayList<NoteRect> notes,int widthRate){
-        this.boxHeight = height;
-        this.notes = notes;
 
-        double tmpStartTick =   notes.get(0).getNoteStartTick();
-        double tmpEndTick   =   tmpStartTick
-                                + notes.get(0).getNoteLength();
-        for(NoteRect note : notes){
-            tmpStartTick = Math.min(
-                tmpStartTick, note.getNoteStartTick()
-            );
-            tmpEndTick = Math.max(
-                tmpEndTick, note.getNoteStartTick()
-                + note.getNoteLength()
-            );
-        }
-        this.startTick  =   tmpStartTick;
-        this.endTick    =   tmpEndTick;
-
-        this.boxWidth = (
-                this.endTick - this.startTick
-                ) * this.widthRate;
-
-        createRect(this.boxWidth, this.boxHeight);
-    }
-    // notesがない場合
     public TrackBox(double height, double startTck, double width){
         this.editSpase  = new EditSpase();
         this.notes      = this.editSpase.getNotes();
         this.boxHeight  = height;
         this.boxWidth   = width;
-        this.startTick  = startTck;
-        this.endTick    = startTck + width;
-        createRect(this.boxWidth, this.boxHeight);
-    }
-    // 最大幅で初期化する場合
-    public TrackBox(double height, double startTick){
-        this.editSpase  = new EditSpase();
-        this.notes      = this.editSpase.getNotes();
-        this.boxHeight  = height;
-        this.boxWidth   = Double.MAX_VALUE;
-        this.startTick  = startTick;
-        this.endTick    = startTick + Double.MAX_VALUE;
         createRect(this.boxWidth, this.boxHeight);
     }
 
