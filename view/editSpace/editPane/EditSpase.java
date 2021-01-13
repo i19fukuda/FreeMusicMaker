@@ -324,10 +324,10 @@ public class EditSpase {
                         + ","
                         + Long.toString(length)
                         + ","
-                        + Integer.toString(notePich - tmpNotePich)
+                        + Integer.toString(tmpNotePich - notePich)
                         + "\n";
             startTick = tmpStartTick;
-            tmpNotePich = notePich;
+            notePich = tmpNotePich;
 
             content.putString(pushWord);
             clipboard.setContent(content);
