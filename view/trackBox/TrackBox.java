@@ -2,6 +2,7 @@ package view.trackBox;
 
 import java.util.ArrayList;
 
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -37,6 +38,11 @@ public class TrackBox {
         this.trackBoxRect.setOnMouseClicked(
             event -> rectClickEventHandler(event)
         );
+
+        Tooltip toolTip = new Tooltip();
+        toolTip.setText("クリックしてエディターを開く");
+
+        Tooltip.install(this.trackBoxRect, toolTip);
     }
 
     public void rectClickEventHandler(MouseEvent event){
