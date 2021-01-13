@@ -60,6 +60,7 @@ public class EditSpase {
 
     //
     private Background blackBackGround;
+    private Background whiteBackGround;
 
     // 補助線，マウスに沿って移動
     private Line xSupportLine;
@@ -104,6 +105,8 @@ public class EditSpase {
         this.ySupportLine.setStartX(mouseX);
         this.ySupportLine.setEndY(this.maxRootHeight);
         this.ySupportLine.setEndX(mouseX);
+
+        this.scrollEventHandler();
     }
 
     public void setNoteRect(MouseEvent event){
@@ -265,6 +268,9 @@ public class EditSpase {
     }
 
     private void scrollEventHandler(ScrollEvent event){
+        this.scrollEventHandler();
+    }
+    private void scrollEventHandler(){
         double dx, dy;
         dx = this.editSpaseRoot.getHvalue();
         dy = this.editSpaseRoot.getVvalue();
@@ -393,6 +399,11 @@ public class EditSpase {
                 Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY
             )
         );
+        this.whiteBackGround = new Background(
+            new BackgroundFill(
+                Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY
+            )
+        );
 
         this.notes          = new ArrayList<>();
 
@@ -489,13 +500,13 @@ public class EditSpase {
         int yPoint;
         for(
             int yPointU = 0;
-            yPointU < this.maxRootHeight;
+            yPointU <= this.maxRootHeight;
             yPointU += this.QUAETER_NOTE_HEIGHT
         ){
             yPoint = this.maxRootHeight - yPointU;
             Line tmpLine = new Line(
-                0, yPointU,
-                this.maxRootWidth, yPointU
+                0, yPointU + this.QUAETER_NOTE_HEIGHT,
+                this.maxRootWidth, yPointU + this.QUAETER_NOTE_HEIGHT
             );
             tmpLine.setStroke(Color.WHITE);
             tmpLine.setStrokeWidth(0.5);
@@ -509,40 +520,52 @@ public class EditSpase {
             }
             if(yPoint % (this.QUAETER_NOTE_HEIGHT * 12) == 0){
                 tmpLine.setStroke(Color.GREEN);
-                tmpLine.setOpacity(0.7);
+                tmpLine.setOpacity(0.9);
             }
             yLine.add(tmpLine);
 
             Label tmpLabel = new Label(
                 Integer.toString(yPointU / this.QUAETER_NOTE_HEIGHT)
             );
-            if((yPointU / this.QUAETER_NOTE_HEIGHT) % 12 == 0){
+            int tmpNoteIn12 = (yPointU / this.QUAETER_NOTE_HEIGHT) % 12;
+            if(tmpNoteIn12 == 0){
                 tmpLabel.setText(
                     "C" + (yPointU / this.QUAETER_NOTE_HEIGHT) / 12
                 );
+                tmpLabel.setBackground(this.whiteBackGround);
                 tmpLine.setOpacity(0.7);
-
             }
-            if((yPointU / this.QUAETER_NOTE_HEIGHT) % 12 == 4){
+            if(tmpNoteIn12 % 12 == 4){
                 tmpLabel.setText(
                     "E" + (yPointU / this.QUAETER_NOTE_HEIGHT) / 12
                 );
                 tmpLine.setOpacity(0.7);
 
             }
-            if((yPointU / this.QUAETER_NOTE_HEIGHT) % 12 == 7){
+            if(tmpNoteIn12 % 12 == 7){
                 tmpLabel.setText(
                     "G" + (yPointU / this.QUAETER_NOTE_HEIGHT) / 12
                 );
                 tmpLine.setOpacity(0.7);
             }
-            tmpLabel.setText(String.format("%3s",tmpLabel.getText()));
+            if(
+                    tmpNoteIn12 == 0
+                ||  tmpNoteIn12 == 2
+                ||  tmpNoteIn12 == 4
+                ||  tmpNoteIn12 == 5
+                ||  tmpNoteIn12 == 7
+                ||  tmpNoteIn12 == 9
+                ||  tmpNoteIn12 == 11){
+                    tmpLabel.setBackground(this.whiteBackGround);
+                } else tmpLabel.setBackground(this.blackBackGround);
+            tmpLabel.setText(String.format("%5s",tmpLabel.getText()));
 
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
             // System.out.println(yPoint);
             AnchorPane.setLeftAnchor(tmpLabel,0.0);
             tmpLabel.setMinWidth(100);
             tmpLabel.setBorder(border);
+            tmpLabel.setTextFill(Color.MAGENTA);
             yLabel.add(tmpLabel);
         }
 
@@ -561,6 +584,7 @@ public class EditSpase {
         }
         this.pichSupportSp.setContent(this.pichCheckSpase);
         this.pichSupportSp.setVbarPolicy(ScrollBarPolicy.NEVER);
+        this.pichSupportSp.setMinWidth(100);
 
         this.quaeterChSp.setContent(this.quaeterCkSpase);
         this.quaeterChSp.setHbarPolicy(ScrollBarPolicy.NEVER);
