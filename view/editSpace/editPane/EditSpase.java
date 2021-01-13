@@ -337,6 +337,7 @@ public class EditSpase {
 
     private void pasetNote(){
         Clipboard clipboard = Clipboard.getSystemClipboard();
+        ArrayList<String> inputStrings = new ArrayList<>();
 
         double x = this.mouseX;
         double y = this.mouseY;
