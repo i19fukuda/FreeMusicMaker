@@ -32,7 +32,7 @@ import midi.conductor.Conductor;
 import view.trackLine.TrackLine;
 
 public class EditSpase {
-    Stage editStage = new Stage();
+    Stage editStage;
 
     private TrackLine rootLine;
 
@@ -423,6 +423,11 @@ public class EditSpase {
     }
 
     public void init(TrackLine rootLine){
+        this.editStage = new Stage();
+        this.editStage.setTitle("editor");
+        this.editStage.setWidth(1900);
+        this.editStage.setHeight(1040);
+
         this.rootLine = rootLine;
 
         this.blackBackGround = new Background(

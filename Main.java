@@ -22,6 +22,7 @@ public class Main extends Application{
     public void start(Stage stage){
         stage.setWidth(1900);
         stage.setHeight(1040);
+        stage.setTitle("FreeMusicMaker");
 
         this.home = new Home();
         this.root = new VBox();
