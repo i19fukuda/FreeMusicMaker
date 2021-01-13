@@ -23,7 +23,7 @@ public class TrackBox {
 
     public TrackBox(TrackLine rootLine ,double height, double startTck, double width){
         this.rootLine = rootLine;
-        this.editSpase  = new EditSpase(rootLine);
+        this.editSpase  = new EditSpase(this.rootLine);
         this.notes      = this.editSpase.getNotes();
         this.boxHeight  = height;
         this.boxWidth   = width;
