@@ -3,16 +3,18 @@ package view.trackLine.mix;
 
 import java.util.ArrayList;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import view.editSpace.editPane.Note;
 import view.editSpace.editPane.NoteRect;
@@ -32,12 +34,23 @@ public class Mix {
 
     double[] volums;
 
+    private Background blackBackGround;
+
 
     public Mix(TrackLine line){
         this.notes = new ArrayList<>();
         this.line = line;
 
+        this.blackBackGround = new Background(
+            new BackgroundFill(
+                Color.GRAY,
+                CornerRadii.EMPTY,
+                Insets.EMPTY
+            )
+        );
+
         this.ocRootHB = new VBox();
+        this.ocRootHB.setBackground(this.blackBackGround);
         this.stage = new Stage();
         this.stage.setTitle("Mix");
         this.stage.setWidth(800);
@@ -74,7 +87,7 @@ public class Mix {
         for(int i=0; i< this.intputSliders.length; i++){
             double vol;
             vol = this.intputSliders[i].getValue();
-            if(vol>=100){
+            if(vol>100){
                 this.showErrorDialog("Mix setNotes : out of range : " + vol);
             }
 
