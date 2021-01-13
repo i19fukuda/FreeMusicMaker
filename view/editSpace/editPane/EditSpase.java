@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -311,7 +312,7 @@ public class EditSpase {
 
     private void quickPlayEvent(MouseEvent event, int notePich){
         Conductor conductor = new Conductor(120);
-        
+
         int instNo,volume;
         long startTick,length;
 
@@ -455,9 +456,15 @@ public class EditSpase {
 
         this.editSpase      = new AnchorPane();
         this.editSpase.setBackground(this.blackBackGround);
+        Tooltip editSpaseTP = new Tooltip();
+        editSpaseTP.setText("ダブルクリックで入力");
+        Tooltip.install(this.editSpase, editSpaseTP);
 
         this.pichSupportSp  = new ScrollPane();
         this.pichSupportSp.setBackground(this.blackBackGround);
+        Tooltip pichSupportTP = new Tooltip();
+        pichSupportTP.setText("クリックで聞く");
+        Tooltip.install(this.pichSupportSp, pichSupportTP);
 
         this.pichCheckSpase = new AnchorPane();
         this.pichCheckSpase.setBackground(this.blackBackGround);
