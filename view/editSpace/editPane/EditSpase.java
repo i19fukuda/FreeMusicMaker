@@ -2,19 +2,14 @@ package view.editSpace.editPane;
 
 import java.util.ArrayList;
 
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -55,9 +50,6 @@ public class EditSpase {
     private AnchorPane pichCheckSpase;
     private ScrollPane quaeterChSp;
     private AnchorPane quaeterCkSpase;
-
-    //
-    private Background blackBackGround;
 
     // 補助線，マウスに沿って移動
     private Line xSupportLine;
@@ -119,12 +111,9 @@ public class EditSpase {
         x = x - (x % this.quantize);
         y = y - (y % QUAETER_NOTE_HEIGHT);
 
-        double iy = y / QUAETER_NOTE_HEIGHT;
+        //System.out.println("x=" + x + " y=" + y);
 
-        // System.out.println("x=" + x + " y=" + y);
-
-        // yはノートの上の値なので下に補正するために(-1)をする
-        int  notePich       = 127 - (int) iy - 1;
+        int  notePich       = (int)y / QUAETER_NOTE_HEIGHT;
         long noteLength     = defNoteLen / BAR_WIDTH_RATE;
         long noteStartTick  = (long) x / BAR_WIDTH_RATE;
 
@@ -189,7 +178,7 @@ public class EditSpase {
             notePich = note.getNotePich();
             noteStartTick = note.getNoteStartTick();
             x = noteStartTick * BAR_WIDTH_RATE;
-            y = (127 - notePich) * QUAETER_NOTE_HEIGHT;
+            y = notePich * QUAETER_NOTE_HEIGHT;
             this.setRect(note.getRect(), x, y);
             note.setNoteLength(note.getNoteLength());
             this.notes.add(note);
@@ -205,7 +194,7 @@ public class EditSpase {
             notePich = note.getNotePich();
             noteStartTick = note.getNoteStartTick();
             x = noteStartTick * BAR_WIDTH_RATE;
-            y = (127 - notePich - 1) * QUAETER_NOTE_HEIGHT;
+            y = notePich * QUAETER_NOTE_HEIGHT;
             note.setNoteLength(note.getNoteLength());
             this.setRect(note.getRect(), x, y);
         }
@@ -217,13 +206,6 @@ public class EditSpase {
         AnchorPane.setLeftAnchor(rect, x);
         AnchorPane.setTopAnchor(rect, y);
         this.editSpase.getChildren().add(rect);
-    }
-
-    // すべてのnoteRectの選択を解除するメソッド
-    private void unElectAllNote(){
-        for(NoteRect noteRict:this.notes){
-            noteRict.unElectNote();
-        }
     }
 
     // this.editSpaseにある長方形から指定の
@@ -270,65 +252,17 @@ public class EditSpase {
         this.quaeterChSp.setHvalue(dx);
     }
 
-    private void keyEventHandler(KeyEvent event){
-        KeyCode inputCode = event.getCode();
-        if(event.isControlDown()){
-            if(inputCode == KeyCode.A){
-                for(NoteRect note:this.notes){
-                    note.electNoteMust();
-                }
-            }
-        }
-    }
-
-    //クリックされたときのイベントハンドラ
-    private void mouseClickEventHandler(MouseEvent event){
-        //クリックされたらすべてのノートの選択を解除する
-        if(! event.isControlDown()){
-            this.unElectAllNote();
-        }
-    }
-
     public void init(){
-        this.blackBackGround = new Background(
-            new BackgroundFill(
-                Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY
-            )
-        );
-
         this.notes          = new ArrayList<>();
-
         this.editSpaseRoot  = new ScrollPane();
-        this.editSpaseRoot.setBackground(this.blackBackGround);
-        this.editSpaseRoot.setOnScroll(
-            event -> scrollEventHandler(event)
-        );
-
-        this.editSpaseRoot.setOnKeyPressed(
-            event -> keyEventHandler(event)
-        );
-        this.editSpaseRoot.setOnMouseClicked(
-            event -> mouseClickEventHandler(event)
-        );
-
+        this.editSpaseRoot.setOnScroll(event -> scrollEventHandler(event));
         this.editAndshowRoot= new GridPane();
-        this.editAndshowRoot.setBackground(this.blackBackGround);
-
         this.editSpase      = new AnchorPane();
-        this.editSpase.setBackground(this.blackBackGround);
 
         this.pichSupportSp  = new ScrollPane();
-        this.pichSupportSp.setBackground(this.blackBackGround);
-
         this.pichCheckSpase = new AnchorPane();
-        this.pichCheckSpase.setBackground(this.blackBackGround);
-
         this.quaeterChSp    = new ScrollPane();
-        this.quaeterChSp.setBackground(this.blackBackGround);
-
         this.quaeterCkSpase = new AnchorPane();
-        this.quaeterCkSpase.setBackground(this.blackBackGround);
-
 
         this.xSupportLine = new Line(0, 0, 0, 0);
         this.ySupportLine = new Line(0, 0, 0, 0);
@@ -361,10 +295,7 @@ public class EditSpase {
             Line tmpLine = new Line(
                 xPoint, 0,
                 xPoint, this.maxRootHeight
-            );
-            tmpLine.setStroke(Color.WHITE);
-            tmpLine.setStrokeWidth(0.5);
-            tmpLine.setOpacity(0.5);
+                );
             if(xPoint % this.QUAETER_NOTE_WIDTH == 0){
                 // 4分音符の長さの線を赤くする
                 tmpLine.setStroke(Color.RED);
@@ -378,7 +309,6 @@ public class EditSpase {
                 Label tmpLabel = new Label(
                     Integer.toString(xPoint / BAR_WIDTH_RATE / 24)
                 );
-                tmpLabel.setPrefHeight(50);
                 AnchorPane.setTopAnchor(tmpLabel, 0.0);
                 AnchorPane.setLeftAnchor(tmpLabel,(double)xPoint);
                 //tmpLabel.setBorder(border);
@@ -387,61 +317,42 @@ public class EditSpase {
 
             }
         }
-        // 横線を引く
-        int yPoint;
+
         for(
-            int yPointU = 0;
-            yPointU < this.maxRootHeight;
-            yPointU += this.QUAETER_NOTE_HEIGHT
+            int yPoint = 0;
+            yPoint < this.maxRootHeight;
+            yPoint += this.QUAETER_NOTE_HEIGHT
         ){
-            yPoint = this.maxRootHeight - yPointU;
             Line tmpLine = new Line(
-                0, yPointU,
-                this.maxRootWidth, yPointU
-            );
-            tmpLine.setStroke(Color.WHITE);
-            tmpLine.setStrokeWidth(0.5);
-            tmpLine.setOpacity(0.5);
-            if(
-                ((yPoint / this.QUAETER_NOTE_HEIGHT) % 12 == 4)
-            ||  ((yPoint / this.QUAETER_NOTE_HEIGHT) % 12 == 7)
-            ){
-                tmpLine.setStroke(Color.YELLOWGREEN);
-                tmpLine.setOpacity(0.7);
-            }
+                0, yPoint,
+                this.maxRootWidth, yPoint
+                );
             if(yPoint % (this.QUAETER_NOTE_HEIGHT * 12) == 0){
                 tmpLine.setStroke(Color.GREEN);
-                tmpLine.setOpacity(0.7);
             }
             yLine.add(tmpLine);
 
             Label tmpLabel = new Label(
-                Integer.toString(yPointU / this.QUAETER_NOTE_HEIGHT)
+                Integer.toString(yPoint / this.QUAETER_NOTE_HEIGHT)
             );
-            if((yPointU / this.QUAETER_NOTE_HEIGHT) % 12 == 0){
+            if((yPoint / this.QUAETER_NOTE_HEIGHT) % 12 == 0){
                 tmpLabel.setText(
-                    "C" + (yPointU / this.QUAETER_NOTE_HEIGHT) / 12
+                    "C" + (yPoint / this.QUAETER_NOTE_HEIGHT) / 12
                 );
-                tmpLine.setOpacity(0.7);
-
             }
-            if((yPointU / this.QUAETER_NOTE_HEIGHT) % 12 == 4){
+            if((yPoint / this.QUAETER_NOTE_HEIGHT) % 12 == 4){
                 tmpLabel.setText(
-                    "E" + (yPointU / this.QUAETER_NOTE_HEIGHT) / 12
+                    "E" + (yPoint / this.QUAETER_NOTE_HEIGHT) / 12
                 );
-                tmpLine.setOpacity(0.7);
-
             }
-            if((yPointU / this.QUAETER_NOTE_HEIGHT) % 12 == 7){
+            if((yPoint / this.QUAETER_NOTE_HEIGHT) % 12 == 7){
                 tmpLabel.setText(
-                    "G" + (yPointU / this.QUAETER_NOTE_HEIGHT) / 12
+                    "G" + (yPoint / this.QUAETER_NOTE_HEIGHT) / 12
                 );
-                tmpLine.setOpacity(0.7);
             }
             tmpLabel.setText(String.format("%3s",tmpLabel.getText()));
 
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
-            // System.out.println(yPoint);
             AnchorPane.setLeftAnchor(tmpLabel,0.0);
             tmpLabel.setMinWidth(100);
             tmpLabel.setBorder(border);
@@ -469,18 +380,22 @@ public class EditSpase {
 
         this.editSpaseRoot.setContent(this.editSpase);
 
-        GridPane.setColumnIndex(this.quaeterChSp  , 1);
-        GridPane.setRowIndex(   this.quaeterChSp  , 0);
+        GridPane.setColumnIndex(this.quaeterChSp, 1);
+        GridPane.setRowIndex(   this.quaeterChSp, 0);
         GridPane.setColumnIndex(this.pichSupportSp, 0);
         GridPane.setRowIndex(   this.pichSupportSp, 1);
-        GridPane.setColumnIndex(this.editSpaseRoot, 1);
-        GridPane.setRowIndex(   this.editSpaseRoot, 1);
+        GridPane.setColumnIndex(    this.editSpaseRoot, 1);
+        GridPane.setRowIndex(       this.editSpaseRoot, 1);
 
         this.editAndshowRoot.getChildren().addAll(
             this.pichSupportSp,
             this.quaeterChSp,
             this.editSpaseRoot
         );
+
+        this.editStage.setTitle("edit");
+        this.editStage.setHeight(1040);
+        this.editStage.setWidth(1900);
 
         Scene scene = new Scene(this.editAndshowRoot);
         this.editStage.setScene(scene);
