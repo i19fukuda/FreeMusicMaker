@@ -2,7 +2,6 @@ package view.editSpace.editPane;
 
 import java.util.ArrayList;
 
-import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -337,7 +336,6 @@ public class EditSpase {
 
     private void pasetNote(){
         Clipboard clipboard = Clipboard.getSystemClipboard();
-        ArrayList<String> inputStrings = new ArrayList<>();
 
         double x = this.mouseX;
         double y = this.mouseY;
