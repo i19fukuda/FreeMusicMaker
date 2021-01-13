@@ -27,9 +27,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import midi.conductor.Conductor;
+import view.trackLine.TrackLine;
 
 public class EditSpase {
     Stage editStage = new Stage();
+
+    private TrackLine rootLine;
+
     // 何倍に拡大して表示するか
     final private int BAR_WIDTH_RATE = 6;
     // PPQ * 4拍 * 倍率
@@ -70,8 +75,8 @@ public class EditSpase {
     // NoteRectを記憶し，呼び出し元に渡せるようにする．
     private ArrayList<NoteRect> notes;
 
-    public EditSpase(){
-        init();
+    public EditSpase(TrackLine rootLine){
+        init(rootLine);
         this.editSpase.setOnMouseClicked(
             event -> clickEventHandler(event)
         );
@@ -304,6 +309,29 @@ public class EditSpase {
         }
     }
 
+    private void quickPlayEvent(MouseEvent event, int notePich){
+        Conductor conductor = new Conductor(120);
+        
+        int instNo,volume;
+        long startTick,length;
+
+        instNo = this.rootLine.getInstNo();
+        volume = 124;
+        startTick = 0;
+        length = 24;
+
+
+        conductor.setNotes(
+            notePich,
+            volume,
+            startTick,
+            instNo,
+            length
+        );
+
+        conductor.play(0);
+    }
+
 
     private void pushClipBord(){
         long tmpStartTick,startTick,length;
@@ -393,7 +421,9 @@ public class EditSpase {
         }
     }
 
-    public void init(){
+    public void init(TrackLine rootLine){
+        this.rootLine = rootLine;
+
         this.blackBackGround = new Background(
             new BackgroundFill(
                 Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY
@@ -498,8 +528,9 @@ public class EditSpase {
         }
         // 横線を引く
         int yPoint;
+        int yPointU;
         for(
-            int yPointU = 0;
+            yPointU = 0;
             yPointU <= this.maxRootHeight;
             yPointU += this.QUAETER_NOTE_HEIGHT
         ){
@@ -527,6 +558,14 @@ public class EditSpase {
             Label tmpLabel = new Label(
                 Integer.toString(yPointU / this.QUAETER_NOTE_HEIGHT)
             );
+            final int TMP_NOTE_Pich = yPointU / this.QUAETER_NOTE_HEIGHT;
+            tmpLabel.setOnMouseClicked(
+                event -> quickPlayEvent(
+                    event,
+                    TMP_NOTE_Pich
+                )
+            );
+
             int tmpNoteIn12 = (yPointU / this.QUAETER_NOTE_HEIGHT) % 12;
             if(tmpNoteIn12 == 0){
                 tmpLabel.setText(

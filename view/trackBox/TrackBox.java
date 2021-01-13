@@ -7,8 +7,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import view.editSpace.editPane.EditSpase;
 import view.editSpace.editPane.NoteRect;
+import view.trackLine.TrackLine;
 
 public class TrackBox {
+    private TrackLine rootLine;
 
     private Rectangle trackBoxRect;
 
@@ -19,8 +21,9 @@ public class TrackBox {
 
     private ArrayList<NoteRect> notes;
 
-    public TrackBox(double height, double startTck, double width){
-        this.editSpase  = new EditSpase();
+    public TrackBox(TrackLine rootLine ,double height, double startTck, double width){
+        this.rootLine = rootLine;
+        this.editSpase  = new EditSpase(rootLine);
         this.notes      = this.editSpase.getNotes();
         this.boxHeight  = height;
         this.boxWidth   = width;
