@@ -2,11 +2,14 @@ package view.editSpace.editPane;
 
 import java.util.ArrayList;
 
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -28,8 +31,8 @@ import javafx.stage.Stage;
 
 public class EditSpase {
     Stage editStage = new Stage();
-    final private int BAR_WIDTH_RATE = 6;
     // 何倍に拡大して表示するか
+    final private int BAR_WIDTH_RATE = 6;
     // PPQ * 4拍 * 倍率
     final private int BAR_WIDTH = 24 * 4 *BAR_WIDTH_RATE;
     // 4分音符は24tick
@@ -62,6 +65,7 @@ public class EditSpase {
     // 補助線，マウスに沿って移動
     private Line xSupportLine;
     private Line ySupportLine;
+    private double mouseX,mouseY;
 
     // NoteRectを記憶し，呼び出し元に渡せるようにする．
     private ArrayList<NoteRect> notes;
@@ -89,19 +93,18 @@ public class EditSpase {
     }
 
     private void mouseMuveEventHandler(MouseEvent event){
-        double x,y;
-        x = event.getX();
-        y = event.getY();
+        this.mouseX = event.getX();
+        this.mouseY = event.getY();
 
-        this.xSupportLine.setStartY(y);
+        this.xSupportLine.setStartY(mouseY);
         this.xSupportLine.setStartX(0);
-        this.xSupportLine.setEndY(y);
+        this.xSupportLine.setEndY(mouseY);
         this.xSupportLine.setEndX(maxRootWidth);
 
         this.ySupportLine.setStartY(0);
-        this.ySupportLine.setStartX(x);
+        this.ySupportLine.setStartX(mouseX);
         this.ySupportLine.setEndY(this.maxRootHeight);
-        this.ySupportLine.setEndX(x);
+        this.ySupportLine.setEndX(mouseX);
     }
 
     public void setNoteRect(MouseEvent event){
@@ -274,9 +277,16 @@ public class EditSpase {
         KeyCode inputCode = event.getCode();
         if(event.isControlDown()){
             if(inputCode == KeyCode.A){
+                // すべてのノートを選択する
                 for(NoteRect note:this.notes){
                     note.electNoteMust();
                 }
+            } else if(inputCode == KeyCode.C){
+                //選択されたノートの長さ，高さの相対位置をクリップボードにpush
+                this.pushClipBord();
+            } else if(inputCode == KeyCode.V){
+                //マウスのある位置にクリップボードの中身に貼り付け
+                this.pasetNote();
             }
         }
     }
@@ -286,6 +296,95 @@ public class EditSpase {
         //クリックされたらすべてのノートの選択を解除する
         if(! event.isControlDown()){
             this.unElectAllNote();
+        }
+    }
+
+
+    private void pushClipBord(){
+        long tmpStartTick,startTick,length;
+        int notePich,tmpNotePich;
+        String pushWord = "";
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+
+
+        startTick = this.getElectedNotes().get(0).getNoteStartTick();
+        length = this.getElectedNotes().get(0).getNoteLength();
+        notePich = this.getElectedNotes().get(0).getNotePich();
+
+        //クリップボードに相対位置を記録
+        for(NoteRect note:this.getElectedNotes()){
+            tmpStartTick = note.getNoteStartTick();
+            tmpNotePich = note.getNotePich();
+            length = note.getNoteLength();
+
+            
+
+            pushWord    += Long.toString(tmpStartTick - startTick)
+                        + ","
+                        + Long.toString(length)
+                        + ","
+                        + Integer.toString(notePich - tmpNotePich)
+                        + "\n";
+            startTick = tmpStartTick;
+            tmpNotePich = notePich;
+
+            content.putString(pushWord);
+            clipboard.setContent(content);
+
+        }
+    }
+
+    private void pasetNote(){
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+
+        double x = this.mouseX;
+        double y = this.mouseY;
+
+        x = x - (x % this.quantize);
+        y = y - (y % QUAETER_NOTE_HEIGHT);
+
+        double iy = y / QUAETER_NOTE_HEIGHT;
+
+        // yはノートの上の値なので下に補正するために(-1)をする
+        // クリップボードの値を追加
+        int  notePich       = 127 - (int) iy - 1;
+        long noteLength     = defNoteLen / BAR_WIDTH_RATE;
+        long noteStartTick  = (long) x / BAR_WIDTH_RATE;
+
+        String[] inputLineContens;
+
+        ArrayList<NoteRect> tmpNoteRects = new ArrayList<>();
+
+        for(String stringLine:clipboard.getString().split("\n")){
+            // startTick,length,notePich\n
+            inputLineContens = stringLine.split(",");
+
+            noteStartTick += Long.parseLong(inputLineContens[0]);
+
+            noteLength = Long.parseLong(inputLineContens[1]);
+
+            notePich =  notePich
+                        + Integer.parseInt(inputLineContens[2]);
+
+            System.out.println(noteStartTick);
+
+            NoteRect noteRect = new NoteRect(
+                                this,
+                                notePich,
+                                this.QUAETER_NOTE_HEIGHT,
+                                noteLength,
+                                noteStartTick
+            );
+            tmpNoteRects.add(noteRect);
+        }
+        for(NoteRect noteRect:tmpNoteRects){
+            this.addNoteRect(noteRect);
+            this.setRect(
+                noteRect.getRect(),
+                noteRect.getNoteStartTick() * BAR_WIDTH_RATE,
+                (126 - noteRect.getNotePich()) * QUAETER_NOTE_HEIGHT
+            );
         }
     }
 
