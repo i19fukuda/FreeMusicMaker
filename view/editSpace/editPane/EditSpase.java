@@ -305,7 +305,10 @@ public class EditSpase {
     //クリックされたときのイベントハンドラ
     private void mouseClickEventHandler(MouseEvent event){
         //クリックされたらすべてのノートの選択を解除する
-        if(! event.isControlDown()){
+        if(
+                ! event.isControlDown()
+            &&  ! event.isShiftDown()
+        ){
             this.unElectAllNote();
         }
     }
@@ -520,16 +523,19 @@ public class EditSpase {
                 // 4分音符の長さの線を赤くする
                 tmpLine.setStroke(Color.RED);
                 if(xPoint % this.BAR_WIDTH == 0){
-                    tmpLine.setStroke(Color.BLUE);
+                    tmpLine.setStroke(Color.CYAN);
+                    tmpLine.setOpacity(1.0);
                 }
             }
             xLine.add(tmpLine);
 
             if(xPoint % (QUAETER_NOTE_WIDTH) == 0){
                 Label tmpLabel = new Label(
-                    Integer.toString(xPoint / BAR_WIDTH_RATE / 24)
+                // ラベルの文字．1ベースにするために+1
+                    Integer.toString((xPoint / BAR_WIDTH_RATE / 24) + 1)
                 );
                 tmpLabel.setPrefHeight(50);
+                tmpLabel.setTextFill(Color.MAGENTA);
                 AnchorPane.setTopAnchor(tmpLabel, 0.0);
                 AnchorPane.setLeftAnchor(tmpLabel,(double)xPoint);
                 //tmpLabel.setBorder(border);
@@ -562,8 +568,8 @@ public class EditSpase {
                 tmpLine.setOpacity(0.7);
             }
             if(yPoint % (this.QUAETER_NOTE_HEIGHT * 12) == 0){
-                tmpLine.setStroke(Color.GREEN);
-                tmpLine.setOpacity(0.9);
+                tmpLine.setStroke(Color.AQUA);
+                tmpLine.setOpacity(1.0);
             }
             yLine.add(tmpLine);
 
@@ -634,6 +640,7 @@ public class EditSpase {
             this.pichCheckSpase.getChildren().add(l);
         }
         this.pichSupportSp.setContent(this.pichCheckSpase);
+
         this.pichSupportSp.setVbarPolicy(ScrollBarPolicy.NEVER);
         this.pichSupportSp.setMinWidth(100);
 
