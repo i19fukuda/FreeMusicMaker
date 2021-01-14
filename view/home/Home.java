@@ -8,6 +8,8 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
@@ -48,12 +50,15 @@ public class Home {
     private int trackLineSize = 0;
 
     // いろいろ表示するところ
-    private HBox ctrlRoot;
+    private VBox ctrlRoot;
     private TextField inTenpoFL;
     private Button playButton;
     private Button stopButton;
     private Button addLineButton;
     private Button removeLineButton;
+    private CheckBox isSetRange;
+    private TextField inStartQFL;
+    private TextField inEndQFL;
     // trackLineがずらーってなるところ
     private VBox linesVBox;
     private ScrollPane lineRoot;
@@ -77,7 +82,7 @@ public class Home {
 
         this.lines      = new ArrayList<>();
 
-        this.ctrlRoot   = new HBox();
+        this.ctrlRoot   = new VBox();
 
         this.inTenpoFL  = new TextField("120");
 
@@ -141,12 +146,37 @@ public class Home {
         this.lineRoot   = new ScrollPane();
         this.lineRoot.setBackground(this.blacBackground);
 
-        this.ctrlRoot.getChildren().addAll(
+        this.isSetRange = new CheckBox("小節を指定     ");
+        this.isSetRange.setTextFill(Color.WHITESMOKE);
+        this.inStartQFL = new TextField("0");
+        this.inEndQFL   = new TextField("10");
+
+        Label startRangeLb = new Label("開始位置[小節目]");
+        Label endRangeLb = new Label("終了位置");
+        startRangeLb.setTextFill(Color.WHITESMOKE);
+        endRangeLb.setTextFill(Color.WHITESMOKE);
+
+        HBox startRangeHB = new HBox();
+        HBox endRangeHB = new HBox();
+
+
+        startRangeHB.getChildren().addAll(startRangeLb, this.inStartQFL);
+        endRangeHB.getChildren().addAll(endRangeLb, this.inEndQFL);
+
+        HBox rangeHB = new HBox();
+        rangeHB.getChildren().addAll(this.isSetRange ,startRangeHB, endRangeHB);
+
+        HBox ctrlsTop = new HBox();
+        ctrlsTop.getChildren().addAll(
             this.playButton,
             this.stopButton,
             this.addLineButton,
             this.removeLineButton,
             this.inTenpoFL
+        );
+
+        this.ctrlRoot.getChildren().addAll(
+            ctrlsTop, rangeHB
         );
 
 
@@ -298,7 +328,6 @@ public class Home {
     }
 
 
-    // todo
     public void playEventHandler(Event event){
         int tempo = this.getTempo();
         this.conductor = new Conductor(tempo);
@@ -364,7 +393,18 @@ public class Home {
                 }
             }
         }
-        this.conductor.play(0);
+        if(this.isSetRange.isSelected()){
+            long startTick = Long.parseLong(
+                this.inStartQFL.getText()
+            ) * 24;
+            long endTick = Long.parseLong(
+                this.inEndQFL.getText()
+            ) * 24;
+
+            this.conductor.play(startTick, endTick);
+        } else {
+            this.conductor.play(0);
+        }
     }
 
     private void setNote(int trackId, int instNo,int volume, Note note){

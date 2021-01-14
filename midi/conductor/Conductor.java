@@ -178,6 +178,10 @@ public class Conductor{
     public void play(){
         this.myMidiPlayer.run();
     }
+    public void play(long startTick, long endTick){
+        this.myMidiPlayer = new MyMidiPlayer(sequencer, sequence, startTick, endTick);
+        myMidiPlayer.start();
+    }
 
     //新しくトラックを作ってメタ情報を埋め込むメソッド
     private void createTrackAndSetMetaMessage(MetaMessage mmes){
@@ -215,8 +219,18 @@ public class Conductor{
 class MyMidiPlayer extends Thread{
     private Sequencer sequencer;
     private Sequence sequence;
+    private long startTick;
+    private long endTick;
+    private boolean isHaveRange;
     // 現在どこまで再生したか保持する
     public MyMidiPlayer(Sequencer sequencer, Sequence sequence){
+        this.sequencer = sequencer;
+        this.sequence = sequence;
+    }
+    public MyMidiPlayer(Sequencer sequencer, Sequence sequence, long startTick, long endTick){
+        this.isHaveRange = true;
+        this.startTick = startTick;
+        this.endTick = endTick;
         this.sequencer = sequencer;
         this.sequence = sequence;
     }
@@ -228,11 +242,22 @@ class MyMidiPlayer extends Thread{
             }
             this.sequencer.setSequence(sequence);
             System.out.println("sequencer start");
+            //もしも再生位置の指定があればセットする
+            if(isHaveRange){
+                this.sequencer.setTickPosition(this.startTick);
+            }
+
+
             this.sequencer.start();
             while(
                     this.sequencer.isRunning()
                 ){
                 Thread.sleep(100);
+                if(isHaveRange){
+                    if(this.sequencer.getTickPosition() > this.endTick){
+                        break;
+                    }
+                }
             }
             this.sequencer.stop();
             while(this.sequencer.isRunning()){
