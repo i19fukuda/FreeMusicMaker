@@ -396,10 +396,10 @@ public class Home {
         if(this.isSetRange.isSelected()){
             long startTick = Long.parseLong(
                 this.inStartQFL.getText()
-            ) * 24;
+            ) * 96;
             long endTick = Long.parseLong(
                 this.inEndQFL.getText()
-            ) * 24;
+            ) * 96;
 
             this.conductor.play(startTick, endTick);
         } else {

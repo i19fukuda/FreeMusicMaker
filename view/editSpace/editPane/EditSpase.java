@@ -535,7 +535,7 @@ public class EditSpase {
             if(xPoint % (QUAETER_NOTE_WIDTH) == 0){
                 Label tmpLabel = new Label(
                 // ラベルの文字．1ベースにするために+1
-                    Integer.toString((xPoint / BAR_WIDTH_RATE / 24) + 1)
+                    Double.toString(((double)((xPoint / BAR_WIDTH_RATE / 24)) / 4.0) + 1)
                 );
                 tmpLabel.setPrefHeight(50);
                 tmpLabel.setTextFill(Color.MAGENTA);
