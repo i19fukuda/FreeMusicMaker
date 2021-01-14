@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,7 +45,7 @@ public class Home {
     private ArrayList<TrackLine> lines;
 
     private double lineHeight   = 100;
-    private double lineWidth    = 6000;
+    private double lineWidth    = 1500;
 
     // 累計のトラックライン
     private int trackLineSize = 0;
@@ -80,6 +81,14 @@ public class Home {
         this.root       = new GridPane();
         this.root.setBackground(this.blacBackground);
 
+        Tooltip rootToolTip = new Tooltip();
+        rootToolTip.setText(
+            "add Lineボタンでトラックを追加\n"
+            + "トラックをクリックしてエディターを開く"
+        );
+        Tooltip.install(this.root, rootToolTip);
+
+
         this.lines      = new ArrayList<>();
 
         this.ctrlRoot   = new VBox();
@@ -89,6 +98,11 @@ public class Home {
         this.soundMixer = new SoundMixer(this.lines);
 
         this.playButton = new Button("play");
+        this.playButton.setBackground(
+            new Background(
+                new BackgroundFill(Color.LIGHTGREEN, CornerRadii.EMPTY, Insets.EMPTY)
+            )
+        );
         Image playImage = new Image(
             getClass().getResourceAsStream("../../image/play_button.png")
         );
@@ -102,6 +116,11 @@ public class Home {
 
 
         this.stopButton = new Button("stop");
+        this.stopButton.setBackground(
+            new Background(
+                new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)
+            )
+        );
         Image stopImage = new Image(
             getClass().getResourceAsStream("../../image/stop_button.png")
         );
@@ -114,6 +133,13 @@ public class Home {
         );
 
         this.addLineButton = new Button(" addLine ");
+        this.addLineButton.setBackground(
+            new Background(
+                new BackgroundFill(
+                    Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY
+                )
+            )
+        );
         Image addLineImage = new Image(
             getClass().getResourceAsStream("../../image/plus.png")
         );
@@ -127,6 +153,13 @@ public class Home {
 
 
         this.removeLineButton = new Button(" remove Line ");
+        this.removeLineButton.setBackground(
+            new Background(
+                new BackgroundFill(
+                    Color.DARKRED, CornerRadii.EMPTY, Insets.EMPTY
+                )
+            )
+        );
         Image removeLineImage = new Image(
             getClass().getResourceAsStream("../../image/minus.png")
         );

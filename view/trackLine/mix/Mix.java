@@ -34,23 +34,23 @@ public class Mix {
 
     double[] volums;
 
-    private Background blackBackGround;
+    private Background darckGrayBackGround;
 
 
     public Mix(TrackLine line){
         this.notes = new ArrayList<>();
         this.line = line;
 
-        this.blackBackGround = new Background(
+        this.darckGrayBackGround = new Background(
             new BackgroundFill(
-                Color.GRAY,
+                Color.DARKSLATEGRAY,
                 CornerRadii.EMPTY,
                 Insets.EMPTY
             )
         );
 
         this.ocRootHB = new VBox();
-        this.ocRootHB.setBackground(this.blackBackGround);
+        this.ocRootHB.setBackground(this.darckGrayBackGround);
         this.stage = new Stage();
         this.stage.setTitle("Mix");
         this.stage.setWidth(800);
@@ -66,13 +66,13 @@ public class Mix {
                 Integer.toString(this.octPichs[i] / 12)
                 + "オクターブ"
             );
+            tmpLb.setTextFill(Color.WHITESMOKE);
             intputSliders[i] = new Slider();
             intputSliders[i].setMin(0);
             intputSliders[i].setMax(100);
             intputSliders[i].setShowTickLabels(true);
             intputSliders[i].setShowTickMarks(true);
             intputSliders[i].setValue(0);
-
             this.octVB[i] = new VBox();
             this.octVB[i].getChildren().addAll(tmpLb, intputSliders[i]);
             this.ocRootHB.getChildren().add(this.octVB[i]);

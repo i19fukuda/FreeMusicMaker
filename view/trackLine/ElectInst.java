@@ -6,6 +6,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -76,6 +77,8 @@ public class ElectInst {
 
         this.menubar = new MenuBar();
         this.menubar.setBackground(this.blackBackground);
+        Tooltip menubarTT = new Tooltip("楽器を選択");
+        Tooltip.install(this.menubar, menubarTT);
 
         this.menubar.setMaxWidth(400);
         this.groupElect = new ToggleGroup();

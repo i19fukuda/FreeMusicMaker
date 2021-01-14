@@ -8,6 +8,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -64,6 +65,10 @@ public class Controls {
         this.mix = new Mix(this.trackLine);
         this.mixButton = new Button("Mix");
         this.mixButton.setBackground(this.blackBackground);
+        
+        Tooltip mixButtonTT = new Tooltip("クリックして音をミックス");
+        Tooltip.install(this.mixButton, mixButtonTT);
+
         this.mixButton.setOnMouseClicked(
             event -> mix.showMixer()
         );
@@ -77,11 +82,14 @@ public class Controls {
 
     private void createTrackNameFl(){
         this.trackNameFl = new TextField(
-                                Integer.toString(
-                                this.trackLine.getTrackId()
+                                "track "
+                                + Integer.toString(
+                                    this.trackLine.getTrackId()
                                 )
                             );
-        this.trackNameFl.setBackground(this.blackBackground);
+        Tooltip trackNameFlTT = new Tooltip("トラック名を記入");
+        Tooltip.install(this.trackNameFl, trackNameFlTT);
+        // this.trackNameFl.setBackground(this.blackBackground);
     }
     public TextField getTrackNameFl(){
         return this.trackNameFl;
