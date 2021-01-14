@@ -298,6 +298,8 @@ public class EditSpase {
             } else if(inputCode == KeyCode.V){
                 //マウスのある位置にクリップボードの中身に貼り付け
                 this.pasetNote();
+            } else if(inputCode == KeyCode.W){
+                this.editStage.close();
             }
         }
     }
@@ -614,7 +616,9 @@ public class EditSpase {
                 ||  tmpNoteIn12 == 9
                 ||  tmpNoteIn12 == 11){
                     tmpLabel.setBackground(this.whiteBackGround);
-                } else tmpLabel.setBackground(this.blackBackGround);
+                } else {
+                    tmpLabel.setBackground(this.blackBackGround);
+                }
             tmpLabel.setText(String.format("%5s",tmpLabel.getText()));
 
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
