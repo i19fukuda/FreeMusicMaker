@@ -73,7 +73,7 @@ public class TrackBox {
         if(event.getButton() == MouseButton.PRIMARY){
             this.editSpase.showStage();
         } else if(event.getButton() == MouseButton.SECONDARY){
-            this.colorChooser.show(this.trackBoxRect,event.getX(), event.getY());
+            this.colorChooser.show(this.trackBoxRect, 100, 100);
         }
     }
 
@@ -96,10 +96,14 @@ public class TrackBox {
             {
                 put("AQUA",             Color.AQUA);
                 put("BLUE",             Color.BLUE);
+                put("SKYBLUE",          Color.SKYBLUE);
                 put("DARKBLUE",         Color.DARKBLUE);
                 put("BROWN",            Color.BROWN);
+                put("ROSYBROWN",        Color.ROSYBROWN);
                 put("DARKSLATEGREY",    Color.DARKSLATEGREY);
                 put("GREEN",            Color.GREEN);
+                put("OLIVE",            Color.OLIVE);
+                put("SEAGREEN",         Color.SEAGREEN);
                 put("MAGENTA",          Color.MAGENTA);
                 put("PURPLE",           Color.PURPLE);
                 put("YELLOW",           Color.YELLOW);

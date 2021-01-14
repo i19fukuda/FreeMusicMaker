@@ -95,6 +95,9 @@ public class Home {
 
         this.inTenpoFL  = new TextField("120");
 
+        Label tempoInMSG = new Label("|     テンポを入力--> ");
+        tempoInMSG.setTextFill(Color.WHITESMOKE);
+
         this.soundMixer = new SoundMixer(this.lines);
 
         this.playButton = new Button("play");
@@ -179,13 +182,13 @@ public class Home {
         this.lineRoot   = new ScrollPane();
         this.lineRoot.setBackground(this.blacBackground);
 
-        this.isSetRange = new CheckBox("小節を指定     ");
+        this.isSetRange = new CheckBox("<---小節を指定  ");
         this.isSetRange.setTextFill(Color.WHITESMOKE);
         this.inStartQFL = new TextField("0");
         this.inEndQFL   = new TextField("10");
 
-        Label startRangeLb = new Label("開始位置[小節目]");
-        Label endRangeLb = new Label("終了位置");
+        Label startRangeLb = new Label("| 開始位置[小節目]---> ");
+        Label endRangeLb = new Label("| 終了位置---> ");
         startRangeLb.setTextFill(Color.WHITESMOKE);
         endRangeLb.setTextFill(Color.WHITESMOKE);
 
@@ -205,6 +208,7 @@ public class Home {
             this.stopButton,
             this.addLineButton,
             this.removeLineButton,
+            tempoInMSG,
             this.inTenpoFL
         );
 
