@@ -254,7 +254,7 @@ class MyMidiPlayer extends Thread{
                 ){
                 Thread.sleep(100);
                 if(isHaveRange){
-                    if(this.sequencer.getTickPosition() > this.endTick){
+                    if(this.sequencer.getTickPosition() >= this.endTick){
                         break;
                     }
                 }
