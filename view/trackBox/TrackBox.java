@@ -33,7 +33,7 @@ public class TrackBox {
 
     public void createRect(double boxWidth, double boxHeight){
         this.trackBoxRect = new Rectangle(boxWidth, boxHeight);
-        this.trackBoxRect.setFill(Color.BLUE);
+        this.trackBoxRect.setFill(Color.DARKRED);
         this.trackBoxRect.setStroke(Color.RED);
         this.trackBoxRect.setOnMouseClicked(
             event -> rectClickEventHandler(event)

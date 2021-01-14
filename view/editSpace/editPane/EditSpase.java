@@ -446,6 +446,8 @@ public class EditSpase {
             )
         );
 
+
+
         this.notes          = new ArrayList<>();
 
         this.editSpaseRoot  = new ScrollPane();
@@ -471,7 +473,6 @@ public class EditSpase {
         Tooltip.install(this.editSpase, editSpaseTP);
 
         this.pichSupportSp  = new ScrollPane();
-        this.pichSupportSp.setBackground(this.blackBackGround);
         Tooltip pichSupportTP = new Tooltip();
         pichSupportTP.setText("クリックで聞く");
         Tooltip.install(this.pichSupportSp, pichSupportTP);
@@ -501,7 +502,7 @@ public class EditSpase {
 
         Border border = new Border(
             new BorderStroke(
-                Color.BLACK,
+                Color.DARKBLUE,
                 BorderStrokeStyle.SOLID,
                 CornerRadii.EMPTY,
                 BorderWidths.DEFAULT
@@ -616,15 +617,17 @@ public class EditSpase {
                 ||  tmpNoteIn12 == 9
                 ||  tmpNoteIn12 == 11){
                     tmpLabel.setBackground(this.whiteBackGround);
+                    tmpLabel.setMaxWidth(100);
                 } else {
                     tmpLabel.setBackground(this.blackBackGround);
+                    tmpLabel.setMaxWidth(50);
                 }
             tmpLabel.setText(String.format("%5s",tmpLabel.getText()));
 
             AnchorPane.setTopAnchor(tmpLabel, (double)yPoint);
             // System.out.println(yPoint);
             AnchorPane.setLeftAnchor(tmpLabel,0.0);
-            tmpLabel.setMinWidth(100);
+            tmpLabel.setPrefWidth(150);
             tmpLabel.setBorder(border);
             tmpLabel.setTextFill(Color.MAGENTA);
             yLabel.add(tmpLabel);
