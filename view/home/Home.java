@@ -431,9 +431,9 @@ public class Home {
             }
         }
         if(this.isSetRange.isSelected()){
-            long startTick = Long.parseLong(
+            long startTick = (Long.parseLong(
                 this.inStartQFL.getText()
-            ) * 96;
+                ) - 1) * 96;
             long endTick = Long.parseLong(
                 this.inEndQFL.getText()
             ) * 96;
