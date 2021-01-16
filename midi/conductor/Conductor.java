@@ -264,6 +264,10 @@ class MyMidiPlayer extends Thread{
                 Thread.sleep(100);
             }
             this.sequencer.close();
+            for(Receiver receiver:this.sequencer.getReceivers()){
+                receiver.close();
+            }
+            this.sequencer.getTransmitter().close();
             //this.sequencer.setTickPosition(0L);
             System.out.println("sequencer stoped,closed succece");
         } catch (Exception e){
