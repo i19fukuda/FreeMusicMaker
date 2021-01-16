@@ -215,7 +215,7 @@ public class EditSpase {
             notePich = note.getNotePich();
             noteStartTick = note.getNoteStartTick();
             x = noteStartTick * BAR_WIDTH_RATE;
-            y = (127 - notePich - 1) * QUAETER_NOTE_HEIGHT;
+            y = (127 - notePich) * QUAETER_NOTE_HEIGHT;
             note.setNoteLength(note.getNoteLength());
             this.setRect(note.getRect(), x, y);
         }
