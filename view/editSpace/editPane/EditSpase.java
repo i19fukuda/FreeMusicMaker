@@ -134,8 +134,7 @@ public class EditSpase {
 
         // System.out.println("x=" + x + " y=" + y);
 
-        // yはノートの上の値なので下に補正するために(-1)をする
-        int  notePich       = 127 - (int) iy - 1;
+        int  notePich       = 127 - (int) iy;
         long noteLength     = defNoteLen / BAR_WIDTH_RATE;
         long noteStartTick  = (long) x / BAR_WIDTH_RATE;
 
@@ -385,9 +384,8 @@ public class EditSpase {
 
         double iy = y / QUAETER_NOTE_HEIGHT;
 
-        // yはノートの上の値なので下に補正するために(-1)をする
         // クリップボードの値を追加
-        int  notePich       = 127 - (int) iy - 1;
+        int  notePich       = 127 - (int) iy;
         long noteLength     = defNoteLen / BAR_WIDTH_RATE;
         long noteStartTick  = (long) x / BAR_WIDTH_RATE;
 
@@ -422,7 +420,7 @@ public class EditSpase {
             this.setRect(
                 noteRect.getRect(),
                 noteRect.getNoteStartTick() * BAR_WIDTH_RATE,
-                (126 - noteRect.getNotePich()) * QUAETER_NOTE_HEIGHT
+                (127 - noteRect.getNotePich()) * QUAETER_NOTE_HEIGHT
             );
         }
     }
