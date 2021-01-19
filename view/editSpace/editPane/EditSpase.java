@@ -84,6 +84,9 @@ public class EditSpase {
         this.editSpase.setOnMouseMoved(
             event -> mouseMuveEventHandler(event)
         );
+        this.editSpase.setOnScroll(
+            event -> scrollEventHandler()
+        );
     }
 
     public void clickEventHandler(MouseEvent event){
