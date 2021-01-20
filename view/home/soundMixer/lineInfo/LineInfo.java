@@ -14,7 +14,10 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import view.trackLine.TrackLine;
-
+/**
+ * @author i19fukuda1k
+ * トラックラインのミュートやソロなどの情報を持つクラス
+ */
 public class LineInfo {
     private TrackLine line;
 
@@ -30,7 +33,10 @@ public class LineInfo {
     private ToggleGroup groupSoM;
 
     private Background blackBackground;
-
+    /**
+     * @param line 親のトラックライン
+     * @param soloGroup ソロのトグルグループ
+     */
     public LineInfo(TrackLine line, ToggleGroup soloGroup){
         this.blackBackground = new Background(
             new BackgroundFill(
@@ -83,20 +89,34 @@ public class LineInfo {
 
     }
 
+    /**
+     * ソロかどうかを返す。
+     * @return true ならソロ
+     */
     public boolean isSolo(){
         boolean flag = this.soloButton.isSelected();
         return flag;
     }
-
+    /**
+     * ミュートかどうかを返す
+     * @return trueならミュート
+     */
     public boolean isMute(){
         boolean flag = this.muteButton.isSelected();
         return flag;
     }
 
+    /**
+     * ルートを返す
+     * @return ルート
+     */
     public VBox getLineInfoRoot(){
         return this.lineInfoRootVB;
     }
-
+    /**
+     * 保持しているトラックを返す
+     * @return 保持しているトラックライン
+     */
     public TrackLine getTrackLine(){
         return this.line;
     }

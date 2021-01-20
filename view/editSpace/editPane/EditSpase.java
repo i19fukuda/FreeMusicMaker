@@ -31,6 +31,9 @@ import javafx.stage.Stage;
 import midi.conductor.Conductor;
 import view.trackLine.TrackLine;
 
+/**
+ * ユーザーが実際に音を変種していく画面
+ */
 public class EditSpase {
     Stage editStage;
 
@@ -76,6 +79,9 @@ public class EditSpase {
     // NoteRectを記憶し，呼び出し元に渡せるようにする．
     private ArrayList<NoteRect> notes;
 
+    /**
+     * @param rootLine 根となるトラックライン
+     */
     public EditSpase(TrackLine rootLine){
         init(rootLine);
         this.editSpase.setOnMouseClicked(
@@ -89,7 +95,7 @@ public class EditSpase {
         );
     }
 
-    public void clickEventHandler(MouseEvent event){
+    private void clickEventHandler(MouseEvent event){
         if(
             event.getClickCount() == 2
             && event.getButton() == MouseButton.PRIMARY
@@ -118,7 +124,7 @@ public class EditSpase {
         this.scrollEventHandler();
     }
 
-    public void setNoteRect(MouseEvent event){
+    private void setNoteRect(MouseEvent event){
         double x = event.getX();
         double y = event.getY();
 
@@ -155,7 +161,15 @@ public class EditSpase {
         setRect(rect, x, y);
     }
 
-
+    /**
+     * 新しく音符を生成するメソッド
+     * @param notePich 音の高さ(0-127)
+     * @param noteHeight 音符の矩形の高さ
+     * @param noteLength 音の長さ(tick)
+     * @param noteStartTick 音の始まるtick
+     * @param noteId 音のもつ固有のID
+     * @return  生成された音符
+     */
     public NoteRect createNoteRect(
         int         notePich,
         double      noteHeight,
@@ -189,11 +203,17 @@ public class EditSpase {
         );
         return nr;
     }
-
+    /**
+     * 音を追加するメソッド
+     * @param noteRect セットする音符
+     */
     public void addNoteRect(NoteRect noteRect){
         this.notes.add(noteRect);
     }
-
+    /**
+     * 確実にエディットスペースに対象の音符をセットするメソッド。
+     * @param notes セットするすべての音符の可変長配列
+     */
     public void loadAndSetNoteRects(ArrayList<NoteRect> notes){
         double x, y;
         int notePich;
@@ -209,7 +229,9 @@ public class EditSpase {
         }
     }
 
-    // notesの中のものを全部書き出す
+    /**
+     * エディットスペースが認識しているすべての音符の情報を描画する。
+     */
     public void createAndSetNoteRecs(){
         double x, y;
         int notePich;
@@ -241,23 +263,35 @@ public class EditSpase {
 
     // this.editSpaseにある長方形から指定の
     // オブジェクトを削除するメソッド
+    /**
+     * エディットスペースにある矩形から指定のオブジェクトを削除するメソッド
+     * @param noteRect 削除する音符のNoteRect
+     */
     public void removeNoteRect(NoteRect noteRect){
         this.notes.remove(noteRect);
         this.editSpase.getChildren().remove(noteRect.getRect());
     }
-
+    /**
+     * 選択済みの音符を長くするメソッド
+     */
     public void longerElectedNotes(){
         ArrayList<NoteRect> electedNotes = this.getElectedNotes();
         for(NoteRect note:electedNotes){
             note.justLongerNote();
         }
     }
+    /**
+     * 選択済みの音符を短くするメソッド
+     */
     public void shorterElectedNotes(){
         ArrayList<NoteRect>electedNotes = this.getElectedNotes();
         for(NoteRect note:electedNotes){
             note.justShorterNote();
         }
     }
+    /**
+     * 選択済みの音符を削除するメソッド
+     */
     public void removeElectedNotes(){
         ArrayList<NoteRect> electedNotes = this.getElectedNotes();
         for(NoteRect note:electedNotes){
@@ -428,7 +462,7 @@ public class EditSpase {
         }
     }
 
-    public void init(TrackLine rootLine){
+    private void init(TrackLine rootLine){
         this.editStage = new Stage();
         this.editStage.setTitle("editor");
         this.editStage.setWidth(1900);
@@ -673,27 +707,44 @@ public class EditSpase {
         Scene scene = new Scene(this.editAndshowRoot);
         this.editStage.setScene(scene);
     }
-
+    /**
+     * 自身が持つ編集のためのステージをshowするメソッド
+     */
     public void showStage(){
         this.editStage.show();
     }
-
+    /**
+     * エディットスペースのルートを返す
+     * @return ルート
+     */
     public ScrollPane getEditSpaseRoot(){
         return this.editSpaseRoot;
     }
-
+    /**
+     * 自身が保持する音符の情報をすべて返すメソッド
+     * @return 保持するすべての音符
+     */
     public ArrayList<NoteRect> getNotes(){
         return this.notes;
     }
-
+    /**
+     * 横の幅を何倍にして表示しているかの倍率を返す。
+     * @return 表示の倍率(幅)
+     */
     public int getBAR_WIDTH_RATE(){
         return this.BAR_WIDTH_RATE;
     }
-
+    /**
+     * 縦の幅を何倍にして表示しているのかの倍率を返す。
+     * @return 表示の倍率(高さ)
+     */
     public int getQUAETER_NOTE_HEIGHT(){
         return this.QUAETER_NOTE_HEIGHT;
     }
-
+    /**
+     * 自身の持つステージを返す。
+     * @return ルートのステージ
+     */
     public Stage getEditStage(){
         return this.editStage;
     }

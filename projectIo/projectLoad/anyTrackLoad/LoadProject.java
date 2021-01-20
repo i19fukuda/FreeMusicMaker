@@ -11,15 +11,25 @@ import javafx.scene.control.Alert.AlertType;
 import view.editSpace.editPane.EditSpase;
 import view.editSpace.editPane.NoteRect;
 import view.trackLine.TrackLine;
-
+/**
+ * プロジェクトの読み込みをする機能
+ * @author i19fukuda1k
+ */
 public class LoadProject {
     private File file;
     private int tempo = 0;
-
+    /**
+     * @param file 読み込むファイル
+     */
     public LoadProject(File file){
         this.file = file;
     }
-
+    /**
+     * 指定されているファイルのすべての情報を読み込むメソッド
+     * @param lineWidth トラックラインの幅
+     * @param lineHeight トラックラインの高さ
+     * @return 情報を読み込んだトラックライン
+     */
     public ArrayList<TrackLine> loadAll(
         double lineWidth, double lineHeight
     ){
@@ -111,7 +121,10 @@ public class LoadProject {
         }
         return trackLines;
     }
-
+    /**
+     * テンポを返す
+     * @return テンポ
+     */
     public int getTempo(){
         int tmpTempo = 120;
         if(this.tempo != 0){

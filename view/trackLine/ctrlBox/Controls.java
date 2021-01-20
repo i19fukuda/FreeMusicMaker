@@ -19,6 +19,10 @@ import view.trackLine.ElectInst;
 import view.trackLine.TrackLine;
 import view.trackLine.mix.Mix;
 
+/**
+ * @author i19fukuda1k
+ * トラックのコントロールに関する部品を提供する。
+ */
 public class Controls {
     VBox ctrlRoot;
     TrackLine trackLine;
@@ -34,6 +38,11 @@ public class Controls {
 
     Background blackBackground;
 
+    /**
+     * コンストラクタ
+     * @param trackLine 親となるトラックライン
+     * @see view.trackLine
+     */
     public Controls(TrackLine trackLine){
         this.blackBackground = new Background(
             new BackgroundFill(
@@ -57,6 +66,10 @@ public class Controls {
         );
     }
 
+    /**
+     * ルートとなるコントロールを返す
+     * @return コントローラ
+     */
     public VBox getctrlBoxRoot(){
         return this.ctrlRoot;
     }
@@ -65,7 +78,7 @@ public class Controls {
         this.mix = new Mix(this.trackLine);
         this.mixButton = new Button("Mix");
         this.mixButton.setBackground(this.blackBackground);
-        
+
         Tooltip mixButtonTT = new Tooltip("クリックして音をミックス");
         Tooltip.install(this.mixButton, mixButtonTT);
 
@@ -111,9 +124,10 @@ public class Controls {
         double inputVol = this.masterVolSlider.getValue();
         this.trackLine.setMasterVol(inputVol * 0.01);
     }
-    public Slider getMasterVolSlider(){
-        return this.getMasterVolSlider();
-    }
+    /**
+     * スライダーにマスターボリュームをセットする。
+     * @param value 0-127の音量
+     */
     public void setMasterVol(double value){
         if(value>127 || value < 0){
             showErrorDialog("setMasterVol : out of range(mVol):" + value);
@@ -126,9 +140,18 @@ public class Controls {
         this.electInst = new ElectInst();
         this.electInstMenubar = electInst.getMenuBar();
     }
+
+    /**
+     * 楽器選択のメニューバーを返す
+     * @return メニューﾊﾞー
+     */
     public MenuBar getElectInstMenubar(){
         return this.electInstMenubar;
     }
+    /**
+     * 選択された楽器を返す
+     * @return 選択された楽器
+     */
     public ElectInst getElectInst(){
         return this.electInst;
     }

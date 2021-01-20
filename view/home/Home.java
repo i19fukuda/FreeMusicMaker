@@ -40,6 +40,10 @@ import view.home.soundMixer.SoundMixer;
 import view.trackBox.TrackBox;
 import view.trackLine.TrackLine;
 
+/**
+ * @author i19fukuda1k
+ * ユーザーが実際に作曲するときに操作する画面のルートとなる。
+ */
 public class Home {
     private GridPane root;
     private ArrayList<TrackLine> lines;
@@ -247,26 +251,26 @@ public class Home {
         this.root.setBackground(this.blacBackground);
     }
 
-    public void addLineHandler(MouseEvent event){
+    private void addLineHandler(MouseEvent event){
         int lineId = this.trackLineSize;
         addLine(lineId, lineHeight, lineWidth);
     }
 
-    public void addLine(int trackId,double lineHeight,double lineWidth){
+    private void addLine(int trackId,double lineHeight,double lineWidth){
         this.trackLineSize += 1;
         TrackLine line = new TrackLine(trackId, lineHeight, lineWidth);
         this.lines.add(line);
         this.linesVBox.getChildren().add(line.getLineRoot());
         this.soundMixer.addLineInfo(line);
     }
-    public void addLine(TrackLine line){
+    private void addLine(TrackLine line){
         this.trackLineSize += 1;
         this.lines.add(line);
         this.linesVBox.getChildren().add(line.getLineRoot());
         this.soundMixer.addLineInfo(line);
     }
 
-    public void removeLineEventHandler(MouseEvent event){
+    private void removeLineEventHandler(MouseEvent event){
         TextInputDialog inputDialog = new TextInputDialog(
                                         "トラックの番号を入力してください"
                                     );
@@ -294,7 +298,7 @@ public class Home {
         }
     }
 
-    public void removeLine(TrackLine trackLine, int indexNo){
+    private void removeLine(TrackLine trackLine, int indexNo){
         //this.linesVBox.getChildren().remove(lineId);
         //TrackLine targetLine = trackLine;
         this.lines.remove(trackLine);
@@ -305,6 +309,9 @@ public class Home {
         // this.soundMixer.removeLineInfo(l);
     }
 
+    /**
+     * プロジェクトの情報を任意のファイルに保存する機能
+     */
     public void saveProject(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("save file");
@@ -321,7 +328,17 @@ public class Home {
         this.saveProject();
     }
 
+    /**
+     * 任意のプロジェクトファイルを読み込む機能
+     * @param event
+     */
     public  void loadEventHandler(Event event){
+        this.loadEventHandler();
+    }
+    /**
+     * 任意のプロジェクトファイルを読み込む機能
+     */
+    public void loadEventHandler(){
         this.trackLineSize = 0;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("load file");
@@ -353,19 +370,23 @@ public class Home {
     private void keyEventHandler(KeyEvent event){
         if(event.isControlDown()){
             if(event.getCode() == KeyCode.S){
-                this.saveProject();
+                this.saveEventHandler(event);
                 //System.out.println("save!");
             }
         } else {
         }
     }
 
+    /**
+     * ホーメイン画面のルートを返す
+     * @return ルート
+     */
     public GridPane getHomeRoot(){
         return this.root;
     }
 
 
-    public void playEventHandler(Event event){
+    private void playEventHandler(Event event){
         int tempo = this.getTempo();
         this.conductor = new Conductor(tempo);
 
@@ -463,7 +484,7 @@ public class Home {
         );
     }
 
-    public void stopEventHandler(MouseEvent event){
+    private void stopEventHandler(MouseEvent event){
         conductor.stop();
     }
 

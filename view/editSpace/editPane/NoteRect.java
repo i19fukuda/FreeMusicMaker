@@ -5,6 +5,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * @author i19fukuda
+ * エディットスペースで描画されるような音符の情報をもった矩形を保持するクラス。
+ */
 public class NoteRect extends Note{
     //ここのフィールドに置かれるnoteTick等は
     //まじの値を代入すること．
@@ -20,7 +24,13 @@ public class NoteRect extends Note{
     private double rectWidth  = 12;
 
     private EditSpase root;
-
+    /**
+     * @param root 根となるエディットスペース
+     * @param notePich 音の高さ(0-127)
+     * @param noteHeight 矩形の高さ
+     * @param noteLength 音の長さ(tick単位)
+     * @param noteStartTick 音が始まるtick
+     */
     public NoteRect(
         EditSpase   root,
         int         notePich,
@@ -61,7 +71,7 @@ public class NoteRect extends Note{
 
     }
 
-    public void clickEventHandler(MouseEvent event){;
+    private void clickEventHandler(MouseEvent event){;
         if(
             // shift + 左クリック一回に付き16分音符一個分伸ばす
             (event.getButton() == MouseButton.PRIMARY )
@@ -88,7 +98,9 @@ public class NoteRect extends Note{
             this.electNote();
         }
     }
-
+    /**
+     * ただ音を長くするだけのメソッド
+     */
     public void justLongerNote(){
         if(this.rect.getWidth() < 400){
             this.setNoteLength(this.getNoteLength() + 6);
@@ -103,7 +115,9 @@ public class NoteRect extends Note{
             this.justLongerNote();
         }
     }
-
+    /**
+     * ただ音を短くするだけのメソッド
+     */
     public void justShorterNote(){
         if(this.rect.getWidth() > changeRate){
             this.setNoteLength(this.getNoteLength() - 6);
@@ -118,6 +132,9 @@ public class NoteRect extends Note{
             this.justShorterNote();
         }
     }
+    /**
+     * ただ音を完全に削除するだけのメソッド
+     */
     public void justRemoveNote(){
         this.root.removeNoteRect(this);
     }
@@ -127,6 +144,10 @@ public class NoteRect extends Note{
             this.justRemoveNote();
         }
     }
+    /**
+     * 自分自身を選択済みとしてセットするメソッド
+     * 内部的には自分自身の選択済みフラグを反転させているだけです。
+     */
     public void electNote(){
         this.isElected = ! this.isElected;
         if(isElected){
@@ -135,21 +156,22 @@ public class NoteRect extends Note{
             this.rect.setFill(Color.MAGENTA);
         }
     }
-
+    /**
+     * 選択を解除するメソッド
+     */
     public void unElectNote(){
         this.isElected = false;
         this.rect.setFill(Color.MAGENTA);
     }
-
+    /**
+     * 問答無用で音を選択済みにセットするメソッド
+     */
     public void electNoteMust(){
         this.isElected = true;
         this.rect.setFill(Color.BLUE);
     }
 
-
-    // todo
-    // 設定できない値なら弾くようにする必要あり
-    public void setRoot(EditSpase root){
+    private void setRoot(EditSpase root){
         this.root = root;
     }
 
@@ -177,6 +199,10 @@ public class NoteRect extends Note{
         return this.rect;
     }
 
+    /**
+     * 音が選択されているかを返す。
+     * @return trueなら選択済み
+     */
     public boolean isElected(){
         return this.isElected;
     }

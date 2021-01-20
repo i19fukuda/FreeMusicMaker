@@ -18,7 +18,10 @@ import javafx.scene.paint.Color;
 import view.home.soundMixer.lineInfo.LineInfo;
 import view.trackLine.TrackLine;
 
-// 各トラックのマスターボリュームの調節及びソロ，ミュートの登録
+/**
+ * @author i19fukuda1k
+ * 各トラックのマスターボリュームの調節およびソロ、ミュートの登録
+ */
 public class SoundMixer {
     private ArrayList<TrackLine> lines;
 
@@ -31,6 +34,9 @@ public class SoundMixer {
 
     ToggleGroup groupSolo;
 
+    /**
+     * @param lines すべてのトラックライン
+     */
     public SoundMixer(ArrayList<TrackLine> lines){
         this.blacBackground = new Background(
             new BackgroundFill(
@@ -78,6 +84,10 @@ public class SoundMixer {
         );
     }
 
+    /**
+     * 新しく生成されたトラックラインに対してその情報をセットする
+     * @param line 新しく生成されたトラック
+     */
     public void addLineInfo(TrackLine line){
         LineInfo lineInfo = new LineInfo(line, this.groupSolo);
         this.lineInfos.add(lineInfo);
@@ -85,7 +95,10 @@ public class SoundMixer {
             lineInfo.getLineInfoRoot()
         );
     }
-
+    /**
+     * サウンドミキサーのルートを返す
+     * @return サウンドミキサーのルート
+     */
     public ScrollPane getSoundMixerRoot(){
         return this.soundMixerRoot;
     }
@@ -93,24 +106,35 @@ public class SoundMixer {
         return this.lineInfoRoot;
     }
 
-    // TrackLineにソロの情報をセットする
+    /**
+     * トラックラインにソロの状態をセットする
+     */
     public void setSoloTrack(){
         for(LineInfo info:this.lineInfos){
             info.getTrackLine().setIsSolo(info.isSolo());
         }
     }
 
-    // TrackLineにミュートの情報をセットする
+    /**
+     * トラックラインにミュートの状態をセットする
+     */
     public void setMuteTrack(){
         for(LineInfo info:this.lineInfos){
             info.getTrackLine().setIsMute(info.isMute());
         }
     }
-
+    /**
+     * 保持しているトラックラインをすべて返す
+     * @return 保持しているすべてのトラックライン
+     */
     public ArrayList<TrackLine> getLines(){
         return this.lines;
     }
-
+    /**
+     * トラックラインの削除の際のLineInfoの削除
+     * @param line 削除するトラックライン
+     * @param indexOf 削除するトラックラインのID
+     */
     public void removeLineInfo(TrackLine line, int indexOf){
         this.lines.remove(line);
         this.lineInfoRoot.getChildren().remove(indexOf);

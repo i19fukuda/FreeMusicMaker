@@ -13,13 +13,24 @@ import view.editSpace.editPane.NoteRect;
 import view.trackBox.TrackBox;
 import view.trackLine.TrackLine;
 
+/**
+ * @author i19fukuda1k
+ * プロジェクトを保存するメソッド
+ * @see projectIo.projectLoad.anyTrackLoad
+ */
 public class SaveProject {
     private ArrayList<TrackLine> lines;
-
+    /**
+     * @param lines ルートのすべてのトラックライン
+     */
     public SaveProject(ArrayList<TrackLine> lines){
         this.lines = lines;
     }
-
+    /**
+     * プロジェクトの情報をすべて保存するメソッド
+     * @param file 出力先ファイル
+     * @param tempo 保存するテンポ
+     */
     public void saveAll(File file, int tempo){
         ArrayList<String> strings = new ArrayList<>();
         String printString;
@@ -92,7 +103,7 @@ public class SaveProject {
         printStrings(file, strings);
     }
 
-    public void printStrings(File outFile, ArrayList<String> strings){
+    private void printStrings(File outFile, ArrayList<String> strings){
         PrintWriter fout = null;
         try{
             fout = new PrintWriter(new BufferedWriter(new FileWriter(outFile)));

@@ -12,6 +12,10 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 
+/**
+ * @author i19fukuda1k
+ * 楽器選択に使われるメニューバーのクラスです。
+ */
 public class ElectInst {
     private MenuBar menubar;
     private Menu rootM;
@@ -67,7 +71,10 @@ public class ElectInst {
     final private int INST_BROCK_SIZE = 17;
 
     private Menu[] menus = new Menu[INST_BROCK_SIZE];
-    // Ensemble
+
+    /**
+     * コンストラクタ
+     */
     public ElectInst(){
         this.blackBackground = new Background(
             new BackgroundFill(
@@ -106,12 +113,25 @@ public class ElectInst {
         }
     }
 
+    /**
+     * ルートのメニューバーを返す
+     * @return ルートのメニューバー
+     */
     public MenuBar getMenuBar(){
         return this.menubar;
     }
+
+    /**
+     * 楽器の番号を返す。ドラムセットの場合は128を返す。
+     * @return 楽器の番号。ドラムは例外的に128
+     */
     public int getInstNo(){
         return this.electedInstNo;
     }
+    /**
+     * 楽器の番号をセットする.
+     * @param instNo 楽器の番号(0-128)
+     */
     public void setInstNo(int instNo){
         this.electedInstNo = instNo;
         String instName = this.instNames[instNo];

@@ -21,7 +21,11 @@ import javafx.scene.shape.Rectangle;
 import view.editSpace.editPane.EditSpase;
 import view.editSpace.editPane.NoteRect;
 import view.trackLine.TrackLine;
-
+/**
+ * @author i19fukuda1k
+ * @see view.trackLine
+ * 音の情報をもったボックス
+ */
 public class TrackBox {
     private TrackLine rootLine;
 
@@ -38,6 +42,12 @@ public class TrackBox {
 
     private ContextMenu colorChooser;
 
+    /**
+     * @param rootLine 親となるトラックライン
+     * @param height ボックスの高さ
+     * @param startTck 始まりの位置(tick単位)
+     * @param width ボックスの幅
+     */
     public TrackBox(TrackLine rootLine ,double height, double startTck, double width){
         this.rootLine = rootLine;
         this.editSpase  = new EditSpase(this.rootLine);
@@ -52,7 +62,7 @@ public class TrackBox {
         createRect(this.boxWidth, this.boxHeight);
     }
 
-    public void createRect(double boxWidth, double boxHeight){
+    private void createRect(double boxWidth, double boxHeight){
         this.trackBoxRect = new Rectangle(boxWidth, boxHeight);
         this.trackBoxRect.setFill(Color.DARKRED);
         this.trackBoxRect.setStroke(Color.RED);
@@ -69,7 +79,7 @@ public class TrackBox {
         Tooltip.install(this.trackBoxRect, toolTip);
     }
 
-    public void rectClickEventHandler(MouseEvent event){
+    private void rectClickEventHandler(MouseEvent event){
         if(event.getButton() == MouseButton.PRIMARY){
             this.editSpase.showStage();
         } else if(event.getButton() == MouseButton.SECONDARY){
@@ -77,14 +87,26 @@ public class TrackBox {
         }
     }
 
+    /**
+     * 生成されたトラックボックスを返す
+     * @return 生成されたトラックボックス
+     */
     public Rectangle getRect(){
         return this.trackBoxRect;
     }
 
+    /**
+     * トラックボックスが保持するエディットスペースを返す
+     * @return 保持するエディットスペース
+     */
     public EditSpase getEditRoot(){
         return this.editSpase;
     }
 
+    /**
+     * 保持するエディットスペースが保持するすべての音符を返す
+     * @return 音の情報
+     */
     public ArrayList<NoteRect> getNotes(){
         this.notes = this.editSpase.getNotes();
         return this.notes;

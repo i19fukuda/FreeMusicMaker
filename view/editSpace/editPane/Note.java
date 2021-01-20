@@ -4,7 +4,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 
-// 表示することに重きを置かない，ただの音符
+/**
+ * ただの音符の情報
+ * 表示することはない
+ * @author i19fukuda1k
+ */
 public class Note {
     private long noteId, noteLength, noteStartTick;
     private int  notePich, volum;

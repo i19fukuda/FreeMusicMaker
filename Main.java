@@ -8,6 +8,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import view.home.Home;
 
+/**
+ * このアプリのメインクラスです。ステージの用意などがされます。
+ * @author i19fukuda1k
+ * @version 0.0.1
+ * @see view.home
+ */
+
 public class Main extends Application{
     private Home home;
     private VBox root;
@@ -15,10 +22,18 @@ public class Main extends Application{
     private MenuBar     menubar;
     private Menu        mFile;
     private MenuItem    miSave,miLoad;
+    /**
+     * メインのクラス
+     * デバッグの際にメインメソッドが見つからない問題を回避
+     * @param argas コマンドライン引数
+     */
     public static void main(String[] argas){
         Application.launch(argas);
     }
 
+    /**
+     * javaFxのアプリケーションをスタートする
+     */
     public void start(Stage stage){
         stage.setWidth(1900);
         stage.setHeight(1040);
