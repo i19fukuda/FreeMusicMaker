@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"midi.conductor","h":"","u":""},{"l":"projectIo.projectLoad.anyTrackLoad","h":"","u":""},{"l":"projectIo.projectSave.anyTrackSave","h":"","u":""},{"l":"view.editSpace.editPane","h":"","u":""},{"l":"すべてのパッケージ","h":"","u":"allpackages-index.html"}]
